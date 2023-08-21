@@ -3,21 +3,30 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GYMLog.BL.Model
 {
+    [Serializable]
     public class User
     {
         #region Свойства
         public string Login { get; }
+        public string Password { get; }
         public Gender Gender { get; }
         public DateTime BirthDate { get; }
         public double Weight { get; set; }
         public double Height { get; set; }
         #endregion
 
+        public User()
+        {
+
+        }
+
         public User(string login, 
+            string password,
             Gender gender, 
             DateTime birthDate, 
             double weight, 
@@ -29,7 +38,12 @@ namespace GYMLog.BL.Model
                 throw new ArgumentNullException("Имя пользователя не может быть пустым или null", nameof(login));
             }
 
-            if(Gender == null)
+            if(string.IsNullOrWhiteSpace(password) || password.Length < 8)
+            {
+                throw new ArgumentException("Пароль не может быть пустым или null, а также быть короче 8ми символом", nameof(password));
+            }
+
+            if(gender == null)
             {
                 throw new ArgumentNullException("Гендер не может быть null",nameof(gender));
             }
@@ -51,6 +65,7 @@ namespace GYMLog.BL.Model
             #endregion
 
             Login = login;
+            Password = password;
             Gender = gender;
             BirthDate = birthDate;
             Weight = weight; 
