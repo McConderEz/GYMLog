@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
@@ -18,7 +19,8 @@ namespace GYMLog.BL.Controller
         {
             //TODO: Провкар
             var gender = new Gender(genderName);
-            var user = new User(userName, password, gender, birthDay, weight, height);           
+            var user = new User(userName, password, gender, birthDay, weight, height); 
+            User = user;
         }
 
         /// <summary>
@@ -28,10 +30,10 @@ namespace GYMLog.BL.Controller
         /// <exception cref="FileLoadException"></exception>
         public UserController()
         {
-            var formatter = new XmlSerializer(typeof(User));
-            using (var fs = new FileStream("users.xml", FileMode.OpenOrCreate))
+            
+            using (var fs = new FileStream("users.json", FileMode.OpenOrCreate))
             {
-                if (formatter.Deserialize(fs) is User user)
+                if (JsonSerializer.Deserialize<User>(fs) is User user)
                 {
                     User = user;
                 }
@@ -45,12 +47,10 @@ namespace GYMLog.BL.Controller
         /// </summary>
         public void Save()
         {
-            //TODO: Переделать на BinaryFormatter
-            var formatter = new XmlSerializer(typeof(User));
 
-            using (var fs = new FileStream("users.xml", FileMode.OpenOrCreate))
+            using (var fs = new FileStream("users.json", FileMode.OpenOrCreate))
             {
-                formatter.Serialize(fs, User);
+                JsonSerializer.SerializeAsync(fs, User);
             }
         }
 

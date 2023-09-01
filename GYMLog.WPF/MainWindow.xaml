@@ -5,14 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GYMLog.WPF"
         mc:Ignorable="d"
-        Title="Регистрация
-        " Height="450" Width="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="37*"/>
-            <ColumnDefinition Width="12*"/>
-            <ColumnDefinition Width="751*"/>
-        </Grid.ColumnDefinitions>
+        Title="MainWindow" Height="515" Width="365" WindowStyle="None">
+    <Grid/>
+    
 
-    </Grid>
 </Window>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,11 +10,13 @@ namespace GYMLog.BL.Model
     /// <summary>
     /// Пол.
     /// </summary>
+    [DataContract]
     public class Gender
     {
         /// <summary>
         /// Название.
         /// </summary>
+        [DataMember]
         public string Name { get; }
 
         /// <summary>
@@ -30,7 +33,7 @@ namespace GYMLog.BL.Model
 
             Name = name;
         }
-
+        
         public override string ToString()
         {
             return Name;

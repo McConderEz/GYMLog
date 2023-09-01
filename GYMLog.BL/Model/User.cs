@@ -2,28 +2,31 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GYMLog.BL.Model
 {
-    [Serializable]
+    [DataContract]
     public class User
     {
         #region Свойства
+        [DataMember]
         public string Login { get; }
+        [DataMember]
         public string Password { get; }
+        [DataMember]
         public Gender Gender { get; }
+        [DataMember]
         public DateTime BirthDate { get; }
+        [DataMember]
         public double Weight { get; set; }
+        [DataMember]
         public double Height { get; set; }
         #endregion
-
-        public User()
-        {
-
-        }
 
         public User(string login, 
             string password,
