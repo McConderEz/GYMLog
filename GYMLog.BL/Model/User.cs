@@ -19,14 +19,18 @@ namespace GYMLog.BL.Model
         [DataMember]
         public string Password { get; }
         [DataMember]
-        public Gender Gender { get; }
+        public Gender Gender { get; set; }
         [DataMember]
-        public DateTime BirthDate { get; }
+        public DateTime BirthDate { get; set; }
         [DataMember]
         public double Weight { get; set; }
         [DataMember]
         public double Height { get; set; }
+
+        public int Age => DateTime.Now.Year - BirthDate.Year; 
         #endregion
+
+
 
         public User(string login, 
             string password,
@@ -76,9 +80,25 @@ namespace GYMLog.BL.Model
 
         }
 
+        public User(string login,string password)
+        {
+            if (string.IsNullOrWhiteSpace(login))
+            {
+                throw new ArgumentNullException("Имя пользователя не может быть пустым или null", nameof(login));
+            }
+
+            if (string.IsNullOrWhiteSpace(password) || password.Length < 8)
+            {
+                throw new ArgumentException("Пароль не может быть пустым или null, а также быть короче 8ми символом", nameof(password));
+            }
+
+            Login = login;
+            Password = password;
+        }
+
         public override string ToString()
         {
-            return Login;
+            return Login + " " + Age;
         }
     }
 }

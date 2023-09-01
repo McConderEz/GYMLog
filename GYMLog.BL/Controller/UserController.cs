@@ -13,14 +13,34 @@ namespace GYMLog.BL.Controller
 {
     public class UserController
     {
-        public User User { get; }
+        public List<User> Users { get; }
+        public User CurrentUser { get; set; }
+        public bool IsNewUser { get; } = false;
 
-        public UserController(string userName, string password, string genderName, DateTime birthDay,double weight, double height)
+        public UserController(string login, string password)
         {
-            //TODO: Провкар
-            var gender = new Gender(genderName);
-            var user = new User(userName, password, gender, birthDay, weight, height); 
-            User = user;
+            if (string.IsNullOrWhiteSpace(login))
+            {
+                throw new ArgumentNullException(nameof(login), "Имя пользователя не может быть пустым");
+            }
+
+            if(string.IsNullOrWhiteSpace(password))
+            {
+                throw new ArgumentNullException(nameof(password), "Пароль не может быть пустым");
+            }
+
+            Users = GetUsersData();
+
+            CurrentUser = Users.SingleOrDefault(u => u.Login == login && u.Password == password);
+
+            if(CurrentUser == null)
+            {
+                CurrentUser = new User(login,password);
+                Users.Add(CurrentUser);
+                IsNewUser = true;
+                Save();
+            }
+
         }
 
         /// <summary>
@@ -28,29 +48,40 @@ namespace GYMLog.BL.Controller
         /// </summary>
         /// <returns></returns>
         /// <exception cref="FileLoadException"></exception>
-        public UserController()
+        private List<User >GetUsersData()
         {
             
             using (var fs = new FileStream("users.json", FileMode.OpenOrCreate))
             {
-                if (JsonSerializer.Deserialize<User>(fs) is User user)
+                if (JsonSerializer.Deserialize<List<User>>(fs) is List<User> users)
                 {
-                    User = user;
+                    return users;
                 }
-
-                //TODO: Что делать, если пользователя не прочитали
+                else
+                {
+                    return new List<User>();
+                }
             }
+        }
+
+        public void SetNewUserData(string genderName,DateTime birthDate, double weight = 1,double height = 1)
+        {
+            //TODO:Проверка
+            CurrentUser.Gender = new Gender(genderName);
+            CurrentUser.BirthDate = birthDate;
+            CurrentUser.Weight = weight;
+            CurrentUser.Height = height;
         }
 
         /// <summary>
         /// Сохранить данные пользователя.
         /// </summary>
-        public void Save()
+        private void Save()
         {
 
             using (var fs = new FileStream("users.json", FileMode.OpenOrCreate))
             {
-                JsonSerializer.SerializeAsync(fs, User);
+                JsonSerializer.SerializeAsync(fs, Users);
             }
         }
 
