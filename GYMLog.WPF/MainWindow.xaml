@@ -5,8 +5,68 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GYMLog.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="515" Width="365" WindowStyle="None">
-    <Grid/>
-    
+        Title="MainWindow" Height="515" Width="365" WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF00FFF3"/>
+            <GradientStop Color="#FF00B9FF" Offset="1"/>
+            <GradientStop Color="#FF00C971" Offset="0.543"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="90"/>
+        </Grid.RowDefinitions>
+        <Grid Name ="ToolBar" Grid.Row="0">
+            <Polygon Fill="White" Opacity="0.8" 
+                        Points="107,0
+                        ,115,7
+                        ,249,7
+                        ,257,0"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Image Name="MinButton" Height="25" Width="25">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="Source" Value="C:\Users\rusta\source\repos\GYMLog\GYMLog.WPF\Source\Свернуть неактивно.png"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=MinButton}"
+                                             Value="True">
+                                    <Setter Property="Source" Value="C:\Users\rusta\source\repos\GYMLog\GYMLog.WPF\Source\Свернуть активно.png"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                    <Image.Effect>
+                        <BlurEffect Radius="1"/>
+                    </Image.Effect>
+                </Image>
+                <Image Name="CloseButton" Height="25" Width="25">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="Source" Value="C:\Users\rusta\source\repos\GYMLog\GYMLog.WPF\Source\Закрыть неактивно.png"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=CloseButton}"
+                         Value="True">
+                                    <Setter Property="Source" Value="C:\Users\rusta\source\repos\GYMLog\GYMLog.WPF\Source\Закрыть активно.png"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                    <Image.Effect>
+                        <BlurEffect Radius="1"/>
+                    </Image.Effect>
+                </Image>
+            </StackPanel>
+        </Grid>
+        <Grid Name="LogoContainer" Grid.Row="1">
+            <Image Height="150" Source="C:\Users\rusta\source\repos\GYMLog\GYMLog.WPF\Source\Лого2.png" />
+        </Grid>
+
+
+    </Grid>
+
 
 </Window>
