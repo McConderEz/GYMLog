@@ -20,7 +20,7 @@ var genderName = Console.ReadLine();
 var gender = new Gender(genderName);
 
 Console.WriteLine("Введите дату рождения");
-var birthdate = DateTime.Parse(Console.ReadLine()); //TODO: Переписать
+var birthdate = DateTime.Parse(Console.ReadLine());
 
 Console.WriteLine("Введите вес");
 var weight = double.Parse(Console.ReadLine());

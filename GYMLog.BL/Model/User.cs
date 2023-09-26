@@ -27,7 +27,7 @@ namespace GYMLog.BL.Model
         [DataMember]
         public double Height { get; set; }
 
-        public int Age => DateTime.Now.Year - BirthDate.Year; 
+        public int Age => DateTime.Now.Year - BirthDate.Year;
         #endregion
 
 
@@ -80,6 +80,7 @@ namespace GYMLog.BL.Model
 
         }
 
+        [JsonConstructor]
         public User(string login,string password)
         {
             if (string.IsNullOrWhiteSpace(login))
@@ -95,6 +96,7 @@ namespace GYMLog.BL.Model
             Login = login;
             Password = password;
         }
+
 
         public override string ToString()
         {

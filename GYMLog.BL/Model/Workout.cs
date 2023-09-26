@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace GYMLog.BL.Model
 {
+    //TODO:Создать модульное тестирование для программ тренировок(Controller)
+    //TODO:Сделать сохранение программ в JSON и привязать к пользователям
+    //TODO:Создать WorkoutController
     public class Workout
     {
         public List<Exercise> ExerciseList { get; set; }

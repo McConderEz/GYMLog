@@ -53,7 +53,8 @@ namespace GYMLog.BL.Controller
             
             using (var fs = new FileStream("users.json", FileMode.OpenOrCreate))
             {
-                if (JsonSerializer.Deserialize<List<User>>(fs) is List<User> users)
+               
+                if (fs.Length > 0 && JsonSerializer.Deserialize<List<User>>(fs) is List<User> users)
                 {
                     return users;
                 }
@@ -76,7 +77,7 @@ namespace GYMLog.BL.Controller
         /// <summary>
         /// Сохранить данные пользователя.
         /// </summary>
-        private void Save()
+        public void Save()
         {
 
             using (var fs = new FileStream("users.json", FileMode.OpenOrCreate))

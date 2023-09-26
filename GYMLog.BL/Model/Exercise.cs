@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 
 namespace GYMLog.BL.Model
 {
+    //TODO:Создать модульное тестирование для упражнений(Controller)
+    //TODO:Сделать сохранение упражнений в JSON и привязать в программе тренировок
+    //TODO:Создать ExerciseController
     public class Exercise
     {
         public string Name { get; }
         public string Category { get; }
         public string Description { get; }
-        //TODO:Предварительный расчёт сжигаемых калрий за тренировку
+        //TODO:Предварительный расчёт сжигаемых калорий за тренировку
         public double CaloriesBurned => 10.0 * Duration.TotalMinutes;
         public DateTime Date { get; }
         public TimeSpan Duration { get; set; }
