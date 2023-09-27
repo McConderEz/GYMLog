@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GYMLog.BL.Model
@@ -9,12 +11,17 @@ namespace GYMLog.BL.Model
     //TODO:Создать модульное тестирование для упражнений(Controller)
     //TODO:Сделать сохранение упражнений в JSON и привязать в программе тренировок
     //TODO:Создать ExerciseController
+    [DataContract]
     public class Exercise
     {
+        [DataMember]
         public string Name { get; }
+        [DataMember]
         public string Category { get; }
-        public string Description { get; }
-        //TODO:Предварительный расчёт сжигаемых калорий за тренировку
+        [DataMember]
+        public string Description { get; set; }
+
+        //TODO:Перенести это всё в новый класс WorkoutExercise
         public double CaloriesBurned => 10.0 * Duration.TotalMinutes;
         public DateTime Date { get; }
         public TimeSpan Duration { get; set; }
@@ -39,6 +46,23 @@ namespace GYMLog.BL.Model
             Sets = sets;
             Iterations = iterations;
             Weight = weight;
+        }
+
+        [JsonConstructor]
+        public Exercise(string name,string category)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentNullException("Имя упражнения не может быть пустым", nameof(name));
+            }
+
+            if (string.IsNullOrWhiteSpace(category))
+            {
+                throw new ArgumentNullException("Категория упражнения не может быть пуста", nameof(category));
+            }
+
+            Name = name;
+            Category = category;
         }
 
     }

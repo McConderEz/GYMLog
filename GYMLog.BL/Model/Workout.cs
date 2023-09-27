@@ -10,7 +10,7 @@ namespace GYMLog.BL.Model
     //TODO:Создать модульное тестирование для программ тренировок(Controller)
     //TODO:Сделать сохранение программ в JSON и привязать к пользователям
     //TODO:Создать WorkoutController
-    public class Workout
+    public class WorkoutPlan
     {
         public List<Exercise> ExerciseList { get; set; }
         public string Day { get; set; }
@@ -25,7 +25,7 @@ namespace GYMLog.BL.Model
         public string Notes { get; set; }
 
 
-        public Workout(List<Exercise> exercises,string day,string notes = "")
+        public WorkoutPlan(List<Exercise> exercises,string day,string notes = "")
         {
             ExerciseList = new List<Exercise>();
             if(exercises != null)
