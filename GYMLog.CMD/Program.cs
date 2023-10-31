@@ -17,10 +17,12 @@ var category = Console.ReadLine();
 ExerciseController exerciseController = new ExerciseController(name, category);
 
 
-WorkoutExercise workout = new WorkoutExercise(5, 30, 40, exerciseController.CurrentExercise);
+WorkoutExerciseController workout = new WorkoutExerciseController("Подтягивания", "Мышцы спины", 5, 40, 20, 18, 15, 12, 10);
+WorkoutExerciseController workout2 = new WorkoutExerciseController("Отжимания на брусьях", "Мышцы груди", 5, 40, 30, 25, 25, 20, 15);
 
 WorkoutPlanController work = new WorkoutPlanController(name);
-
+work.AddExercise(workout.CurrentExercise);
+work.AddExercise(workout2.CurrentExercise);
 
 
 //Console.WriteLine("Введите имя пользователя");

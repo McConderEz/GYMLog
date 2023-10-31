@@ -20,14 +20,17 @@ namespace GYMLog.BL.Model
         /// <summary>
         /// Общее время проведённое за тренировокой 
         /// </summary>
-        public double TotalTime => ExerciseList.Sum(x => x.Duration.TotalMinutes);
+        [DataMember]
+        public double TotalTime { get; }
         /// <summary>
         /// Общее количество сжигаемых калорий за тренировку
         /// </summary>
-        public double CaloriesBurned => ExerciseList.Sum(x => x.CaloriesBurned);
+        [DataMember]
+        public double CaloriesBurned { get; }
+        [DataMember]
         public string Notes { get; set; }
 
-        [JsonConstructor]
+        
         public WorkoutPlan(List<WorkoutExercise> exercises,string day,string notes = "")
         {
             ExerciseList = new List<WorkoutExercise>();
@@ -38,12 +41,14 @@ namespace GYMLog.BL.Model
             Notes = notes;
         }
 
+        [JsonConstructor]
         public WorkoutPlan(string day, string notes = "")
         {
             
             if (string.IsNullOrWhiteSpace(day)) throw new ArgumentNullException(nameof(day), "День не может быть пустым!");
             Day = day;
             Notes = notes;
+            ExerciseList = new List<WorkoutExercise>();
         }
 
         public override string ToString()

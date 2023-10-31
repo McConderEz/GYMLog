@@ -9,10 +9,9 @@ using System.Threading.Tasks;
 namespace GYMLog.BL.Model
 {
     [DataContract]
-    public class WorkoutExercise
+    public class WorkoutExercise:Exercise
     {
-        [DataMember]
-        public Exercise Exercise { get; set; }
+
         [DataMember]
         public double CaloriesBurned => 10.0 * Duration.TotalMinutes;
         [DataMember]
@@ -24,24 +23,32 @@ namespace GYMLog.BL.Model
         [DataMember]
         public int Sets { get; set; }
         [DataMember]
-        public int Iterations { get; set; }
+        public int[] Iterations { get; set; }
         [DataMember]
         public double Weight { get; set; }
 
-        [JsonConstructor]
-        public WorkoutExercise(int sets,int iterations, double weight, Exercise exercise)
+        
+        public WorkoutExercise(string name,string category,int sets, double weight, params int[] iterations)
+            :base(name, category)
         {
             //TODO: Сделать проверки на аргументы 
 
             Sets = sets;
             Iterations = iterations;
             Weight = weight;
-            Exercise = exercise;
         }
+
+        [JsonConstructor]
+        public WorkoutExercise(string name,string category)
+            :base(name, category)
+        {
+
+        }
+
 
         public override string ToString()
         {
-            return $"{Exercise.Name}\nГруппы мышц:{Exercise.Category}\nКол-во повторов:{Iterations}\nКол-во подходов:{Sets}" +
+            return $"{Name}\nГруппы мышц:{Category}\nКол-во повторов:{Iterations}\nКол-во подходов:{Sets}" +
                 $"\nВес:{Weight}";
         }
     }

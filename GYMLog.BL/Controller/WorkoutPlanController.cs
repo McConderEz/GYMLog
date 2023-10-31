@@ -8,13 +8,15 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 
 //TODO:Протестировать WorkoutPlanController
+//TODO:Сделать WorkoutExerciseController
 //TODO:Сделать консольный интерфейс(для начала)
 //TODO:Связать иерархию и иметь возможность сохранять Упражнение->Упражнение в плане->План тренировок
-//TODO:Поменять iterations из int в массив int(params)
+
 
 
 namespace GYMLog.BL.Controller
 {
+
     public class WorkoutPlanController
     {
         public List<WorkoutPlan> workoutPlans { get; }
@@ -42,6 +44,18 @@ namespace GYMLog.BL.Controller
                 Save();
             }
 
+        }
+
+        public void AddExercise(WorkoutExercise exercise)
+        {
+            var exerciseTemp = currentWorkoutPlan.ExerciseList.SingleOrDefault(x => x.Name == exercise.Name);
+
+            if(exerciseTemp == null)
+            {
+                currentWorkoutPlan.ExerciseList.Add(exercise);
+                Save();
+            }
+            
         }
 
         private void Save()
