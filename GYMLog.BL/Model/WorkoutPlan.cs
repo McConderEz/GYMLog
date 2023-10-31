@@ -16,6 +16,8 @@ namespace GYMLog.BL.Model
         [DataMember]
         public List<WorkoutExercise> ExerciseList { get; set; }
         [DataMember]    
+        public string PlanName { get; set; }
+        [DataMember]
         public string Day { get; set; }
         /// <summary>
         /// Общее время проведённое за тренировокой 
@@ -31,21 +33,23 @@ namespace GYMLog.BL.Model
         public string Notes { get; set; }
 
         
-        public WorkoutPlan(List<WorkoutExercise> exercises,string day,string notes = "")
+        public WorkoutPlan(List<WorkoutExercise> exercises,string planName,string day,string notes = "")
         {
             ExerciseList = new List<WorkoutExercise>();
             if(exercises != null)
                 ExerciseList.AddRange(exercises);
             if(string.IsNullOrWhiteSpace(day)) throw new ArgumentNullException(nameof(day),"День не может быть пустым!");
+            if (string.IsNullOrWhiteSpace(planName)) throw new ArgumentNullException(nameof(planName), "Название программы тренировок не может быть пустым!");
+            PlanName = planName;
             Day = day;
             Notes = notes;
         }
 
         [JsonConstructor]
-        public WorkoutPlan(string day, string notes = "")
-        {
-            
-            if (string.IsNullOrWhiteSpace(day)) throw new ArgumentNullException(nameof(day), "День не может быть пустым!");
+        public WorkoutPlan(string planName,string day = "", string notes = "")
+        {         
+            if (string.IsNullOrWhiteSpace(planName)) throw new ArgumentNullException(nameof(planName), "Название программы тренировок не может быть пустым!");
+            PlanName = planName;
             Day = day;
             Notes = notes;
             ExerciseList = new List<WorkoutExercise>();
@@ -53,7 +57,7 @@ namespace GYMLog.BL.Model
 
         public override string ToString()
         {
-            return $"{Day}\nЗаметки:{Notes}";
+            return $"{PlanName}\nДень:{Day}\nЗаметки:{Notes}";
         }
     }
 }

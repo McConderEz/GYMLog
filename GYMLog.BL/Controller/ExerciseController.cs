@@ -72,8 +72,12 @@ namespace GYMLog.BL.Controller
 
         public void SetNewExerciseData(string description)
         {
-            //TODO:Проверка
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                throw new ArgumentNullException("Описание не может быть равно null", nameof(description));
+            }
             CurrentExercise.Description = description;
+            Save();
         }
     }
 }

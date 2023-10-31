@@ -31,7 +31,38 @@ namespace GYMLog.BL.Model
         public WorkoutExercise(string name,string category,int sets, double weight, params int[] iterations)
             :base(name, category)
         {
-            //TODO: Сделать проверки на аргументы 
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentNullException("Имя не может быть пустым!",nameof(name));
+            }
+
+            if (string.IsNullOrWhiteSpace(category))
+            {
+                throw new ArgumentNullException("Категория не может быть пустой", nameof(category));
+            }
+
+            if (sets <= 0)
+            {
+                throw new ArgumentException("Подходы не могут быть меньше или равны 0!", nameof(sets));
+            }
+
+            if (weight < 0)
+            {
+                throw new ArgumentException("Вес не может быть меньше 0!", nameof(weight));
+            }
+
+            if (iterations.Length == 0)
+            {
+                throw new ArgumentException("Количество повторений не может быть пустым!", nameof(iterations));
+            }
+
+            for (var i = 0; i < iterations.Length; i++)
+            {
+                if (iterations[i] <= 0)
+                {
+                    throw new ArgumentException("Количество повторений меньше или равно 0!", nameof(iterations));
+                }
+            }
 
             Sets = sets;
             Iterations = iterations;

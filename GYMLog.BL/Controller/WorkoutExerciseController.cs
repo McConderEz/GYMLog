@@ -14,7 +14,7 @@ namespace GYMLog.BL.Controller
         public WorkoutExercise CurrentExercise { get; set; }
         public bool IsNewExercise { get; } = false;
 
-        public WorkoutExerciseController(string name, string category, int sets, double weights, params int[] iterations)
+        public WorkoutExerciseController(string name, string category)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -32,7 +32,7 @@ namespace GYMLog.BL.Controller
 
             if (CurrentExercise == null)
             {
-                CurrentExercise = new WorkoutExercise(name, category,sets,weights,iterations);
+                CurrentExercise = new WorkoutExercise(name, category);
                 Exercises.Add(CurrentExercise);
                 IsNewExercise = true;
                 Save();
@@ -71,11 +71,39 @@ namespace GYMLog.BL.Controller
         
         public void SetNewExerciseData(string description, int sets, double weights, params int[] iterations)
         {
-            //TODO:Проверка
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                throw new ArgumentNullException("Описание не может быть равно null", nameof(description));
+            }
+
+            if(sets <= 0)
+            {
+                throw new ArgumentException("Подходы не могут быть меньше или равны 0!", nameof(sets));
+            }
+
+            if(weights < 0)
+            {
+                throw new ArgumentException("Вес не может быть меньше 0!",nameof(weights));
+            }
+
+            if(iterations.Length == 0)
+            {
+                throw new ArgumentException("Количество повторений не может быть пустым!", nameof(iterations));
+            }
+
+            for(var i = 0;i < iterations.Length;i++)
+            {
+                if (iterations[i] <= 0)
+                {
+                    throw new ArgumentException("Количество повторений меньше или равно 0!", nameof(iterations));
+                }
+            }
+
             CurrentExercise.Description = description;
             CurrentExercise.Sets = sets;
             CurrentExercise.Weight = weights;
             CurrentExercise.Iterations = iterations;
+            Save();
         }
     }
 }

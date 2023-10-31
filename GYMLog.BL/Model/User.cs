@@ -27,6 +27,7 @@ namespace GYMLog.BL.Model
         [DataMember]
         public double Height { get; set; }
 
+        [DataMember]
         public List<WorkoutPlan> WorkoutPlans { get; set; }
 
         public int Age => DateTime.Now.Year - BirthDate.Year;
@@ -39,7 +40,8 @@ namespace GYMLog.BL.Model
             Gender gender, 
             DateTime birthDate, 
             double weight, 
-            double height)
+            double height,
+            List<WorkoutPlan>? workoutPlans = null)
         {
             #region Проверка условий
             if (string.IsNullOrWhiteSpace(login))
@@ -79,7 +81,14 @@ namespace GYMLog.BL.Model
             BirthDate = birthDate;
             Weight = weight; 
             Height = height;
-
+            if (workoutPlans != null)
+            {
+                WorkoutPlans = workoutPlans;
+            }
+            else
+            {
+                WorkoutPlans = new List<WorkoutPlan>();
+            }
         }
 
         [JsonConstructor]
@@ -97,6 +106,7 @@ namespace GYMLog.BL.Model
 
             Login = login;
             Password = password;
+            WorkoutPlans = new List<WorkoutPlan>();
         }
 
 

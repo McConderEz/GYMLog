@@ -67,11 +67,31 @@ namespace GYMLog.BL.Controller
 
         public void SetNewUserData(string genderName,DateTime birthDate, double weight = 1,double height = 1)
         {
-            //TODO:Проверка
+            if (string.IsNullOrWhiteSpace(genderName))
+            {
+                throw new ArgumentException("Название гендера не может быть пустым!", nameof(genderName));
+            }
+
+            if(birthDate.Year < 1900 && birthDate > DateTime.Now)
+            {
+                throw new ArgumentException("Дата рождения вне допустимых границ!", nameof(birthDate));
+            }
+
+            if(weight <= 0)
+            {
+                throw new ArgumentException("Вес пользователя не может быть меньше или равен 0!", nameof(weight));
+            }
+
+            if(height <= 0)
+            {
+                throw new ArgumentException("Рост пользователя не может быть меньше или равен 0!", nameof(height));
+            }
+
             CurrentUser.Gender = new Gender(genderName);
             CurrentUser.BirthDate = birthDate;
             CurrentUser.Weight = weight;
             CurrentUser.Height = height;
+            Save();
         }
 
         /// <summary>

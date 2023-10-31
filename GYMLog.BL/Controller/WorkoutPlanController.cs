@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 
 //TODO:Протестировать WorkoutPlanController
-//TODO:Сделать WorkoutExerciseController
 //TODO:Сделать консольный интерфейс(для начала)
 //TODO:Связать иерархию и иметь возможность сохранять Упражнение->Упражнение в плане->План тренировок
 
@@ -25,20 +24,20 @@ namespace GYMLog.BL.Controller
         public bool IsNewWorkoutPlan { get;} = false;
 
 
-        public WorkoutPlanController(string day) 
+        public WorkoutPlanController(string planName) 
         {
-            if (string.IsNullOrWhiteSpace(day))
+            if (string.IsNullOrWhiteSpace(planName))
             {
-                throw new ArgumentNullException("День не может быть null!", nameof(day));
+                throw new ArgumentNullException("Название плана тренировок не может быть null!", nameof(planName));
             }
 
             workoutPlans = GetPlansDate();
 
-            currentWorkoutPlan = workoutPlans.SingleOrDefault(x => x.Day == day);
+            currentWorkoutPlan = workoutPlans.SingleOrDefault(x => x.PlanName == planName);
 
             if(currentWorkoutPlan == null)
             {
-                currentWorkoutPlan = new WorkoutPlan(day);
+                currentWorkoutPlan = new WorkoutPlan(planName);
                 workoutPlans.Add(currentWorkoutPlan);
                 IsNewWorkoutPlan = true;
                 Save();
@@ -58,7 +57,20 @@ namespace GYMLog.BL.Controller
             
         }
 
-        private void Save()
+        public void SetNewWorkoutPlanData(List<WorkoutExercise> workoutExercises, string day="", string notes="")
+        {
+            currentWorkoutPlan.Day = day;
+            currentWorkoutPlan.Notes = notes;
+
+            for(var i = 0;i < workoutExercises.Count;i++)
+            {
+                AddExercise(workoutExercises[i]);
+            }
+
+            Save();
+        }
+
+        public void Save()
         {
             using(var fs = new FileStream("workoutPlans.json", FileMode.OpenOrCreate))
             {
