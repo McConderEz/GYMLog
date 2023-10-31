@@ -27,6 +27,8 @@ namespace GYMLog.BL.Model
         [DataMember]
         public double Height { get; set; }
 
+        public List<WorkoutPlan> WorkoutPlans { get; set; }
+
         public int Age => DateTime.Now.Year - BirthDate.Year;
         #endregion
 

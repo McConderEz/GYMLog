@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GYMLog.BL.Model
 {
-    //TODO:Создать модульное тестирование для программ тренировок(Controller)
-    //TODO:Сделать сохранение программ в JSON и привязать к пользователям
-    //TODO:Создать WorkoutController
+
+    [DataContract]
     public class WorkoutPlan
     {
-        public List<Exercise> ExerciseList { get; set; }
+        [DataMember]
+        public List<WorkoutExercise> ExerciseList { get; set; }
+        [DataMember]    
         public string Day { get; set; }
         /// <summary>
         /// Общее время проведённое за тренировокой 
@@ -24,10 +27,10 @@ namespace GYMLog.BL.Model
         public double CaloriesBurned => ExerciseList.Sum(x => x.CaloriesBurned);
         public string Notes { get; set; }
 
-
-        public WorkoutPlan(List<Exercise> exercises,string day,string notes = "")
+        [JsonConstructor]
+        public WorkoutPlan(List<WorkoutExercise> exercises,string day,string notes = "")
         {
-            ExerciseList = new List<Exercise>();
+            ExerciseList = new List<WorkoutExercise>();
             if(exercises != null)
                 ExerciseList.AddRange(exercises);
             if(string.IsNullOrWhiteSpace(day)) throw new ArgumentNullException(nameof(day),"День не может быть пустым!");
@@ -35,5 +38,17 @@ namespace GYMLog.BL.Model
             Notes = notes;
         }
 
+        public WorkoutPlan(string day, string notes = "")
+        {
+            
+            if (string.IsNullOrWhiteSpace(day)) throw new ArgumentNullException(nameof(day), "День не может быть пустым!");
+            Day = day;
+            Notes = notes;
+        }
+
+        public override string ToString()
+        {
+            return $"{Day}\nЗаметки:{Notes}";
+        }
     }
 }

@@ -17,6 +17,11 @@ var category = Console.ReadLine();
 ExerciseController exerciseController = new ExerciseController(name, category);
 
 
+WorkoutExercise workout = new WorkoutExercise(5, 30, 40, exerciseController.CurrentExercise);
+
+WorkoutPlanController work = new WorkoutPlanController(name);
+
+
 
 //Console.WriteLine("Введите имя пользователя");
 //var login = Console.ReadLine();
