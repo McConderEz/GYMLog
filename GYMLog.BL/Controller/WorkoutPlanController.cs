@@ -7,91 +7,63 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-//TODO:Протестировать WorkoutPlanController
-//TODO:Сделать консольный интерфейс(для начала)
-//TODO:Связать иерархию и иметь возможность сохранять Упражнение->Упражнение в плане->План тренировок
 
 
 
 namespace GYMLog.BL.Controller
 {
 
-    public class WorkoutPlanController
+    public class WorkoutPlanController:ControllerBase
     {
-        public List<WorkoutPlan> workoutPlans { get; }
-        public WorkoutPlan currentWorkoutPlan { get; set; }
+        private const string WORKOUT_PLAN_FILE_NAME = "workoutPlan.json";
+        private const string EXERCISES_FILE_NAME = "exercises.json";
+        private readonly User user;    
+        public List<Exercise> Exercises { get; }
+        public WorkoutPlan WorkoutPlan { get; set; }
 
         public bool IsNewWorkoutPlan { get;} = false;
 
 
-        public WorkoutPlanController(string planName) 
+        public WorkoutPlanController(User user) 
         {
-            if (string.IsNullOrWhiteSpace(planName))
+            this.user = user ?? throw new ArgumentNullException("Пользователь не может быть пустым!", nameof(user));
+            Exercises = GetAllExercises();
+            this.WorkoutPlan = GetWorkoutPlans();
+        }
+
+        public void Add(Exercise exercise, int set, params (double, int)[] setsParams)
+        {
+            var exerciseTemp = Exercises.SingleOrDefault(x => x.Name.Equals(exercise.Name));
+            if (exerciseTemp == null)
             {
-                throw new ArgumentNullException("Название плана тренировок не может быть null!", nameof(planName));
-            }
-
-            workoutPlans = GetPlansDate();
-
-            currentWorkoutPlan = workoutPlans.SingleOrDefault(x => x.PlanName == planName);
-
-            if(currentWorkoutPlan == null)
-            {
-                currentWorkoutPlan = new WorkoutPlan(planName);
-                workoutPlans.Add(currentWorkoutPlan);
-                IsNewWorkoutPlan = true;
+                Exercises.Add(exercise);
+                WorkoutPlan.AddExercise(new WorkoutExercise(exercise.Name,exercise.Category,set, setsParams));
                 Save();
             }
-
-        }
-
-        public void AddExercise(WorkoutExercise exercise)
-        {
-            var exerciseTemp = currentWorkoutPlan.ExerciseList.SingleOrDefault(x => x.Name == exercise.Name);
-
-            if(exerciseTemp == null)
+            else
             {
-                currentWorkoutPlan.ExerciseList.Add(exercise);
+                WorkoutPlan.AddExercise(new WorkoutExercise(exerciseTemp.Name, exerciseTemp.Category, set, setsParams));
                 Save();
             }
-            
         }
 
-        public void SetNewWorkoutPlanData(List<WorkoutExercise> workoutExercises, string day="", string notes="")
+        private WorkoutPlan? GetWorkoutPlans()
         {
-            currentWorkoutPlan.Day = day;
-            currentWorkoutPlan.Notes = notes;
-
-            for(var i = 0;i < workoutExercises.Count;i++)
-            {
-                AddExercise(workoutExercises[i]);
-            }
-
-            Save();
+            return Load<WorkoutPlan>(WORKOUT_PLAN_FILE_NAME) ?? new WorkoutPlan(user);
         }
+
+        private List<Exercise>? GetAllExercises()
+        {
+            return Load<List<Exercise>>(EXERCISES_FILE_NAME) ?? new List<Exercise>();
+        }
+
 
         public void Save()
         {
-            using(var fs = new FileStream("workoutPlans.json", FileMode.OpenOrCreate))
-            {
-                JsonSerializer.Serialize(fs, workoutPlans);
-            }
+            Save(WORKOUT_PLAN_FILE_NAME, WorkoutPlan);
+            Save(WORKOUT_PLAN_FILE_NAME, Exercises);
         }
 
-        public List<WorkoutPlan> GetPlansDate()
-        {
-            using(var fs = new FileStream("workoutPlans.json", FileMode.OpenOrCreate))
-            {
-                if (fs.Length > 0 && JsonSerializer.Deserialize<List<WorkoutPlan>>(fs) is List<WorkoutPlan> workoutPlans)
-                {
-                    return workoutPlans;
-                }
-                else
-                {
-                    return new List<WorkoutPlan>();
-                }
-            }
-        }
 
     }
 }

@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace GYMLog.BL.Model
 {
@@ -23,12 +24,10 @@ namespace GYMLog.BL.Model
         [DataMember]
         public int Sets { get; set; }
         [DataMember]
-        public int[] Iterations { get; set; }
-        [DataMember]
-        public double Weight { get; set; }
+        public List<(double,int)> SetsParams { get; set; }
+        public object Iterations { get; set; }
 
-        
-        public WorkoutExercise(string name,string category,int sets, double weight, params int[] iterations)
+        public WorkoutExercise(string name,string category,int sets, params (double,int)[] setsParams)
             :base(name, category)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -44,29 +43,23 @@ namespace GYMLog.BL.Model
             if (sets <= 0)
             {
                 throw new ArgumentException("Подходы не могут быть меньше или равны 0!", nameof(sets));
+            }           
+
+            if (setsParams.Length == 0)
+            {
+                throw new ArgumentException("Количество повторений не может быть пустым!", nameof(setsParams));
             }
 
-            if (weight < 0)
+            for (var i = 0; i < setsParams.Length; i++)
             {
-                throw new ArgumentException("Вес не может быть меньше 0!", nameof(weight));
-            }
-
-            if (iterations.Length == 0)
-            {
-                throw new ArgumentException("Количество повторений не может быть пустым!", nameof(iterations));
-            }
-
-            for (var i = 0; i < iterations.Length; i++)
-            {
-                if (iterations[i] <= 0)
+                if(setsParams[i].Item1 < 0.0 || setsParams[i].Item2 <= 0)
                 {
-                    throw new ArgumentException("Количество повторений меньше или равно 0!", nameof(iterations));
+                    throw new ArgumentException("Ошибка параметров веса или количества повторений", nameof(setsParams));
                 }
             }
 
             Sets = sets;
-            Iterations = iterations;
-            Weight = weight;
+            SetsParams = setsParams.ToList();
         }
 
         [JsonConstructor]
@@ -79,8 +72,7 @@ namespace GYMLog.BL.Model
 
         public override string ToString()
         {
-            return $"{Name}\nГруппы мышц:{Category}\nКол-во повторов:{Iterations}\nКол-во подходов:{Sets}" +
-                $"\nВес:{Weight}";
+            return $"{Name}\nГруппы мышц:{Category}";
         }
     }
 }

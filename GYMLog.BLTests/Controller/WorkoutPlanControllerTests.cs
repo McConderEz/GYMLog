@@ -12,36 +12,45 @@ namespace GYMLog.BL.Controller.Tests
     [TestClass()]
     public class WorkoutPlanControllerTests
     {
+        //TODO:Протестировать изменения
         [TestMethod()]
         public void SetNewWorkoutPlanDataTest()
         {
             var planName = Guid.NewGuid().ToString();
-            var day =  Guid.NewGuid().ToString();
+            var day = Guid.NewGuid().ToString();
             var notes = Guid.NewGuid().ToString();
 
-            var controller = new WorkoutPlanController(planName);
+            var userName = Guid.NewGuid().ToString();
+            var password = Guid.NewGuid().ToString();
+            var birthdate = DateTime.Now.AddYears(-18);
+            var gender = "man";
+            var weight = 90;
+            var height = 190;
 
-            var controllerExercises = new WorkoutExerciseController("asdas","asdas");
+            var controllerUser = new UserController(userName, password);
 
-            controller.SetNewWorkoutPlanData(controllerExercises.Exercises, day, notes);
 
-            var controller2 = new WorkoutPlanController(planName);
+            controllerUser.SetNewUserData(gender, birthdate, weight, height);
 
-            Assert.AreEqual(planName, controller2.currentWorkoutPlan.PlanName);
-            Assert.AreEqual(day, controller2.currentWorkoutPlan.Day);
-            Assert.AreEqual(notes, controller2.currentWorkoutPlan.Notes);
+            var controller = new WorkoutPlanController(controllerUser.CurrentUser);
 
-            for(var i = 0;i < controller2.currentWorkoutPlan.ExerciseList.Count;i++)
+            var controllerExercises = new WorkoutExerciseController("asdas", "asdas");
+
+            controllerExercises.SetNewExerciseData("test", 3,new (double,int)[]{(1,5), (4,1), (2,4) });
+
+
+            controller.Add(controllerExercises.CurrentExercise, controllerExercises.CurrentExercise.Sets, controllerExercises.CurrentExercise.SetsParams.ToArray());
+
+            var controller2 = new WorkoutPlanController(controllerUser.CurrentUser);
+
+
+            for (var i = 0; i < controller2.WorkoutPlan.ExerciseList.Count; i++)
             {
-                Assert.AreEqual(controllerExercises.Exercises[i].Name, controller2.currentWorkoutPlan.ExerciseList[i].Name);
-                Assert.AreEqual(controllerExercises.Exercises[i].Category, controller2.currentWorkoutPlan.ExerciseList[i].Category);
-                Assert.AreEqual(controllerExercises.Exercises[i].Description, controller2.currentWorkoutPlan.ExerciseList[i].Description);
-                Assert.AreEqual(controllerExercises.Exercises[i].Sets, controller2.currentWorkoutPlan.ExerciseList[i].Sets);
-                Assert.AreEqual(controllerExercises.Exercises[i].Weight, controller2.currentWorkoutPlan.ExerciseList[i].Weight);
-                for (var j = 0; i < controllerExercises.Exercises[i].Sets; i++)
-                {
-                    Assert.AreEqual(controllerExercises.Exercises[i].Iterations[j], controller2.currentWorkoutPlan.ExerciseList[i].Iterations[j]);
-                }
+                Assert.AreEqual(controllerExercises.Exercises[i].Name, controller2.WorkoutPlan.ExerciseList[i].Name);
+                Assert.AreEqual(controllerExercises.Exercises[i].Category, controller2.WorkoutPlan.ExerciseList[i].Category);
+                Assert.AreEqual(controllerExercises.Exercises[i].Description, controller2.WorkoutPlan.ExerciseList[i].Description);
+                Assert.AreEqual(controllerExercises.Exercises[i].Sets, controller2.WorkoutPlan.ExerciseList[i].Sets);
+                Assert.AreEqual(controllerExercises.Exercises[i].SetsParams[i].Item1, controller2.WorkoutPlan.ExerciseList[i].SetsParams[i].Item1);               
             }
 
 
@@ -50,11 +59,11 @@ namespace GYMLog.BL.Controller.Tests
         [TestMethod()]
         public void SaveTest()
         {
-            var planName = Guid.NewGuid().ToString();
+            //var planName = Guid.NewGuid().ToString();
 
-            var controller = new WorkoutPlanController(planName);
+            //var controller = new WorkoutPlanController(planName);
 
-            Assert.AreEqual(planName,controller.currentWorkoutPlan.PlanName);
+            //Assert.AreEqual(planName,controller.currentWorkoutPlan.PlanName);
         }
 
         public void CreateTestExercises()

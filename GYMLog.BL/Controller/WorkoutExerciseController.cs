@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace GYMLog.BL.Controller
 {
-    public class WorkoutExerciseController
+    public class WorkoutExerciseController:ControllerBase
     {
+        private const string WORKOUT_EXERCISES_FILE_NAME = "workoutExercises.json";
         public List<WorkoutExercise> Exercises { get; }
         public WorkoutExercise CurrentExercise { get; set; }
         public bool IsNewExercise { get; } = false;
@@ -42,11 +43,7 @@ namespace GYMLog.BL.Controller
 
         public void Save()
         {
-
-            using (var fs = new FileStream("workoutExercises.json", FileMode.OpenOrCreate))
-            {
-                JsonSerializer.SerializeAsync(fs, Exercises);
-            }
+            Save(WORKOUT_EXERCISES_FILE_NAME, Exercises);
         }
 
         /// <summary>
@@ -55,21 +52,11 @@ namespace GYMLog.BL.Controller
         /// <returns></returns>
         private List<WorkoutExercise> GetExercisesDate()
         {
-            using (var fs = new FileStream("workoutExercises.json", FileMode.OpenOrCreate))
-            {
-                if (fs.Length > 0 && JsonSerializer.Deserialize<List<WorkoutExercise>>(fs) is List<WorkoutExercise> exercises)
-                {
-                    return exercises;
-                }
-                else
-                {
-                    return new List<WorkoutExercise>();
-                }
-            }
+            return Load<List<WorkoutExercise>>(WORKOUT_EXERCISES_FILE_NAME) ?? new List<WorkoutExercise>();           
         }
 
         
-        public void SetNewExerciseData(string description, int sets, double weights, params int[] iterations)
+        public void SetNewExerciseData(string description, int sets,params (double, int)[] setsParams)
         {
             if (string.IsNullOrWhiteSpace(description))
             {
@@ -81,28 +68,24 @@ namespace GYMLog.BL.Controller
                 throw new ArgumentException("Подходы не могут быть меньше или равны 0!", nameof(sets));
             }
 
-            if(weights < 0)
+            if (setsParams.Length == 0)
             {
-                throw new ArgumentException("Вес не может быть меньше 0!",nameof(weights));
+                throw new ArgumentException("Количество повторений не может быть пустым!", nameof(setsParams));
             }
 
-            if(iterations.Length == 0)
+            for (var i = 0; i < setsParams.Length; i++)
             {
-                throw new ArgumentException("Количество повторений не может быть пустым!", nameof(iterations));
-            }
-
-            for(var i = 0;i < iterations.Length;i++)
-            {
-                if (iterations[i] <= 0)
+                if (setsParams[i].Item1 < 0.0 || setsParams[i].Item2 <= 0)
                 {
-                    throw new ArgumentException("Количество повторений меньше или равно 0!", nameof(iterations));
+                    throw new ArgumentException("Ошибка параметров веса или количества повторений", nameof(setsParams));
                 }
             }
 
+            
+
             CurrentExercise.Description = description;
             CurrentExercise.Sets = sets;
-            CurrentExercise.Weight = weights;
-            CurrentExercise.Iterations = iterations;
+            CurrentExercise.SetsParams = setsParams.ToList();
             Save();
         }
     }

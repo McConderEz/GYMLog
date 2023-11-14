@@ -17,8 +17,9 @@ namespace GYMLog.BL.Model
         public List<WorkoutExercise> ExerciseList { get; set; }
         [DataMember]    
         public string PlanName { get; set; }
+
         [DataMember]
-        public string Day { get; set; }
+        public DateTime Moment { get; }
         /// <summary>
         /// Общее время проведённое за тренировокой 
         /// </summary>
@@ -32,32 +33,44 @@ namespace GYMLog.BL.Model
         [DataMember]
         public string Notes { get; set; }
 
+        [DataMember]
+        public User User { get; }
         
-        public WorkoutPlan(List<WorkoutExercise> exercises,string planName,string day,string notes = "")
+        public WorkoutPlan(User user)
         {
+            User = user ?? throw new ArgumentNullException("Пользователь не может быть пустым.", nameof(user));
+            Moment = DateTime.UtcNow;
             ExerciseList = new List<WorkoutExercise>();
-            if(exercises != null)
-                ExerciseList.AddRange(exercises);
-            if(string.IsNullOrWhiteSpace(day)) throw new ArgumentNullException(nameof(day),"День не может быть пустым!");
-            if (string.IsNullOrWhiteSpace(planName)) throw new ArgumentNullException(nameof(planName), "Название программы тренировок не может быть пустым!");
-            PlanName = planName;
-            Day = day;
-            Notes = notes;
         }
 
         [JsonConstructor]
-        public WorkoutPlan(string planName,string day = "", string notes = "")
+        public WorkoutPlan(string planName, string notes = "")
         {         
             if (string.IsNullOrWhiteSpace(planName)) throw new ArgumentNullException(nameof(planName), "Название программы тренировок не может быть пустым!");
             PlanName = planName;
-            Day = day;
             Notes = notes;
             ExerciseList = new List<WorkoutExercise>();
+        }
+
+        public void AddExercise(WorkoutExercise exercise)
+        {
+            var existingExercise = ExerciseList.SingleOrDefault(x => x.Name.Equals(exercise.Name));
+
+            if (existingExercise == null)
+            {
+                ExerciseList.Add(exercise);
+            }
+            else
+            {
+                existingExercise.Sets += exercise.Sets;
+                existingExercise.SetsParams.AddRange(exercise.SetsParams);
+            }
+
         }
 
         public override string ToString()
         {
-            return $"{PlanName}\nДень:{Day}\nЗаметки:{Notes}";
+            return $"{PlanName}\nЗаметки:{Notes}";
         }
     }
 }

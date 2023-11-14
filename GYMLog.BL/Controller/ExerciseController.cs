@@ -10,8 +10,9 @@ using System.Xml.Linq;
 
 namespace GYMLog.BL.Controller
 {
-    public class ExerciseController
+    public class ExerciseController:ControllerBase
     {
+        private const string EXERCISES_FILE_NAME = "exercises.json";
         public List<Exercise> Exercises { get; }
         public Exercise CurrentExercise { get; set; }
         public bool IsNewExercise { get; } = false;
@@ -44,11 +45,7 @@ namespace GYMLog.BL.Controller
 
         public void Save()
         {
-
-            using (var fs = new FileStream("exercises.json", FileMode.OpenOrCreate))
-            {
-                JsonSerializer.SerializeAsync(fs, Exercises);
-            }
+            Save(EXERCISES_FILE_NAME, Exercises);
         }
 
         /// <summary>
@@ -57,17 +54,7 @@ namespace GYMLog.BL.Controller
         /// <returns></returns>
         private List<Exercise> GetExercisesDate()
         {
-            using(var fs = new FileStream("exercises.json", FileMode.OpenOrCreate))
-            {
-                if(fs.Length > 0 && JsonSerializer.Deserialize<List<Exercise>>(fs) is List<Exercise> exercises)
-                {
-                    return exercises;
-                }
-                else
-                {
-                    return new List<Exercise>();
-                }
-            }
+            return Load<List<Exercise>>(EXERCISES_FILE_NAME) ?? new List<Exercise>();
         }
 
         public void SetNewExerciseData(string description)

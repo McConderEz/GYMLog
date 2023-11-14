@@ -11,8 +11,9 @@ using System.Xml.Serialization;
 
 namespace GYMLog.BL.Controller
 {
-    public class UserController
+    public class UserController: ControllerBase
     {
+        private const string USERS_FILE_NAME = "users.json";
         public List<User> Users { get; }
         public User CurrentUser { get; set; }
         public bool IsNewUser { get; } = false;
@@ -48,21 +49,9 @@ namespace GYMLog.BL.Controller
         /// </summary>
         /// <returns></returns>
         /// <exception cref="FileLoadException"></exception>
-        private List<User >GetUsersData()
+        private List<User>GetUsersData()
         {
-            
-            using (var fs = new FileStream("users.json", FileMode.OpenOrCreate))
-            {
-               
-                if (fs.Length > 0 && JsonSerializer.Deserialize<List<User>>(fs) is List<User> users)
-                {
-                    return users;
-                }
-                else
-                {
-                    return new List<User>();
-                }
-            }
+            return Load<List<User>>(USERS_FILE_NAME) ?? new List<User>();
         }
 
         public void SetNewUserData(string genderName,DateTime birthDate, double weight = 1,double height = 1)
@@ -99,13 +88,8 @@ namespace GYMLog.BL.Controller
         /// </summary>
         public void Save()
         {
-
-            using (var fs = new FileStream("users.json", FileMode.OpenOrCreate))
-            {
-                JsonSerializer.SerializeAsync(fs, Users);
-            }
+            Save(USERS_FILE_NAME, Users);
         }
-
-        
+      
     }
 }
