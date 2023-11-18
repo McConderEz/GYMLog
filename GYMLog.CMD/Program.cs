@@ -1,14 +1,20 @@
 ﻿using GYMLog.BL.Controller;
 using GYMLog.BL.Model;
+using GYMLog.CMD.Languages;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.Resources;
+
+var culture = CultureInfo.CreateSpecificCulture("en-us");
+var resourceManager = new ResourceManager("GYMLog.CMD.Languages.Messages", typeof(Program).Assembly);
 
 //TODO: Переписать интерфейс в WPF(Окно регистрации, авторизации и основное)
-Console.WriteLine("Вас приветствует приложение GYMLog");
+Console.WriteLine(resourceManager.GetString("Hello", culture)+"\n");
 
-Console.WriteLine("Введите имя пользователя:");
+Console.WriteLine(resourceManager.GetString("LoginRequest", culture));
 var login = Console.ReadLine();
 
-Console.WriteLine("Введите пароль:");
+Console.WriteLine(resourceManager.GetString("PasswordRequest", culture));
 var password = Console.ReadLine();
 
 var userController = new UserController(login, password);
@@ -16,22 +22,22 @@ var eatingController = new EatingController(userController.CurrentUser);
 
 if (userController.IsNewUser)
 {
-    Console.WriteLine("Введите пол:");
+    Console.WriteLine(resourceManager.GetString("GenderRequest", culture));
     var genderName = Console.ReadLine();
 
     DateTime birthdate = ParseDateTime();
 
-    double weight = ParseDouble("Введите вес:");
+    double weight = ParseDouble(resourceManager.GetString("WeightRequest", culture));
 
 
-    var height = ParseDouble("Введите рост:");
+    var height = ParseDouble(resourceManager.GetString("HeightRequest", culture));
 
     userController.SetNewUserData(genderName, birthdate, weight);
 }
 
 Console.WriteLine(userController.CurrentUser);
 
-Console.WriteLine("Что вы хотите сделать?");
+Console.WriteLine(resourceManager.GetString("WhatYouWantRequest", culture));
 Console.WriteLine("E)Ввести прием пищи");
 var key = Console.ReadKey();
 
