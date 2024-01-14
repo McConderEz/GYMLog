@@ -10,39 +10,6 @@ namespace GYMLog.BL.Controller
 {
     public class SerializableSaver: IDataSaver
     {
-        //TODO: Переписать в Newtonsoft.JSON
-        //TODO: Протестировать сохранение и загрузку данных из JSON файлов
-        //public List<T> Load<T>() where T : class
-        //{
-        //    var fileName = typeof(T).Name + ".json";
-
-        //    using (var fs = new FileStream(fileName, FileMode.OpenOrCreate))
-        //    {
-        //        if (fs.Length > 0 && System.Text.Json.JsonSerializer.Deserialize<T>(fs) is List<T> items)
-        //        {
-        //            return items;
-        //        }
-        //        else
-        //        {
-        //            return new List<T>();
-        //        }
-        //    }
-        //}
-
-        //public void Save<T>(List<T> item) where T : class
-        //{
-        //    var fileName = typeof(T).Name + ".json";
-
-        //    using (var fs = new FileStream(fileName, FileMode.OpenOrCreate))
-        //    {
-        //        var option = new JsonSerializerOptions
-        //        {
-        //            WriteIndented = true,
-        //        };
-
-        //        System.Text.Json.JsonSerializer.Serialize(fs, item, option);
-        //    }
-        //}
 
         public List<T> Load<T>() where T : class
         {

@@ -18,7 +18,7 @@ namespace GYMLog.BL.Model
         [DataMember]
         public int Id { get; set; }
         [DataMember]
-        public ICollection<WorkoutExercise> ExerciseList { get; set; }
+        public virtual ICollection<WorkoutExercise> ExerciseList { get; set; }
         [DataMember]    
         public string PlanName { get; set; }
 

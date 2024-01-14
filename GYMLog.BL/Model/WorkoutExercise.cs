@@ -80,7 +80,7 @@ namespace GYMLog.BL.Model
 
         public override string ToString()
         {
-            return $"{Name}\nГруппы мышц:{Category}";
+            return $"{Name}\tГруппы мышц:{Category}";
         }
     }
 }

@@ -45,6 +45,17 @@ namespace GYMLog.BL.Controller
             }
         }
 
+        public void SetNewWorkoutPlanData(string planName,string notes = "")
+        {
+            if (string.IsNullOrWhiteSpace(planName))
+            {
+                throw new ArgumentNullException("Название плана тренировок не может быть пустым!", nameof(planName));
+            }
+            WorkoutPlan.PlanName = planName;
+            WorkoutPlan.Notes = notes;
+            Save();
+        }
+
         private WorkoutPlan? GetWorkoutPlans()
         {
             return Load<WorkoutPlan>().FirstOrDefault() ?? new WorkoutPlan(user);

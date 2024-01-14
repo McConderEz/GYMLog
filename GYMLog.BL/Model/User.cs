@@ -32,9 +32,9 @@ namespace GYMLog.BL.Model
         public double Height { get; set; }
 
         [DataMember]
-        public ICollection<WorkoutPlan> WorkoutPlans { get; set; }
+        public virtual ICollection<WorkoutPlan> WorkoutPlans { get; set; }
         [DataMember]
-        public ICollection<Eating> Eatings { get; set; }
+        public virtual ICollection<Eating> Eatings { get; set; }
 
         public int Age => DateTime.Now.Year - BirthDate.Year;
         #endregion

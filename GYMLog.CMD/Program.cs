@@ -19,6 +19,9 @@ var password = Console.ReadLine();
 
 var userController = new UserController(login, password);
 var eatingController = new EatingController(userController.CurrentUser);
+ExerciseController exerciseController;
+WorkoutPlanController workoutPlanController;
+WorkoutExerciseController workoutExerciseController;
 
 if (userController.IsNewUser)
 {
@@ -37,24 +40,114 @@ if (userController.IsNewUser)
 
 Console.WriteLine(userController.CurrentUser);
 
-Console.WriteLine(resourceManager.GetString("WhatYouWantRequest", culture));
-Console.WriteLine("E)Ввести прием пищи");
-var key = Console.ReadKey();
-
-
-switch (key.Key)
+while (true)
 {
-    case ConsoleKey.E:
-        var foods = EnterEating();
-        eatingController.Add(foods.Food, foods.Weight);
-        
-        foreach(var item in eatingController.Eating.Foods)
-        {
-            Console.WriteLine($"\t{item.Food} - {item.Weight}");
-        }
+    Console.WriteLine(resourceManager.GetString("WhatYouWantRequest", culture));
+    Console.WriteLine("E)Ввести прием пищи");
+    Console.WriteLine("A)Создать упражнение");
+    Console.WriteLine("D)Создать план тренировок");
+    Console.WriteLine("F)Добавить упражнение в план тренировок");
+    Console.WriteLine("Q)Выход");
+    var key = Console.ReadKey();
 
+    if (key.Key == ConsoleKey.Q)
+    {
+        Console.WriteLine("Завершение работы...");
         break;
+    }
+
+    switch (key.Key)
+    {
+        case ConsoleKey.E:
+            var foods = EnterEating();
+            eatingController.Add(foods.Food, foods.Weight);
+
+            foreach (var item in eatingController.Eating.Foods)
+            {
+                Console.WriteLine($"\t{item.Food} - {item.Weight}");
+            }
+
+            break;
+        case ConsoleKey.A:
+            var exercise = EnterExercise();
+            exerciseController = new ExerciseController(exercise.Name, exercise.Category);
+            exerciseController.SetNewExerciseData(exercise.Description);
+
+            foreach (var item in exerciseController.Exercises)
+            {
+                Console.WriteLine($"\t{item.Name} - {item.Category}");
+            }
+
+            break;
+        case ConsoleKey.D:
+            workoutPlanController = new WorkoutPlanController(userController.CurrentUser);
+            var result = EnterWorkoutPlan();
+            workoutPlanController.SetNewWorkoutPlanData(result.Item1, result.Item2);
+            break;
+        case ConsoleKey.F:
+            var _exercise = EnterExercise();
+            var _params = ExerciseParams();
+            workoutPlanController = new WorkoutPlanController(userController.CurrentUser);
+            workoutPlanController.Add(_exercise, _params.Item1,_params.Item2);
+
+            Console.WriteLine($"{workoutPlanController.WorkoutPlan.PlanName}:");
+            foreach(var item in workoutPlanController.WorkoutPlan.ExerciseList)
+            {
+                Console.WriteLine($"\t{item}");
+                foreach (var item2 in item.ExerciseParams)
+                {
+                    Console.WriteLine($"\t\t{item2.Iterations} - {item2.Weight}");
+                }
+            }
+            break;
+
+    }
+
+
+    Thread.Sleep(5000);
+    Console.Clear();
+}
+
+static (int ,List<ExerciseParams>) ExerciseParams()
+{
+    Console.WriteLine("Введите количество подходов:");
+    var sets = int.Parse(Console.ReadLine());
+    var exerciseParams = new List<ExerciseParams>();
     
+    for(var i = 0;i < sets; i++)
+    {
+        Console.WriteLine($"Введите количество итераций для {i+1} подхода:");
+        int iterations = int.Parse(Console.ReadLine());
+        double weight = ParseDouble($"Введите вес(если упражнение с весом) для {i + 1} подхода:");
+        exerciseParams.Add(new ExerciseParams(iterations,weight));
+    }
+
+    return (sets,exerciseParams);
+}
+
+
+static (string,string) EnterWorkoutPlan()
+{
+    Console.WriteLine("Введите название плана тренировок:");
+    var planName = Console.ReadLine();
+    Console.WriteLine("Введите заметки(если есть):");
+    var notes = Console.ReadLine();
+
+    return (planName, notes);
+}
+
+static Exercise EnterExercise()
+{
+    Console.WriteLine("Введите название упражнения:");
+    var name = Console.ReadLine();
+    Console.WriteLine("Введите категорию упражнения:");
+    var category = Console.ReadLine();
+    Console.WriteLine("Введите описание упражнения:");
+    var description = Console.ReadLine();
+
+    var exercise = new Exercise(name, category, description);
+
+    return exercise;
 }
 
 static (Food Food, double Weight) EnterEating()
