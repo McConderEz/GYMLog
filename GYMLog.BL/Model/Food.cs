@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -9,6 +11,7 @@ using System.Threading.Tasks;
 namespace GYMLog.BL.Model
 {
     [DataContract]
+    [JsonObject]
     public class Food
     {
         [DataMember]
@@ -55,7 +58,7 @@ namespace GYMLog.BL.Model
         
         public Food(string name) : this(name, 0, 0, 0, 0) { }
 
-        [JsonConstructor]
+        [Newtonsoft.Json.JsonConstructor]
         public Food(string name, double proteins, double fats, double carbohydrates, double calories)
         {
             if (string.IsNullOrWhiteSpace(name))

@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -10,6 +12,7 @@ using System.Transactions;
 namespace GYMLog.BL.Model
 {
     [DataContract]
+    [JsonObject]
     public class WorkoutExercise:Exercise
     {
         [DataMember]
@@ -66,7 +69,7 @@ namespace GYMLog.BL.Model
             ExerciseParams = exerciseParams;
         }
 
-        [JsonConstructor]
+        [Newtonsoft.Json.JsonConstructor]
         public WorkoutExercise(string name,string category)
             :base(name, category)
         {

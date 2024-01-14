@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -11,6 +12,7 @@ namespace GYMLog.BL.Model
 {
 
     [DataContract]
+    [JsonObject]
     public class WorkoutPlan
     {
         [DataMember]
@@ -46,10 +48,10 @@ namespace GYMLog.BL.Model
             ExerciseList = new List<WorkoutExercise>();
         }
 
-        [JsonConstructor]
+        [Newtonsoft.Json.JsonConstructor]
         public WorkoutPlan(string planName, string notes = "")
         {         
-            if (string.IsNullOrWhiteSpace(planName)) throw new ArgumentNullException(nameof(planName), "Название программы тренировок не может быть пустым!");
+            //if (string.IsNullOrWhiteSpace(planName)) throw new ArgumentNullException(nameof(planName), "Название программы тренировок не может быть пустым!");
             PlanName = planName;
             Notes = notes;
             ExerciseList = new List<WorkoutExercise>();

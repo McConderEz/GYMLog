@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -10,6 +12,7 @@ namespace GYMLog.BL.Model
 {
  
     [DataContract]
+    [JsonObject]
     public class Exercise
     {
         [DataMember]
@@ -35,7 +38,7 @@ namespace GYMLog.BL.Model
            
         }
 
-        [JsonConstructor]
+        [Newtonsoft.Json.JsonConstructor]
         public Exercise(string name,string category)
         {
             if (string.IsNullOrWhiteSpace(name))

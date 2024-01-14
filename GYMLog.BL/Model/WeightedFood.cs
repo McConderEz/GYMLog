@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -9,6 +11,7 @@ using System.Threading.Tasks;
 namespace GYMLog.BL.Model
 {
     [DataContract]
+    [JsonObject]
     public class WeightedFood
     {
         [DataMember]
@@ -18,7 +21,7 @@ namespace GYMLog.BL.Model
         [DataMember]
         public double Weight { get; set; }
 
-        [JsonConstructor]
+        [Newtonsoft.Json.JsonConstructor]
         public WeightedFood(Food food, double weight)
         {
             Food = food;

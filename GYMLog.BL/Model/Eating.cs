@@ -1,4 +1,5 @@
 ﻿using GYMLog.BL.Controller;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace GYMLog.BL.Model
     /// </summary>
 
     [DataContract]
+    [JsonObject]
     public class Eating
     {
         [DataMember]
@@ -32,7 +34,7 @@ namespace GYMLog.BL.Model
         [DataMember]
         public virtual User User { get; }
 
-        [JsonConstructor]
+        [Newtonsoft.Json.JsonConstructor]
         public Eating(User user)
         {
             User = user ?? throw new ArgumentNullException("Пользователь не может быть пустым.",nameof(user));

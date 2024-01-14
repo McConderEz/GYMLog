@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 namespace GYMLog.BL.Model
 {
     [DataContract]
+    [JsonObject]
     public class User
     {
         #region Свойства
@@ -95,7 +97,7 @@ namespace GYMLog.BL.Model
             }
         }
 
-        [JsonConstructor]
+        [Newtonsoft.Json.JsonConstructor]
         public User(string login,string password)
         {
             if (string.IsNullOrWhiteSpace(login))
@@ -113,6 +115,7 @@ namespace GYMLog.BL.Model
             WorkoutPlans = new List<WorkoutPlan>();
         }
 
+        
         public User() { }
 
         public override string ToString()

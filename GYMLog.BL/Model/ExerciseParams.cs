@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -10,6 +12,7 @@ using System.Threading.Tasks;
 namespace GYMLog.BL.Model
 {
     [DataContract]
+    [JsonObject]
     public class ExerciseParams
     {
         [DataMember]
@@ -19,7 +22,7 @@ namespace GYMLog.BL.Model
         [DataMember]
         public double Weight { get; set; }
 
-        [JsonConstructor]
+        [Newtonsoft.Json.JsonConstructor]
         public ExerciseParams(int iterations, double weight)
         {
             if(iterations < 0)

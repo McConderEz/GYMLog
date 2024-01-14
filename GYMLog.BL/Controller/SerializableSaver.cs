@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,36 +12,71 @@ namespace GYMLog.BL.Controller
     {
         //TODO: Переписать в Newtonsoft.JSON
         //TODO: Протестировать сохранение и загрузку данных из JSON файлов
+        //public List<T> Load<T>() where T : class
+        //{
+        //    var fileName = typeof(T).Name + ".json";
+
+        //    using (var fs = new FileStream(fileName, FileMode.OpenOrCreate))
+        //    {
+        //        if (fs.Length > 0 && System.Text.Json.JsonSerializer.Deserialize<T>(fs) is List<T> items)
+        //        {
+        //            return items;
+        //        }
+        //        else
+        //        {
+        //            return new List<T>();
+        //        }
+        //    }
+        //}
+
+        //public void Save<T>(List<T> item) where T : class
+        //{
+        //    var fileName = typeof(T).Name + ".json";
+
+        //    using (var fs = new FileStream(fileName, FileMode.OpenOrCreate))
+        //    {
+        //        var option = new JsonSerializerOptions
+        //        {
+        //            WriteIndented = true,
+        //        };
+
+        //        System.Text.Json.JsonSerializer.Serialize(fs, item, option);
+        //    }
+        //}
+
         public List<T> Load<T>() where T : class
         {
             var fileName = typeof(T).Name + ".json";
 
-            using (var fs = new FileStream(fileName, FileMode.OpenOrCreate))
+            if (File.Exists(fileName))
             {
-                if (fs.Length > 0 && JsonSerializer.Deserialize<T>(fs) is List<T> items)
+                var json = File.ReadAllText(fileName);
+                if (!string.IsNullOrEmpty(json))
                 {
-                    return items;
-                }
-                else
-                {
-                    return new List<T>();
+                    var items = JsonConvert.DeserializeObject<List<T>>(json);
+                    if (items != null)
+                    {
+                        return items;
+                    }
                 }
             }
+
+            return new List<T>();
         }
 
         public void Save<T>(List<T> item) where T : class
         {
             var fileName = typeof(T).Name + ".json";
 
-            using (var fs = new FileStream(fileName, FileMode.OpenOrCreate))
+            if (File.Exists(fileName))
             {
-                var option = new JsonSerializerOptions
-                {
-                    WriteIndented = true,
-                };
-
-                JsonSerializer.Serialize(fs, item,option);
+                var existingItems = Load<T>();
+                existingItems.RemoveAll(_item => item.Any(existingItems => existingItems.Equals(_item)));
+                existingItems.AddRange(item);
             }
+
+            var json = JsonConvert.SerializeObject(item, Formatting.Indented);
+            File.WriteAllText(fileName, json);
         }
     }
 }

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GYMLog.BL.Model
@@ -11,6 +13,7 @@ namespace GYMLog.BL.Model
     /// Пол.
     /// </summary>
     [DataContract]
+    [JsonObject]
     public class Gender
     {
         [DataMember]
@@ -26,6 +29,7 @@ namespace GYMLog.BL.Model
         /// </summary>
         /// <param name="name">Имя пола.</param>
         /// <exception cref="ArgumentNullException"></exception>
+        [Newtonsoft.Json.JsonConstructor]
         public Gender(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
