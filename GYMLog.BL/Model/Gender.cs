@@ -13,6 +13,8 @@ namespace GYMLog.BL.Model
     [DataContract]
     public class Gender
     {
+        [DataMember]
+        public int Id { get; set; }
         /// <summary>
         /// Название.
         /// </summary>
@@ -33,6 +35,8 @@ namespace GYMLog.BL.Model
 
             Name = name;
         }
+
+        public Gender() { }
         
         public override string ToString()
         {

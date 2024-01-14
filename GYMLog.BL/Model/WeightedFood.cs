@@ -12,6 +12,8 @@ namespace GYMLog.BL.Model
     public class WeightedFood
     {
         [DataMember]
+        public int Id { get; set; }
+        [DataMember]
         public Food Food { get; set; }
         [DataMember]
         public double Weight { get; set; }
@@ -22,6 +24,8 @@ namespace GYMLog.BL.Model
             Food = food;
             Weight = weight;
         }
+
+        public WeightedFood() { }
 
     }
 }

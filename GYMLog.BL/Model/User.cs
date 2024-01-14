@@ -15,6 +15,8 @@ namespace GYMLog.BL.Model
     {
         #region Свойства
         [DataMember]
+        public int Id { get; set; }
+        [DataMember]
         public string Login { get; }
         [DataMember]
         public string Password { get; }
@@ -28,7 +30,9 @@ namespace GYMLog.BL.Model
         public double Height { get; set; }
 
         [DataMember]
-        public List<WorkoutPlan> WorkoutPlans { get; set; }
+        public ICollection<WorkoutPlan> WorkoutPlans { get; set; }
+        [DataMember]
+        public ICollection<Eating> Eatings { get; set; }
 
         public int Age => DateTime.Now.Year - BirthDate.Year;
         #endregion
@@ -109,6 +113,7 @@ namespace GYMLog.BL.Model
             WorkoutPlans = new List<WorkoutPlan>();
         }
 
+        public User() { }
 
         public override string ToString()
         {

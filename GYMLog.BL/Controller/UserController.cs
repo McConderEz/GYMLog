@@ -13,7 +13,6 @@ namespace GYMLog.BL.Controller
 {
     public class UserController: ControllerBase
     {
-        private const string USERS_FILE_NAME = "users.json";
         public List<User> Users { get; }
         public User CurrentUser { get; set; }
         public bool IsNewUser { get; } = false;
@@ -51,7 +50,7 @@ namespace GYMLog.BL.Controller
         /// <exception cref="FileLoadException"></exception>
         private List<User>GetUsersData()
         {
-            return Load<List<User>>(USERS_FILE_NAME) ?? new List<User>();
+            return Load<User>() ?? new List<User>();
         }
 
         public void SetNewUserData(string genderName,DateTime birthDate, double weight = 1,double height = 1)
@@ -88,7 +87,7 @@ namespace GYMLog.BL.Controller
         /// </summary>
         public void Save()
         {
-            Save(USERS_FILE_NAME, Users);
+            Save(Users);
         }
       
     }

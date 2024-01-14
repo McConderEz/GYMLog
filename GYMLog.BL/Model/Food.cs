@@ -12,6 +12,8 @@ namespace GYMLog.BL.Model
     public class Food
     {
         [DataMember]
+        public int Id { get; set; }
+        [DataMember]
         public string Name { get; }
         /// <summary>
         /// Белки
@@ -87,7 +89,7 @@ namespace GYMLog.BL.Model
             Calories = calories;
         }
 
-        
+        public Food() { }
         public override string ToString()
         {
             return Name;

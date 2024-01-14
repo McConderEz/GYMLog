@@ -12,53 +12,16 @@ namespace GYMLog.BL.Controller
 {
     public abstract class ControllerBase
     {
-        protected void Save(string fileName,object item)
-        {
-            using (var fs = new FileStream(fileName, FileMode.OpenOrCreate))
-            {
-                
-                JsonSerializer.Serialize(fs, item);
-                
-            }
-        }        
+        private readonly IDataSaver manager = new SerializableSaver();
 
-        //protected void Save(string fileName, object item, JsonSerializerOptions options)
-        //{
-        //    using (var fs = new FileStream(fileName, FileMode.OpenOrCreate))
-        //    {
-        //        JsonSerializer.Serialize(fs, item, options);
-        //    }
-        //}
-
-        protected T Load<T>(string fileName)
+        protected void Save<T>(List<T> item) where T : class
         {
-            using (var fs = new FileStream(fileName, FileMode.OpenOrCreate))
-            {
-                if (fs.Length > 0 && JsonSerializer.Deserialize<T>(fs) is T items)
-                {
-                    return items;
-                }
-                else
-                {
-                    return default(T);
-                }
-            }
+            manager.Save(item);
         }
 
-        //protected T Load<T>(string fileName, JsonSerializerOptions options)
-        //{
-        //    using (var fs = new FileStream(fileName, FileMode.OpenOrCreate))
-        //    {
-        //        if (fs.Length > 0 && JsonSerializer.Deserialize<T>(fs,options) is T items)
-        //        {
-        //            return items;
-        //        }
-        //        else
-        //        {
-        //            return default(T);
-        //        }
-        //    }
-        //}
-
+        protected List<T> Load<T>() where T : class
+        {
+            return manager.Load<T>();
+        }
     }
 }

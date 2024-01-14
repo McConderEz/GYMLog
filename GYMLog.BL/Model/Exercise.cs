@@ -13,6 +13,8 @@ namespace GYMLog.BL.Model
     public class Exercise
     {
         [DataMember]
+        public int Id { get; set; }
+        [DataMember]
         public string Name { get; }
         [DataMember]
         public string Category { get; }
@@ -50,5 +52,6 @@ namespace GYMLog.BL.Model
             Category = category;
         }
 
+        public Exercise() { }
     }
 }

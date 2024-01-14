@@ -12,7 +12,6 @@ namespace GYMLog.BL.Controller
 {
     public class ExerciseController:ControllerBase
     {
-        private const string EXERCISES_FILE_NAME = "exercises.json";
         public List<Exercise> Exercises { get; }
         public Exercise CurrentExercise { get; set; }
         public bool IsNewExercise { get; } = false;
@@ -45,7 +44,7 @@ namespace GYMLog.BL.Controller
 
         public void Save()
         {
-            Save(EXERCISES_FILE_NAME, Exercises);
+            Save(Exercises);
         }
 
         /// <summary>
@@ -54,7 +53,7 @@ namespace GYMLog.BL.Controller
         /// <returns></returns>
         private List<Exercise> GetExercisesDate()
         {
-            return Load<List<Exercise>>(EXERCISES_FILE_NAME) ?? new List<Exercise>();
+            return Load<Exercise>() ?? new List<Exercise>();
         }
 
         public void SetNewExerciseData(string description)

@@ -15,8 +15,6 @@ namespace GYMLog.BL.Controller
 
     public class WorkoutPlanController:ControllerBase
     {
-        private const string WORKOUT_PLAN_FILE_NAME = "workoutPlan.json";
-        private const string EXERCISES_FILE_NAME = "exercises.json";
         private readonly User user;    
         public List<Exercise> Exercises { get; }
         public WorkoutPlan WorkoutPlan { get; set; }
@@ -31,37 +29,37 @@ namespace GYMLog.BL.Controller
             this.WorkoutPlan = GetWorkoutPlans();
         }
 
-        public void Add(Exercise exercise, int set, params (double, int)[] setsParams)
+        public void Add(Exercise exercise, int set, List<ExerciseParams> exerciseParams)
         {
             var exerciseTemp = Exercises.SingleOrDefault(x => x.Name.Equals(exercise.Name));
             if (exerciseTemp == null)
             {
                 Exercises.Add(exercise);
-                WorkoutPlan.AddExercise(new WorkoutExercise(exercise.Name,exercise.Category,set, setsParams));
+                WorkoutPlan.AddExercise(new WorkoutExercise(exercise.Name,exercise.Category,set, exerciseParams));
                 Save();
             }
             else
             {
-                WorkoutPlan.AddExercise(new WorkoutExercise(exerciseTemp.Name, exerciseTemp.Category, set, setsParams));
+                WorkoutPlan.AddExercise(new WorkoutExercise(exerciseTemp.Name, exerciseTemp.Category, set, exerciseParams));
                 Save();
             }
         }
 
         private WorkoutPlan? GetWorkoutPlans()
         {
-            return Load<WorkoutPlan>(WORKOUT_PLAN_FILE_NAME) ?? new WorkoutPlan(user);
+            return Load<WorkoutPlan>().FirstOrDefault() ?? new WorkoutPlan(user);
         }
 
         private List<Exercise>? GetAllExercises()
         {
-            return Load<List<Exercise>>(EXERCISES_FILE_NAME) ?? new List<Exercise>();
+            return Load<Exercise>() ?? new List<Exercise>();
         }
 
 
         public void Save()
         {
-            Save(WORKOUT_PLAN_FILE_NAME, WorkoutPlan);
-            Save(WORKOUT_PLAN_FILE_NAME, Exercises);
+            Save(new List<WorkoutPlan>() { WorkoutPlan }); 
+            Save(Exercises);
         }
 
 

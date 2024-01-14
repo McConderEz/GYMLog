@@ -10,7 +10,6 @@ namespace GYMLog.BL.Controller
 {
     public class WorkoutExerciseController:ControllerBase
     {
-        private const string WORKOUT_EXERCISES_FILE_NAME = "workoutExercises.json";
         public List<WorkoutExercise> Exercises { get; }
         public WorkoutExercise CurrentExercise { get; set; }
         public bool IsNewExercise { get; } = false;
@@ -43,7 +42,7 @@ namespace GYMLog.BL.Controller
 
         public void Save()
         {
-            Save(WORKOUT_EXERCISES_FILE_NAME, Exercises);
+            Save(Exercises);
         }
 
         /// <summary>
@@ -52,11 +51,11 @@ namespace GYMLog.BL.Controller
         /// <returns></returns>
         private List<WorkoutExercise> GetExercisesDate()
         {
-            return Load<List<WorkoutExercise>>(WORKOUT_EXERCISES_FILE_NAME) ?? new List<WorkoutExercise>();           
+            return Load<WorkoutExercise>() ?? new List<WorkoutExercise>();           
         }
 
         
-        public void SetNewExerciseData(string description, int sets,params (double, int)[] setsParams)
+        public void SetNewExerciseData(string description, int sets,List<ExerciseParams> exerciseParams)
         {
             if (string.IsNullOrWhiteSpace(description))
             {
@@ -68,16 +67,16 @@ namespace GYMLog.BL.Controller
                 throw new ArgumentException("Подходы не могут быть меньше или равны 0!", nameof(sets));
             }
 
-            if (setsParams.Length == 0)
+            if (exerciseParams.Count == 0)
             {
-                throw new ArgumentException("Количество повторений не может быть пустым!", nameof(setsParams));
+                throw new ArgumentException("Количество повторений не может быть пустым!", nameof(exerciseParams));
             }
 
-            for (var i = 0; i < setsParams.Length; i++)
+            for (var i = 0; i < exerciseParams.Count; i++)
             {
-                if (setsParams[i].Item1 < 0.0 || setsParams[i].Item2 <= 0)
+                if (exerciseParams[i].Weight < 0.0 || exerciseParams[i].Iterations < 0)
                 {
-                    throw new ArgumentException("Ошибка параметров веса или количества повторений", nameof(setsParams));
+                    throw new ArgumentException("Ошибка параметров веса или количества повторений", nameof(exerciseParams));
                 }
             }
 
@@ -85,7 +84,7 @@ namespace GYMLog.BL.Controller
 
             CurrentExercise.Description = description;
             CurrentExercise.Sets = sets;
-            CurrentExercise.SetsParams = setsParams.ToList();
+            CurrentExercise.ExerciseParams = exerciseParams;
             Save();
         }
     }

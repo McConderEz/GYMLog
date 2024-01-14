@@ -18,13 +18,19 @@ namespace GYMLog.BL.Model
     public class Eating
     {
         [DataMember]
+        public int Id { get; set; }
+
+        [DataMember]
         public DateTime Moment { get; }
 
         [DataMember]
         public List<WeightedFood> Foods { get; set; }
 
         [DataMember]
-        public User User { get; }
+        public int UserId { get; set; }
+
+        [DataMember]
+        public virtual User User { get; }
 
         [JsonConstructor]
         public Eating(User user)
@@ -34,6 +40,8 @@ namespace GYMLog.BL.Model
             Foods = new List<WeightedFood>();
 
         }
+
+        public Eating() { }
 
         public void Add(Food food, double weight)
         {

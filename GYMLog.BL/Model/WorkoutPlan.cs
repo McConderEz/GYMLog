@@ -14,7 +14,9 @@ namespace GYMLog.BL.Model
     public class WorkoutPlan
     {
         [DataMember]
-        public List<WorkoutExercise> ExerciseList { get; set; }
+        public int Id { get; set; }
+        [DataMember]
+        public ICollection<WorkoutExercise> ExerciseList { get; set; }
         [DataMember]    
         public string PlanName { get; set; }
 
@@ -32,9 +34,10 @@ namespace GYMLog.BL.Model
         public double CaloriesBurned { get; }
         [DataMember]
         public string Notes { get; set; }
-
         [DataMember]
-        public User User { get; }
+        public int UserId { get; set; }
+        [DataMember]
+        public virtual User User { get; }
         
         public WorkoutPlan(User user)
         {
@@ -52,6 +55,8 @@ namespace GYMLog.BL.Model
             ExerciseList = new List<WorkoutExercise>();
         }
 
+        public WorkoutPlan() { }
+
         public void AddExercise(WorkoutExercise exercise)
         {
             var existingExercise = ExerciseList.SingleOrDefault(x => x.Name.Equals(exercise.Name));
@@ -63,7 +68,7 @@ namespace GYMLog.BL.Model
             else
             {
                 existingExercise.Sets += exercise.Sets;
-                existingExercise.SetsParams.AddRange(exercise.SetsParams);
+                existingExercise.ExerciseParams.AddRange(exercise.ExerciseParams);
             }
 
         }

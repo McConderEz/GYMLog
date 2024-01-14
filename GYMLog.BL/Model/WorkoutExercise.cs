@@ -12,7 +12,10 @@ namespace GYMLog.BL.Model
     [DataContract]
     public class WorkoutExercise:Exercise
     {
-
+        [DataMember]
+        public int Id { get; set; }
+        [DataMember]
+        public int ExerciseId { get; set; }
         [DataMember]
         public double CaloriesBurned => 10.0 * Duration.TotalMinutes;
         [DataMember]
@@ -24,10 +27,11 @@ namespace GYMLog.BL.Model
         [DataMember]
         public int Sets { get; set; }
         [DataMember]
-        public List<(double,int)> SetsParams { get; set; }
-        public object Iterations { get; set; }
+        public List<ExerciseParams> ExerciseParams { get; set; }
 
-        public WorkoutExercise(string name,string category,int sets, params (double,int)[] setsParams)
+
+
+        public WorkoutExercise(string name,string category,int sets, List<ExerciseParams> exerciseParams)
             :base(name, category)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -45,21 +49,21 @@ namespace GYMLog.BL.Model
                 throw new ArgumentException("Подходы не могут быть меньше или равны 0!", nameof(sets));
             }           
 
-            if (setsParams.Length == 0)
+            if (exerciseParams.Count == 0)
             {
-                throw new ArgumentException("Количество повторений не может быть пустым!", nameof(setsParams));
+                throw new ArgumentException("Количество повторений не может быть пустым!", nameof(exerciseParams));
             }
 
-            for (var i = 0; i < setsParams.Length; i++)
+            for (var i = 0; i < exerciseParams.Count; i++)
             {
-                if(setsParams[i].Item1 < 0.0 || setsParams[i].Item2 <= 0)
+                if(exerciseParams[i].Weight < 0.0 || exerciseParams[i].Iterations < 0)
                 {
-                    throw new ArgumentException("Ошибка параметров веса или количества повторений", nameof(setsParams));
+                    throw new ArgumentException("Ошибка параметров веса или количества повторений", nameof(exerciseParams));
                 }
             }
 
             Sets = sets;
-            SetsParams = setsParams.ToList();
+            ExerciseParams = exerciseParams;
         }
 
         [JsonConstructor]
@@ -69,6 +73,7 @@ namespace GYMLog.BL.Model
 
         }
 
+        public WorkoutExercise() { }
 
         public override string ToString()
         {
