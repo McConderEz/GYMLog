@@ -35,7 +35,6 @@ namespace GYMLog.BL.Controller
                 CurrentExercise = new WorkoutExercise(name, category);
                 Exercises.Add(CurrentExercise);
                 IsNewExercise = true;
-                Save();
             }
 
         }

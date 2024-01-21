@@ -17,9 +17,13 @@ namespace GYMLog.BL.Model
         [DataMember]
         public int Id { get; set; }
         [DataMember]
-        public Food Food { get; set; }
+        public int FoodId { get; set; } 
+        [DataMember]
+        public virtual Food Food { get; set; }
         [DataMember]
         public double Weight { get; set; }
+        public int EatingId { get; set; }
+        public virtual Eating Eating { get; set; }
 
         [Newtonsoft.Json.JsonConstructor]
         public WeightedFood(Food food, double weight)

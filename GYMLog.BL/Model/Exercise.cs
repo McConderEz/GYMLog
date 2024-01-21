@@ -16,15 +16,12 @@ namespace GYMLog.BL.Model
     public class Exercise
     {
         [DataMember]
-        public int Id { get; set; }
+        public string Name { get; set; }
         [DataMember]
-        public string Name { get; }
-        [DataMember]
-        public string Category { get; }
+        public string Category { get; set; }
         [DataMember]
         public string Description { get; set; }
-
- 
+        
         
         public Exercise(string name,string category,string description)
         {

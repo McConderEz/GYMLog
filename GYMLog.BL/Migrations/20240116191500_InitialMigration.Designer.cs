@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GYMLog.BL.Migrations
 {
     [DbContext(typeof(FitnessContext))]
-    [Migration("20240114133900_InitialMigration")]
+    [Migration("20240116191500_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -33,40 +33,22 @@ namespace GYMLog.BL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("FoodId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Moment")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FoodId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Eatings");
-                });
-
-            modelBuilder.Entity("GYMLog.BL.Model.Exercise", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("nvarchar(21)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Exercises");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Exercise");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("GYMLog.BL.Model.ExerciseParams", b =>
@@ -83,7 +65,7 @@ namespace GYMLog.BL.Migrations
                     b.Property<double>("Weight")
                         .HasColumnType("float");
 
-                    b.Property<int?>("WorkoutExerciseId")
+                    b.Property<int>("WorkoutExerciseId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -101,6 +83,22 @@ namespace GYMLog.BL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<double>("Calories")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Carbohydrates")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Fats")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Proteins")
+                        .HasColumnType("float");
+
                     b.HasKey("Id");
 
                     b.ToTable("Foods");
@@ -113,6 +111,10 @@ namespace GYMLog.BL.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -130,11 +132,19 @@ namespace GYMLog.BL.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("GenderId")
+                    b.Property<int?>("GenderId")
                         .HasColumnType("int");
 
                     b.Property<double>("Height")
                         .HasColumnType("float");
+
+                    b.Property<string>("Login")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Weight")
                         .HasColumnType("float");
@@ -154,7 +164,7 @@ namespace GYMLog.BL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("EatingId")
+                    b.Property<int>("EatingId")
                         .HasColumnType("int");
 
                     b.Property<int>("FoodId")
@@ -170,6 +180,48 @@ namespace GYMLog.BL.Migrations
                     b.HasIndex("FoodId");
 
                     b.ToTable("WeightedFoods");
+                });
+
+            modelBuilder.Entity("GYMLog.BL.Model.WorkoutExercise", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeSpan>("Duration")
+                        .HasColumnType("time");
+
+                    b.Property<int>("Intensity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Sets")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkoutPlanId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WorkoutPlanId");
+
+                    b.ToTable("Workouts");
                 });
 
             modelBuilder.Entity("GYMLog.BL.Model.WorkoutPlan", b =>
@@ -198,59 +250,46 @@ namespace GYMLog.BL.Migrations
                     b.ToTable("WorkoutPlans");
                 });
 
-            modelBuilder.Entity("GYMLog.BL.Model.WorkoutExercise", b =>
-                {
-                    b.HasBaseType("GYMLog.BL.Model.Exercise");
-
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("time");
-
-                    b.Property<int>("ExerciseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Sets")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("WorkoutPlanId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("WorkoutPlanId");
-
-                    b.HasDiscriminator().HasValue("WorkoutExercise");
-                });
-
             modelBuilder.Entity("GYMLog.BL.Model.Eating", b =>
                 {
-                    b.HasOne("GYMLog.BL.Model.User", null)
+                    b.HasOne("GYMLog.BL.Model.Food", null)
+                        .WithMany("Eatings")
+                        .HasForeignKey("FoodId");
+
+                    b.HasOne("GYMLog.BL.Model.User", "User")
                         .WithMany("Eatings")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("GYMLog.BL.Model.ExerciseParams", b =>
                 {
                     b.HasOne("GYMLog.BL.Model.WorkoutExercise", null)
                         .WithMany("ExerciseParams")
-                        .HasForeignKey("WorkoutExerciseId");
+                        .HasForeignKey("WorkoutExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("GYMLog.BL.Model.User", b =>
                 {
                     b.HasOne("GYMLog.BL.Model.Gender", "Gender")
-                        .WithMany()
-                        .HasForeignKey("GenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Users")
+                        .HasForeignKey("GenderId");
 
                     b.Navigation("Gender");
                 });
 
             modelBuilder.Entity("GYMLog.BL.Model.WeightedFood", b =>
                 {
-                    b.HasOne("GYMLog.BL.Model.Eating", null)
+                    b.HasOne("GYMLog.BL.Model.Eating", "Eating")
                         .WithMany("Foods")
-                        .HasForeignKey("EatingId");
+                        .HasForeignKey("EatingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("GYMLog.BL.Model.Food", "Food")
                         .WithMany()
@@ -258,7 +297,18 @@ namespace GYMLog.BL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Eating");
+
                     b.Navigation("Food");
+                });
+
+            modelBuilder.Entity("GYMLog.BL.Model.WorkoutExercise", b =>
+                {
+                    b.HasOne("GYMLog.BL.Model.WorkoutPlan", null)
+                        .WithMany("ExerciseList")
+                        .HasForeignKey("WorkoutPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("GYMLog.BL.Model.WorkoutPlan", b =>
@@ -270,16 +320,19 @@ namespace GYMLog.BL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GYMLog.BL.Model.WorkoutExercise", b =>
-                {
-                    b.HasOne("GYMLog.BL.Model.WorkoutPlan", null)
-                        .WithMany("ExerciseList")
-                        .HasForeignKey("WorkoutPlanId");
-                });
-
             modelBuilder.Entity("GYMLog.BL.Model.Eating", b =>
                 {
                     b.Navigation("Foods");
+                });
+
+            modelBuilder.Entity("GYMLog.BL.Model.Food", b =>
+                {
+                    b.Navigation("Eatings");
+                });
+
+            modelBuilder.Entity("GYMLog.BL.Model.Gender", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("GYMLog.BL.Model.User", b =>
@@ -289,14 +342,14 @@ namespace GYMLog.BL.Migrations
                     b.Navigation("WorkoutPlans");
                 });
 
-            modelBuilder.Entity("GYMLog.BL.Model.WorkoutPlan", b =>
-                {
-                    b.Navigation("ExerciseList");
-                });
-
             modelBuilder.Entity("GYMLog.BL.Model.WorkoutExercise", b =>
                 {
                     b.Navigation("ExerciseParams");
+                });
+
+            modelBuilder.Entity("GYMLog.BL.Model.WorkoutPlan", b =>
+                {
+                    b.Navigation("ExerciseList");
                 });
 #pragma warning restore 612, 618
         }

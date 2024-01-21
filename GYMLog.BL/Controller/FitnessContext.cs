@@ -12,9 +12,10 @@ namespace GYMLog.BL.Controller
     {
         //TODO:Протестировать создание дб
         //TODO:Протестировать сохранение и загрузку данных из дб
-        const string CONNECTION_STRING = "data source=(localdb)\\MSSQLLocalDB;Initial Catalog=fitnessDb;Integrated Security=True;\" providerName=\"System.Data.SqlClient\"";
+        const string CONNECTION_STRING = "data source=(localdb)\\MSSQLLocalDB;Initial Catalog=fitnessDb;Integrated Security=True;";
 
-        public FitnessContext() { }
+
+        public FitnessContext() => Database.EnsureCreated();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -22,7 +23,7 @@ namespace GYMLog.BL.Controller
         }
 
         public DbSet<Eating> Eatings { get; set; }
-        public DbSet<Exercise> Exercises { get; set; }
+        //public DbSet<Exercise> Exercises { get; set; }
         public DbSet<WorkoutExercise> Workouts { get; set; }
         public DbSet<ExerciseParams> ExerciseParams { get; set; }
         public DbSet<WorkoutPlan> WorkoutPlans { get; set; }

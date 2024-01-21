@@ -16,7 +16,12 @@ namespace GYMLog.BL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Proteins = table.Column<double>(type: "float", nullable: false),
+                    Fats = table.Column<double>(type: "float", nullable: false),
+                    Carbohydrates = table.Column<double>(type: "float", nullable: false),
+                    Calories = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,7 +33,8 @@ namespace GYMLog.BL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,7 +47,9 @@ namespace GYMLog.BL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    GenderId = table.Column<int>(type: "int", nullable: false),
+                    GenderId = table.Column<int>(type: "int", nullable: true),
+                    Login = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Weight = table.Column<double>(type: "float", nullable: false),
                     Height = table.Column<double>(type: "float", nullable: false)
@@ -53,8 +61,7 @@ namespace GYMLog.BL.Migrations
                         name: "FK_Users_Genders_GenderId",
                         column: x => x.GenderId,
                         principalTable: "Genders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -63,11 +70,18 @@ namespace GYMLog.BL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    Moment = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    FoodId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Eatings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Eatings_Foods_FoodId",
+                        column: x => x.FoodId,
+                        principalTable: "Foods",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Eatings_Users_UserId",
                         column: x => x.UserId,
@@ -105,7 +119,7 @@ namespace GYMLog.BL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FoodId = table.Column<int>(type: "int", nullable: false),
                     Weight = table.Column<double>(type: "float", nullable: false),
-                    EatingId = table.Column<int>(type: "int", nullable: true)
+                    EatingId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,7 +128,8 @@ namespace GYMLog.BL.Migrations
                         name: "FK_WeightedFoods_Eatings_EatingId",
                         column: x => x.EatingId,
                         principalTable: "Eatings",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_WeightedFoods_Foods_FoodId",
                         column: x => x.FoodId,
@@ -124,26 +139,29 @@ namespace GYMLog.BL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Exercises",
+                name: "Workouts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false),
-                    ExerciseId = table.Column<int>(type: "int", nullable: true),
-                    Duration = table.Column<TimeSpan>(type: "time", nullable: true),
-                    Sets = table.Column<int>(type: "int", nullable: true),
-                    WorkoutPlanId = table.Column<int>(type: "int", nullable: true)
+                    WorkoutPlanId = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Duration = table.Column<TimeSpan>(type: "time", nullable: false),
+                    Intensity = table.Column<int>(type: "int", nullable: false),
+                    Sets = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Exercises", x => x.Id);
+                    table.PrimaryKey("PK_Workouts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Exercises_WorkoutPlans_WorkoutPlanId",
+                        name: "FK_Workouts_WorkoutPlans_WorkoutPlanId",
                         column: x => x.WorkoutPlanId,
                         principalTable: "WorkoutPlans",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -154,17 +172,23 @@ namespace GYMLog.BL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Iterations = table.Column<int>(type: "int", nullable: false),
                     Weight = table.Column<double>(type: "float", nullable: false),
-                    WorkoutExerciseId = table.Column<int>(type: "int", nullable: true)
+                    WorkoutExerciseId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ExerciseParams", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ExerciseParams_Exercises_WorkoutExerciseId",
+                        name: "FK_ExerciseParams_Workouts_WorkoutExerciseId",
                         column: x => x.WorkoutExerciseId,
-                        principalTable: "Exercises",
-                        principalColumn: "Id");
+                        principalTable: "Workouts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Eatings_FoodId",
+                table: "Eatings",
+                column: "FoodId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Eatings_UserId",
@@ -175,11 +199,6 @@ namespace GYMLog.BL.Migrations
                 name: "IX_ExerciseParams_WorkoutExerciseId",
                 table: "ExerciseParams",
                 column: "WorkoutExerciseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Exercises_WorkoutPlanId",
-                table: "Exercises",
-                column: "WorkoutPlanId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_GenderId",
@@ -200,6 +219,11 @@ namespace GYMLog.BL.Migrations
                 name: "IX_WorkoutPlans_UserId",
                 table: "WorkoutPlans",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Workouts_WorkoutPlanId",
+                table: "Workouts",
+                column: "WorkoutPlanId");
         }
 
         /// <inheritdoc />
@@ -212,16 +236,16 @@ namespace GYMLog.BL.Migrations
                 name: "WeightedFoods");
 
             migrationBuilder.DropTable(
-                name: "Exercises");
+                name: "Workouts");
 
             migrationBuilder.DropTable(
                 name: "Eatings");
 
             migrationBuilder.DropTable(
-                name: "Foods");
+                name: "WorkoutPlans");
 
             migrationBuilder.DropTable(
-                name: "WorkoutPlans");
+                name: "Foods");
 
             migrationBuilder.DropTable(
                 name: "Users");

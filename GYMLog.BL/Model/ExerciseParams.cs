@@ -21,6 +21,8 @@ namespace GYMLog.BL.Model
         public int Iterations { get; set; }
         [DataMember]
         public double Weight { get; set; }
+        public int WorkoutExerciseId { get; set; }
+        public virtual WorkoutExercise WorkoutExercise { get; set; }
 
         [Newtonsoft.Json.JsonConstructor]
         public ExerciseParams(int iterations, double weight)

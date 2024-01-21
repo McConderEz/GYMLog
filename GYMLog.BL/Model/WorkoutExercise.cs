@@ -18,19 +18,19 @@ namespace GYMLog.BL.Model
         [DataMember]
         public int Id { get; set; }
         [DataMember]
-        public int ExerciseId { get; set; }
+        public int WorkoutPlanId { get; set; }
         [DataMember]
         public double CaloriesBurned => 10.0 * Duration.TotalMinutes;
         [DataMember]
-        public DateTime Date { get; }
+        public DateTime Date { get; set; }
         [DataMember]
         public TimeSpan Duration { get; set; }
         [DataMember]
-        public int Intensity { get; }
+        public int Intensity { get; set; }
         [DataMember]
         public int Sets { get; set; }
         [DataMember]
-        public List<ExerciseParams> ExerciseParams { get; set; }
+        public ICollection<ExerciseParams> ExerciseParams { get; set; }
 
 
 

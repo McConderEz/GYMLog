@@ -43,8 +43,8 @@ namespace GYMLog.BL.Controller.Tests
             Assert.AreEqual(sets, controller2.CurrentExercise.Sets);
             for (var i = 0; i < sets; i++)
             {
-                Assert.AreEqual(exerciseParams[i].Iterations, controller2.CurrentExercise.ExerciseParams[i].Iterations);
-                Assert.AreEqual(exerciseParams[i].Weight, controller2.CurrentExercise.ExerciseParams[i].Weight);
+                Assert.AreEqual(exerciseParams[i].Iterations, controller2.CurrentExercise.ExerciseParams.ElementAt(i).Iterations);
+                Assert.AreEqual(exerciseParams[i].Weight, controller2.CurrentExercise.ExerciseParams.ElementAt(i).Weight);
             }
 
         }

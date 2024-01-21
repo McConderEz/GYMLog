@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -19,18 +21,19 @@ namespace GYMLog.BL.Model
         [DataMember]
         public int Id { get; set; }
         [DataMember]
-        public string Login { get; }
+        public string Login { get; set; }
         [DataMember]
-        public string Password { get; }
+        public string Password { get; set; }
         [DataMember]
-        public Gender Gender { get; set; }
+        public int? GenderId { get; set; }
+        [DataMember]
+        public virtual Gender Gender { get; set; }
         [DataMember]
         public DateTime BirthDate { get; set; }
         [DataMember]
         public double Weight { get; set; }
         [DataMember]
         public double Height { get; set; }
-
         [DataMember]
         public virtual ICollection<WorkoutPlan> WorkoutPlans { get; set; }
         [DataMember]

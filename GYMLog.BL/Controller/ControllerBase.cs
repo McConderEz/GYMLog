@@ -12,7 +12,7 @@ namespace GYMLog.BL.Controller
 {
     public abstract class ControllerBase
     {
-        private readonly IDataSaver manager = new SerializableSaver();
+        private readonly IDataSaver manager = new DatabaseSaver();
 
         protected void Save<T>(List<T> item) where T : class
         {

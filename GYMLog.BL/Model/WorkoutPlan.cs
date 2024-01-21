@@ -70,10 +70,14 @@ namespace GYMLog.BL.Model
             else
             {
                 existingExercise.Sets += exercise.Sets;
-                existingExercise.ExerciseParams.AddRange(exercise.ExerciseParams);
+                for(var i = 0;i < exercise.ExerciseParams.Count;i++)
+                {
+                    existingExercise.ExerciseParams.Add(exercise.ExerciseParams.ElementAt(i));
+                }
             }
 
         }
+
 
         public override string ToString()
         {

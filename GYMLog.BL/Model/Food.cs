@@ -17,30 +17,30 @@ namespace GYMLog.BL.Model
         [DataMember]
         public int Id { get; set; }
         [DataMember]
-        public string Name { get; }
+        public string Name { get; set; }
         /// <summary>
         /// Белки
         /// </summary>
         [DataMember]
-        public double Proteins { get; }
+        public double Proteins { get; set; }
 
         /// <summary>
         /// Жиры
         /// </summary>
         [DataMember]
-        public double Fats { get; }
+        public double Fats { get; set; }
 
         /// <summary>
         /// Углеводы
         /// </summary>
         [DataMember]
-        public double Carbohydrates { get; }
+        public double Carbohydrates { get; set; }
 
         /// <summary>
         /// Калории за 100 грамм продукта
         /// </summary>
         [DataMember]
-        public double Calories { get; }
+        public double Calories { get; set; }
 
         /// <summary>
         /// Калории за 1 грамм продукта
@@ -54,7 +54,7 @@ namespace GYMLog.BL.Model
         [DataMember]
         private double CarbohydratesOneGramm { get => Carbohydrates / 100.0; }
 
-
+        public virtual ICollection<Eating> Eatings { get; set; }
         
         public Food(string name) : this(name, 0, 0, 0, 0) { }
 

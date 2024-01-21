@@ -22,7 +22,9 @@ namespace GYMLog.BL.Model
         /// Название.
         /// </summary>
         [DataMember]
-        public string Name { get; }
+        public string Name { get; set; }
+
+        public virtual ICollection<User> Users { get; set; }
 
         /// <summary>
         /// Создать новый пол.

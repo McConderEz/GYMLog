@@ -5,6 +5,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Resources;
 
+
+
+
+
 var culture = CultureInfo.CreateSpecificCulture("en-us");
 var resourceManager = new ResourceManager("GYMLog.CMD.Languages.Messages", typeof(Program).Assembly);
 
@@ -35,7 +39,7 @@ if (userController.IsNewUser)
 
     var height = ParseDouble(resourceManager.GetString("HeightRequest", culture));
 
-    userController.SetNewUserData(genderName, birthdate, weight);
+    userController.SetNewUserData(genderName, birthdate, weight,height);
 }
 
 Console.WriteLine(userController.CurrentUser);

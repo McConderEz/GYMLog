@@ -14,7 +14,7 @@ namespace GYMLog.BL.Controller
     public class UserController: ControllerBase
     {
         public List<User> Users { get; }
-        public User CurrentUser { get; set; }
+        public User CurrentUser { get; }
         public bool IsNewUser { get; } = false;
 
         public UserController(string login, string password)
@@ -38,7 +38,6 @@ namespace GYMLog.BL.Controller
                 CurrentUser = new User(login,password);
                 Users.Add(CurrentUser);
                 IsNewUser = true;
-                Save();
             }
 
         }
@@ -87,7 +86,8 @@ namespace GYMLog.BL.Controller
         /// </summary>
         public void Save()
         {
-            Save(Users);
+            var _Users = Users.Where(x => x.Id == 0).ToList();
+            Save(_Users);
         }
       
     }

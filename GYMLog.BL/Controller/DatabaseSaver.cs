@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace GYMLog.BL.Controller
 {
     public class DatabaseSaver: IDataSaver
     {
+        //TODO:Написать CRUDы
         public List<T> Load<T>() where T : class
         {
             using (var db = new FitnessContext())

@@ -47,7 +47,7 @@ namespace GYMLog.BL.Controller.Tests
             controllerExercises.SetNewExerciseData("test", 3,exerciseParams);
 
 
-            controller.Add(controllerExercises.CurrentExercise, controllerExercises.CurrentExercise.Sets, controllerExercises.CurrentExercise.ExerciseParams);
+            controller.Add(controllerExercises.CurrentExercise, controllerExercises.CurrentExercise.Sets, controllerExercises.CurrentExercise.ExerciseParams.ToList());
 
             var controller2 = new WorkoutPlanController(controllerUser.CurrentUser);
 
@@ -58,7 +58,7 @@ namespace GYMLog.BL.Controller.Tests
                 Assert.AreEqual(controller.WorkoutPlan.ExerciseList.ElementAt(i).Category, controller2.WorkoutPlan.ExerciseList.ElementAt(i).Category);
                 Assert.AreEqual(controller.WorkoutPlan.ExerciseList.ElementAt(i).Description, controller2.WorkoutPlan.ExerciseList.ElementAt(i).Description);
                 Assert.AreEqual(controller.WorkoutPlan.ExerciseList.ElementAt(i).Sets, controller2.WorkoutPlan.ExerciseList.ElementAt(i).Sets);
-                Assert.AreEqual(controller.WorkoutPlan.ExerciseList.ElementAt(i).ExerciseParams[i].Weight, controller2.WorkoutPlan.ExerciseList.ElementAt(i).ExerciseParams[i].Weight);
+                Assert.AreEqual(controller.WorkoutPlan.ExerciseList.ElementAt(i).ExerciseParams.ElementAt(i).Weight, controller2.WorkoutPlan.ExerciseList.ElementAt(i).ExerciseParams.ElementAt(i).Weight);
             }
 
 

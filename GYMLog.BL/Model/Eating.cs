@@ -23,16 +23,16 @@ namespace GYMLog.BL.Model
         public int Id { get; set; }
 
         [DataMember]
-        public DateTime Moment { get; }
+        public DateTime Moment { get; set; }
 
         [DataMember]
-        public List<WeightedFood> Foods { get; set; }
+        public ICollection<WeightedFood> Foods { get; set; }
 
         [DataMember]
         public int UserId { get; set; }
 
         [DataMember]
-        public virtual User User { get; }
+        public virtual User User { get; set; }
 
         [Newtonsoft.Json.JsonConstructor]
         public Eating(User user)
