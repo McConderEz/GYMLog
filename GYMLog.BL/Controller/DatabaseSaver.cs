@@ -19,11 +19,25 @@ namespace GYMLog.BL.Controller
             }
         }
 
-        public void Save<T>(List<T> item) where T : class
+        public void Save<T>(List<T> items) where T : class
         {
             using (var db = new FitnessContext())
             {
-                db.Set<T>().AddRange(item);
+                foreach(var item in items)
+                {
+                    var entry = db.Entry(item);
+
+                    if(entry.State == EntityState.Detached)
+                    {
+                        db.Set<T>().Add(item);
+                    }
+                    else
+                    {
+                        entry.State = EntityState.Modified;
+                        db.Set<T>().Update(item);
+                    }
+                }
+                //db.Set<T>().AddRange(items);                
                 db.SaveChanges();
             }
         }
