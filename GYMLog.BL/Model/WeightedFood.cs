@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -14,6 +15,7 @@ namespace GYMLog.BL.Model
     [JsonObject]
     public class WeightedFood
     {
+        [Key]
         [DataMember]
         public int Id { get; set; }
         [DataMember]

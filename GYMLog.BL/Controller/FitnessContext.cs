@@ -13,7 +13,11 @@ namespace GYMLog.BL.Controller
         const string CONNECTION_STRING = "data source=(localdb)\\MSSQLLocalDB;Initial Catalog=fitnessDb;Integrated Security=True;";
         readonly StreamWriter logStream = new StreamWriter("log.txt", true);
 
-        public FitnessContext() => Database.EnsureCreated();
+        public FitnessContext()
+        {
+            //Database.EnsureDeleted();
+            Database.EnsureCreated();
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

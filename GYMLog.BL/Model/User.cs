@@ -18,6 +18,7 @@ namespace GYMLog.BL.Model
     public class User
     {
         #region Свойства
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [DataMember]
         public int Id { get; set; }
         [DataMember]
