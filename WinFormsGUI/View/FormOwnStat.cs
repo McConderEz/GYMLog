@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WFGUI.View
+namespace WinFormsGUI.View
 {
-    public partial class MainForm : Form
+    public partial class FormOwnStat : Form
     {
-        public MainForm()
+        public FormOwnStat()
         {
             InitializeComponent();
         }

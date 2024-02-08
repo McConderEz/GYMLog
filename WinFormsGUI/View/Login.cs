@@ -83,8 +83,9 @@ namespace WinFormsGUI
                 _userController = new UserController(login, password);
                 if(_userController.CurrentUser != null)
                 {
-                    // TODO: Сделать переход в приложение
-                    MessageBox.Show("Вы успешно вошли");
+                    MainForm mainForm = new MainForm();
+                    mainForm.Show();
+                    this.Hide();
                 }
                 else
                 {

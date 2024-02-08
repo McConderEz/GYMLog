@@ -12,11 +12,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GYMLog.WPF", "GYMLog.WPF\GYMLog.WPF.csproj", "{902E395A-C7A5-4D24-8163-5ED1BB35F996}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GYMLog.BLTests", "GYMLog.BLTests\GYMLog.BLTests.csproj", "{3E9E87D7-17F6-44AB-8E04-102CF7D4D1BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsGUI", "WinFormsGUI\WinFormsGUI.csproj", "{422EDB63-D7B7-4F00-BB78-3F342870028D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsGUI", "WinFormsGUI\WinFormsGUI.csproj", "{422EDB63-D7B7-4F00-BB78-3F342870028D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,10 +30,6 @@ Global
 		{6EEFC4CE-D2CD-45B6-ADAF-BF2BD977740F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EEFC4CE-D2CD-45B6-ADAF-BF2BD977740F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EEFC4CE-D2CD-45B6-ADAF-BF2BD977740F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{902E395A-C7A5-4D24-8163-5ED1BB35F996}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{902E395A-C7A5-4D24-8163-5ED1BB35F996}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{902E395A-C7A5-4D24-8163-5ED1BB35F996}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{902E395A-C7A5-4D24-8163-5ED1BB35F996}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3E9E87D7-17F6-44AB-8E04-102CF7D4D1BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3E9E87D7-17F6-44AB-8E04-102CF7D4D1BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E9E87D7-17F6-44AB-8E04-102CF7D4D1BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
