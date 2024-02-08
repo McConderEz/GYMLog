@@ -14,8 +14,8 @@ namespace GYMLog.BL.Controller
     public class UserController: ControllerBase
     {
         public List<User> Users { get; }
-        public User CurrentUser { get; }
-        public bool IsNewUser { get; } = false;
+        public User CurrentUser { get; private set; }
+        public bool IsNewUser { get; private set; } = false;
 
         public UserController(string login, string password)
         {
@@ -24,7 +24,7 @@ namespace GYMLog.BL.Controller
                 throw new ArgumentNullException(nameof(login), "Имя пользователя не может быть пустым");
             }
 
-            if(string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrWhiteSpace(password))
             {
                 throw new ArgumentNullException(nameof(password), "Пароль не может быть пустым");
             }
@@ -33,13 +33,23 @@ namespace GYMLog.BL.Controller
 
             CurrentUser = Users.SingleOrDefault(u => u.Login == login && u.Password == password);
 
-            if(CurrentUser == null)
+        }
+
+        public void RegisterNewUser(string login, string password)
+        {
+            if (CurrentUser == null)
             {
-                CurrentUser = new User(login,password);
+                CurrentUser = new User(login, password);
                 Users.Add(CurrentUser);
                 IsNewUser = true;
             }
+        }
 
+        public bool CheckFreeUserName(string login)
+        {
+            var user = Users.SingleOrDefault(x => x.Login.Equals(login));
+
+            return user == null ? true : false;
         }
 
         /// <summary>

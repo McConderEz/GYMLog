@@ -12,6 +12,20 @@ namespace WFGUI.View
 {
     public partial class SignUp : Form
     {
+
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == 0x84)
+            {
+                base.WndProc(ref m);
+                if ((int)m.Result == 0x1)
+                    m.Result = (IntPtr)0x2;
+                return;
+            }
+
+            base.WndProc(ref m);
+        }
+
         public SignUp()
         {
             InitializeComponent();
@@ -19,7 +33,9 @@ namespace WFGUI.View
 
         private void signUpLabel_Click(object sender, EventArgs e)
         {
-            // TODO: Сделать переход в окно авторизации
+            Login login = new Login();
+            login.Show();
+            this.Close();
         }
 
         private void signUpLabel_MouseLeave(object sender, EventArgs e)

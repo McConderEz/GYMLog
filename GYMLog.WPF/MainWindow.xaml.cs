@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using GYMLog.BL.Controller;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,6 +17,8 @@ namespace GYMLog.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        private UserController _userController;
+
         public MainWindow()
         {
             InitializeComponent();

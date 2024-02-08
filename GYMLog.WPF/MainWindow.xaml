@@ -64,6 +64,11 @@
         <Grid Name="LogoContainer" Background="Transparent" Grid.Row="1" MouseDown="LogoContainer_MouseDown">
             <Image Height="150" Source="C:\Users\rusta\source\repos\GYMLog\GYMLog.WPF\Source\Лого2.png" />
         </Grid>
+        <StackPanel/>
+        <TextBlock Text="LOG IN" FontWeight="Light" FontFamily="helvetica"
+                       FontSize="22" Foreground="White" Margin="152,24,136,250" Grid.Row="2"/>
+        
+        
         
 
     </Grid>

@@ -82,6 +82,9 @@
             this.hideButton.Size = new System.Drawing.Size(30, 24);
             this.hideButton.TabIndex = 19;
             this.hideButton.Text = "__";
+            this.hideButton.Click += new System.EventHandler(this.hideButton_Click_1);
+            this.hideButton.MouseLeave += new System.EventHandler(this.hideButton_MouseLeave_1);
+            this.hideButton.MouseMove += new System.Windows.Forms.MouseEventHandler(this.hideButton_MouseMove_1);
             // 
             // exitButton
             // 
@@ -205,6 +208,7 @@
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
+            this.Load += new System.EventHandler(this.Login_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
