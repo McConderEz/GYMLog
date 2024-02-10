@@ -96,9 +96,8 @@ namespace GYMLog.BL.Controller
         /// </summary>
         public void Save()
         {
-            //var _Users = Users.Where(x => x.Id == 0).ToList();
             Save(Users);
         }
-      
+
     }
 }

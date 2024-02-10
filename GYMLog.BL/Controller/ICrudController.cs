@@ -10,6 +10,6 @@ namespace GYMLog.BL.Controller
     {
         void Add(T item);
         void Update(T item);
-        void Delete(T item);
+        void Delete(int index);
     }
 }

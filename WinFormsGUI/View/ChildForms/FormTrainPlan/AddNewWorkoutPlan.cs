@@ -17,7 +17,6 @@ namespace WinFormsGUI.View.ChildForms.FormTrainPlan
 
         private WorkoutPlanController _workoutPlanController;
 
-        public event EventHandler<EventArgs> WorkoutPlanChanged;
 
 
         protected override void WndProc(ref Message m)
@@ -64,7 +63,7 @@ namespace WinFormsGUI.View.ChildForms.FormTrainPlan
             {
                 WorkoutPlan plan = new WorkoutPlan(planName, description);
                 _workoutPlanController.Add(plan);
-                MessageBox.Show("Запись успешно добавлена!");
+                MessageBox.Show("Запись успешно добавлена!");               
                 this.Dispose();
             }
             else

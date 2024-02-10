@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Forms;
 using WinFormsGUI.Helper;
 using WinFormsGUI.View.ChildForms.FormTrainPlan;
@@ -16,6 +17,7 @@ namespace WinFormsGUI.View
 {
     public partial class FormTrainPlan : Form
     {
+        //TODO: Добавить составную форму связи, WorkoutPlan в одной dgv и WorkoutExercise в другой dgv
         private UserController _userController;
         private WorkoutPlanController _workoutPlanController;
         public FormTrainPlan(UserController userController)
@@ -23,9 +25,12 @@ namespace WinFormsGUI.View
             InitializeComponent();
             _userController = userController;
             _workoutPlanController = new WorkoutPlanController(_userController.CurrentUser);
+            _workoutPlanController.WorkoutPlanChanged += RefreshUserController;
+            _workoutPlanController.WorkoutPlanChanged += RefreshDataGridView;
             LoadData();
         }
 
+        //TODO: Сделать обновление dataGridView после изменение данных
         private void LoadData()
         {
             DataGridViewTextBoxColumn column = new DataGridViewTextBoxColumn();
@@ -63,16 +68,34 @@ namespace WinFormsGUI.View
             addNewWorkoutPlan.Show();            
         }
 
+        private void RefreshUserController(object? sender, EventArgs e)
+        {
+            var user = _userController.CurrentUser;
+            _userController = new UserController(user.Login, user.Password);
+        }
+
+        private void RefreshDataGridView(object? sender, EventArgs e)
+        {
+            trainPlanDataGridView.DataBindings.Clear();
+            trainPlanDataGridView.DataSource = _userController.CurrentUser.WorkoutPlans
+                                                              .Select(x => new { PlanName = x.PlanName }).ToList();
+        }
+
         private void deletePlanButton_Click(object sender, EventArgs e)
         {
-            WorkoutPlan plan = trainPlanDataGridView.SelectedRows[0].DataBoundItem as WorkoutPlan;
-
-            if(plan != null)
+            try
             {
-                _workoutPlanController.Delete(plan);
-                LoadData();
-            }
+                int? index = trainPlanDataGridView.SelectedRows[0].Index;
 
+                if (index != null)
+                {
+                    _workoutPlanController.Delete((int)index);
+                }
+            }
+            catch(ArgumentNullException ex)
+            {
+                MessageBox.Show("Вы не выбрали значение!");
+            }
         }
     }
 }

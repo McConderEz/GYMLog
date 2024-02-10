@@ -15,18 +15,21 @@ namespace GYMLog.BL.Controller
 
     public class WorkoutPlanController:ControllerBase, ICrudController<WorkoutPlan>
     {
-        private readonly User user;    
+        private User _user;
+        private UserController _userController;
         public List<Exercise> Exercises { get; }
         public WorkoutPlan WorkoutPlan { get; set; }
-        private UserController _userController;
 
         public bool IsNewWorkoutPlan { get;} = false;
 
+        public event EventHandler WorkoutPlanChanged;
+
+        //TODO: Переписать модель WorkoutPlanController
 
         public WorkoutPlanController(User user) 
         {
-            this.user = user ?? throw new ArgumentNullException("Пользователь не может быть пустым!", nameof(user));
-            _userController = new UserController(user.Login, user.Password);
+            this._user = user ?? throw new ArgumentNullException("Пользователь не может быть пустым!", nameof(user));
+            _userController = new UserController(_user.Login, _user.Password);
             Exercises = GetAllExercises();
             this.WorkoutPlan = GetWorkoutPlans();
         }
@@ -60,7 +63,7 @@ namespace GYMLog.BL.Controller
 
         private WorkoutPlan? GetWorkoutPlans()
         {
-            return Load<WorkoutPlan>().FirstOrDefault() ?? new WorkoutPlan(user);
+            return Load<WorkoutPlan>().FirstOrDefault() ?? new WorkoutPlan(_user);
         }
 
         private List<Exercise>? GetAllExercises()
@@ -78,9 +81,10 @@ namespace GYMLog.BL.Controller
         public void Add(WorkoutPlan item)
         {
             WorkoutPlan = item;
-            _userController.CurrentUser.WorkoutPlans.Add(WorkoutPlan);
+            _userController.CurrentUser.WorkoutPlans.Add(item);
             SetNewWorkoutPlanData(item.PlanName, item.Notes);
             _userController.Save();
+            WorkoutPlanChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void Update(WorkoutPlan item)
@@ -88,10 +92,13 @@ namespace GYMLog.BL.Controller
             throw new NotImplementedException();
         }
 
-        public void Delete(WorkoutPlan item)
+        public void Delete(int index)
         {
-            user.WorkoutPlans.Remove(item);
+            var item = _userController.CurrentUser.WorkoutPlans.ElementAt(index);
+            _userController.CurrentUser.WorkoutPlans.Remove(item);  
+            _userController.Save();
             Save();
+            WorkoutPlanChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }
