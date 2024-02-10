@@ -24,7 +24,7 @@ namespace GYMLog.BL.Controller
 
         public event EventHandler WorkoutPlanChanged;
 
-        //TODO: Переписать модель WorkoutPlanController
+        //TODO: Переписать модель WorkoutPlanController(когда-нибудь при необходимости)
 
         public WorkoutPlanController(User user) 
         {
@@ -87,9 +87,10 @@ namespace GYMLog.BL.Controller
             WorkoutPlanChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public void Update(WorkoutPlan item)
+        public void Update(int index)
         {
-            throw new NotImplementedException();
+            var item = _userController.CurrentUser.WorkoutPlans.ElementAt(index);
+            
         }
 
         public void Delete(int index)

@@ -27,11 +27,11 @@ namespace WinFormsGUI.View
             _workoutPlanController = new WorkoutPlanController(_userController.CurrentUser);
             _workoutPlanController.WorkoutPlanChanged += RefreshUserController;
             _workoutPlanController.WorkoutPlanChanged += RefreshDataGridView;
-            LoadData();
+            LoadDataWorkoutPlans();
         }
 
         //TODO: Сделать обновление dataGridView после изменение данных
-        private void LoadData()
+        private void LoadDataWorkoutPlans()
         {
             DataGridViewTextBoxColumn column = new DataGridViewTextBoxColumn();
             column.HeaderText = "Название плана";
@@ -65,7 +65,7 @@ namespace WinFormsGUI.View
         private void addPlanButton_Click(object sender, EventArgs e)
         {
             AddNewWorkoutPlan addNewWorkoutPlan = new AddNewWorkoutPlan(_workoutPlanController);
-            addNewWorkoutPlan.Show();            
+            addNewWorkoutPlan.Show();
         }
 
         private void RefreshUserController(object? sender, EventArgs e)
@@ -92,10 +92,97 @@ namespace WinFormsGUI.View
                     _workoutPlanController.Delete((int)index);
                 }
             }
-            catch(ArgumentNullException ex)
+            catch (ArgumentOutOfRangeException ex)
             {
                 MessageBox.Show("Вы не выбрали значение!");
             }
+        }
+
+        private void changeTrainPlan_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int? index = trainPlanDataGridView.SelectedRows[0].Index;
+
+                if (index != null)
+                {
+                    _workoutPlanController.Update((int)index);
+                }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                MessageBox.Show("Вы не выбрали значение!");
+            }
+        }
+
+        private void OutputExerciseButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int? index = trainPlanDataGridView.SelectedRows[0].Index;
+
+                if (index != null)
+                {
+                    LoadDataExercises((int)index);
+                }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                MessageBox.Show("Вы не выбрали значение!");
+            }
+        }
+
+        //TODO:Сделать обновление данных в dgv
+        private void LoadDataExercises(int index)
+        {
+
+            var item = _userController.CurrentUser.WorkoutPlans.ElementAt(index);
+            item.ExerciseList.Add(new WorkoutExercise
+            {
+                Name = "asdas",
+                Category = "asdada",
+                ExerciseParams = new List<ExerciseParams> { new ExerciseParams(4, 5) },
+                Sets = 1,
+                Intensity = 1,
+            });
+
+            #region Колонки
+            ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Name", HeaderText = "Название упр." });
+            ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Category", HeaderText = "Категория" });
+            ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "CaloriesBurned", HeaderText = "Калории" });
+            ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Date", HeaderText = "Дата" });
+            ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Duration", HeaderText = "Длительность" });
+            ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Intensity", HeaderText = "Интенсивность" });
+            ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Sets", HeaderText = "Количество подходов" });
+            ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Description", HeaderText = "Описание" });
+            #endregion
+
+            DataGridViewButtonColumn exerciseParamsColumn = new DataGridViewButtonColumn();
+            exerciseParamsColumn.HeaderText = "Повт./вес";
+            exerciseParamsColumn.Text = "View";
+            exerciseParamsColumn.UseColumnTextForButtonValue = true;
+            exerciseParamsColumn.Name = "ExerciseParams";
+            exerciseParamsColumn.FlatStyle = FlatStyle.Popup;
+
+            // Добавление столбца в DataGridView
+            ExerciseDataGridView.Columns.Add(exerciseParamsColumn);
+
+            // Обработчик события нажатия на кнопку для просмотра ExerciseParams
+            ExerciseDataGridView.CellContentClick += (sender, e) =>
+            {
+                if (e.ColumnIndex == ExerciseDataGridView.Columns["ExerciseParams"].Index && e.RowIndex >= 0)
+                {
+                    // Получение объекта WorkoutExercise из выбранной строки
+                    WorkoutExercise workoutExercise = ExerciseDataGridView.Rows[e.RowIndex].DataBoundItem as WorkoutExercise;
+
+                    // Отображение ExerciseParams в MessageBox
+                    string exerciseParamsText = string.Join(", ", workoutExercise.ExerciseParams.Select(ep => $"{ep.Iterations}, {ep.Weight}"));
+                    MessageBox.Show(exerciseParamsText, "Повт./вес");
+                }
+            };
+            ExerciseDataGridView.AutoGenerateColumns = false;
+            ExerciseDataGridView.DataSource = item.ExerciseList;
+                                                                                                                                                                                                                                
         }
     }
 }
