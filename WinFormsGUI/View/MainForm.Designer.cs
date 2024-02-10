@@ -59,7 +59,7 @@
             sideBar.Dock = DockStyle.Left;
             sideBar.Location = new Point(0, 0);
             sideBar.Name = "sideBar";
-            sideBar.Size = new Size(220, 505);
+            sideBar.Size = new Size(241, 601);
             sideBar.TabIndex = 0;
             // 
             // dietButton
@@ -72,7 +72,7 @@
             dietButton.ImageAlign = ContentAlignment.MiddleLeft;
             dietButton.Location = new Point(0, 320);
             dietButton.Name = "dietButton";
-            dietButton.Size = new Size(220, 60);
+            dietButton.Size = new Size(241, 60);
             dietButton.TabIndex = 6;
             dietButton.Text = "Питание";
             dietButton.UseVisualStyleBackColor = true;
@@ -88,7 +88,7 @@
             rateButton.ImageAlign = ContentAlignment.MiddleLeft;
             rateButton.Location = new Point(0, 260);
             rateButton.Name = "rateButton";
-            rateButton.Size = new Size(220, 60);
+            rateButton.Size = new Size(241, 60);
             rateButton.TabIndex = 5;
             rateButton.Text = "Рейтинг";
             rateButton.UseVisualStyleBackColor = true;
@@ -104,7 +104,7 @@
             trainPlanButton.ImageAlign = ContentAlignment.MiddleLeft;
             trainPlanButton.Location = new Point(0, 200);
             trainPlanButton.Name = "trainPlanButton";
-            trainPlanButton.Size = new Size(220, 60);
+            trainPlanButton.Size = new Size(241, 60);
             trainPlanButton.TabIndex = 4;
             trainPlanButton.Text = "План тренировки";
             trainPlanButton.UseVisualStyleBackColor = true;
@@ -120,7 +120,7 @@
             trainButton.ImageAlign = ContentAlignment.MiddleLeft;
             trainButton.Location = new Point(0, 140);
             trainButton.Name = "trainButton";
-            trainButton.Size = new Size(220, 60);
+            trainButton.Size = new Size(241, 60);
             trainButton.TabIndex = 3;
             trainButton.Text = "Тренировка";
             trainButton.UseVisualStyleBackColor = true;
@@ -136,7 +136,7 @@
             ownStatButton.ImageAlign = ContentAlignment.MiddleLeft;
             ownStatButton.Location = new Point(0, 80);
             ownStatButton.Name = "ownStatButton";
-            ownStatButton.Size = new Size(220, 60);
+            ownStatButton.Size = new Size(241, 60);
             ownStatButton.TabIndex = 2;
             ownStatButton.Text = "Личная статистика";
             ownStatButton.UseVisualStyleBackColor = true;
@@ -150,7 +150,7 @@
             topSideBar.Dock = DockStyle.Top;
             topSideBar.Location = new Point(0, 0);
             topSideBar.Name = "topSideBar";
-            topSideBar.Size = new Size(220, 80);
+            topSideBar.Size = new Size(241, 80);
             topSideBar.TabIndex = 1;
             // 
             // pictureBox1
@@ -158,7 +158,7 @@
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(12, 9);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(48, 42);
+            pictureBox1.Size = new Size(48, 55);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 3;
             pictureBox1.TabStop = false;
@@ -168,7 +168,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("AniMe Matrix - MB_EN", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(66, 9);
+            label1.Location = new Point(66, 29);
             label1.Name = "label1";
             label1.Size = new Size(102, 19);
             label1.TabIndex = 2;
@@ -179,18 +179,18 @@
             panelTitle.BackColor = Color.FromArgb(46, 148, 191);
             panelTitle.Controls.Add(titleLabel);
             panelTitle.Dock = DockStyle.Top;
-            panelTitle.Location = new Point(220, 0);
+            panelTitle.Location = new Point(241, 0);
             panelTitle.Name = "panelTitle";
-            panelTitle.Size = new Size(807, 80);
+            panelTitle.Size = new Size(903, 80);
             panelTitle.TabIndex = 1;
             // 
             // titleLabel
             // 
-            titleLabel.Anchor = AnchorStyles.None;
+            titleLabel.Anchor = AnchorStyles.Top;
             titleLabel.AutoSize = true;
             titleLabel.Font = new Font("Unispace", 15.7499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             titleLabel.ForeColor = Color.White;
-            titleLabel.Location = new Point(344, 26);
+            titleLabel.Location = new Point(392, 26);
             titleLabel.Name = "titleLabel";
             titleLabel.Size = new Size(118, 25);
             titleLabel.TabIndex = 0;
@@ -199,16 +199,16 @@
             // panelDesktopPanel
             // 
             panelDesktopPanel.Dock = DockStyle.Fill;
-            panelDesktopPanel.Location = new Point(220, 80);
+            panelDesktopPanel.Location = new Point(241, 80);
             panelDesktopPanel.Name = "panelDesktopPanel";
-            panelDesktopPanel.Size = new Size(807, 425);
+            panelDesktopPanel.Size = new Size(903, 521);
             panelDesktopPanel.TabIndex = 2;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1027, 505);
+            ClientSize = new Size(1144, 601);
             Controls.Add(panelDesktopPanel);
             Controls.Add(panelTitle);
             Controls.Add(sideBar);

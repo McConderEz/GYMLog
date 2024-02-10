@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GYMLog.BL.Controller;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,11 +18,17 @@ namespace WinFormsGUI.View
         private Random _random;
         private int _tempIndex;
         private Form _activeForm;
+        private UserController _userController;
 
-        public MainForm()
+        public MainForm(/*UserController userController*/)
         {
             InitializeComponent();
             _random = new Random();
+            //_userController = userController;
+
+
+            //Для тестов
+            _userController = new UserController("Minoddein", "0958700191");
         }
 
         private Color SelectThemeColor()
@@ -50,6 +57,8 @@ namespace WinFormsGUI.View
                     _currentButton.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                     panelTitle.BackColor = color;
                     topSideBar.BackColor = ThemeColor.ChangeColorBrightness(color, -0.3);
+                    ThemeColor.PrimaryColor = color;
+                    ThemeColor.SecondaryColor = ThemeColor.ChangeColorBrightness(color, -0.3);
                 }
             }
         }
@@ -79,7 +88,7 @@ namespace WinFormsGUI.View
             childForm.FormBorderStyle = FormBorderStyle.None;
             childForm.Dock = DockStyle.Fill;
             this.panelDesktopPanel.Controls.Add(childForm);
-            this.panelDesktopPanel.Tag = childForm;
+            this.panelDesktopPanel.Tag = childForm.Text;
             childForm.BringToFront();
             childForm.Show();
             titleLabel.Text = childForm.Text;
@@ -87,27 +96,27 @@ namespace WinFormsGUI.View
 
         private void ownStatButton_Click(object sender, EventArgs e)
         {
-            ActivateButton(sender);
+            OpenChildForm(new FormOwnStat(_userController), sender);
         }
 
         private void trainButton_Click(object sender, EventArgs e)
         {
-            ActivateButton(sender);
+            OpenChildForm(new FormTrain(), sender);
         }
 
         private void trainPlanButton_Click(object sender, EventArgs e)
         {
-            ActivateButton(sender);
+            OpenChildForm(new FormTrainPlan(_userController), sender);
         }
 
         private void rateButton_Click(object sender, EventArgs e)
         {
-            ActivateButton(sender);
+            OpenChildForm(new FormRate(), sender);
         }
 
         private void dietButton_Click(object sender, EventArgs e)
         {
-            ActivateButton(sender);
+            OpenChildForm(new FormDiet(), sender);
         }
     }
 }

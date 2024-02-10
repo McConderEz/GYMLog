@@ -13,11 +13,12 @@ using System.Xml.Linq;
 namespace GYMLog.BL.Controller
 {
 
-    public class WorkoutPlanController:ControllerBase
+    public class WorkoutPlanController:ControllerBase, ICrudController<WorkoutPlan>
     {
         private readonly User user;    
         public List<Exercise> Exercises { get; }
         public WorkoutPlan WorkoutPlan { get; set; }
+        private UserController _userController;
 
         public bool IsNewWorkoutPlan { get;} = false;
 
@@ -25,6 +26,7 @@ namespace GYMLog.BL.Controller
         public WorkoutPlanController(User user) 
         {
             this.user = user ?? throw new ArgumentNullException("Пользователь не может быть пустым!", nameof(user));
+            _userController = new UserController(user.Login, user.Password);
             Exercises = GetAllExercises();
             this.WorkoutPlan = GetWorkoutPlans();
         }
@@ -73,6 +75,23 @@ namespace GYMLog.BL.Controller
             Save(Exercises);
         }
 
+        public void Add(WorkoutPlan item)
+        {
+            WorkoutPlan = item;
+            _userController.CurrentUser.WorkoutPlans.Add(WorkoutPlan);
+            SetNewWorkoutPlanData(item.PlanName, item.Notes);
+            _userController.Save();
+        }
 
+        public void Update(WorkoutPlan item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(WorkoutPlan item)
+        {
+            user.WorkoutPlans.Remove(item);
+            Save();
+        }
     }
 }

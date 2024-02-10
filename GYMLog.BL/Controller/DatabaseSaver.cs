@@ -11,7 +11,6 @@ namespace GYMLog.BL.Controller
 {
     public class DatabaseSaver: IDataSaver
     {
-        //TODO:Сделать удаление записей
         public List<T> Load<T>() where T : class
         {
             using (var db = new FitnessContext())

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace WinFormsGUI.View
 {
-    public partial class FormOwnStat : Form
+    public partial class FormDiet : Form
     {
-        public FormOwnStat()
+        public FormDiet()
         {
             InitializeComponent();
         }
