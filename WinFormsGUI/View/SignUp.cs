@@ -103,7 +103,18 @@ namespace WinFormsGUI.View
                 double height = double.Parse(heightTextBox.Text);
                 double weight = double.Parse(weightTextBox.Text);
 
-                // TODO:Сделать проверки входных
+                if(password.Length < 8)
+                {
+                    //TODO: Сделать хранения пароля в хэше
+                    MessageBox.Show("Длина пароля должна быть минимум 8 символов!");
+                    return;
+                }
+
+                if(string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(gender))
+                {
+                    MessageBox.Show("Не все поля были заполнены!");
+                    return;
+                }
 
                 if(!_userController.CheckFreeUserName(login)) 
                 {
