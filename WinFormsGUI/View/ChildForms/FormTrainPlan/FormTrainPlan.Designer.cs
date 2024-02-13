@@ -34,6 +34,7 @@
             changeTrainPlan = new Button();
             ExerciseDataGridView = new DataGridView();
             OutputExerciseButton = new Button();
+            addExerciseInPlanButton = new Button();
             ((System.ComponentModel.ISupportInitialize)trainPlanDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ExerciseDataGridView).BeginInit();
             SuspendLayout();
@@ -105,11 +106,24 @@
             OutputExerciseButton.UseVisualStyleBackColor = true;
             OutputExerciseButton.Click += OutputExerciseButton_Click;
             // 
+            // addExerciseInPlanButton
+            // 
+            addExerciseInPlanButton.Anchor = AnchorStyles.Right;
+            addExerciseInPlanButton.FlatStyle = FlatStyle.Flat;
+            addExerciseInPlanButton.Location = new Point(347, 358);
+            addExerciseInPlanButton.Name = "addExerciseInPlanButton";
+            addExerciseInPlanButton.Size = new Size(172, 29);
+            addExerciseInPlanButton.TabIndex = 6;
+            addExerciseInPlanButton.Text = "Добавить упражнение";
+            addExerciseInPlanButton.UseVisualStyleBackColor = true;
+            addExerciseInPlanButton.Click += addExerciseInPlanButton_Click;
+            // 
             // FormTrainPlan
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 461);
+            Controls.Add(addExerciseInPlanButton);
             Controls.Add(OutputExerciseButton);
             Controls.Add(ExerciseDataGridView);
             Controls.Add(changeTrainPlan);
@@ -132,5 +146,6 @@
         private Button changeTrainPlan;
         private DataGridView ExerciseDataGridView;
         private Button OutputExerciseButton;
+        private Button addExerciseInPlanButton;
     }
 }

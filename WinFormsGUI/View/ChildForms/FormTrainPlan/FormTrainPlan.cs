@@ -17,7 +17,6 @@ namespace WinFormsGUI.View
 {
     public partial class FormTrainPlan : Form
     {
-        //TODO: Добавить составную форму связи, WorkoutPlan в одной dgv и WorkoutExercise в другой dgv
         private UserController _userController;
         private WorkoutPlanController _workoutPlanController;
         public FormTrainPlan(UserController userController)
@@ -27,10 +26,11 @@ namespace WinFormsGUI.View
             _workoutPlanController = new WorkoutPlanController(_userController.CurrentUser);
             _workoutPlanController.WorkoutPlanChanged += RefreshUserController;
             _workoutPlanController.WorkoutPlanChanged += RefreshDataGridView;
+            _workoutPlanController.WorkoutPlanChanged += RefreshExerciseDataGridView;
             LoadDataWorkoutPlans();
         }
 
-        //TODO: Сделать обновление dataGridView после изменение данных
+        
         private void LoadDataWorkoutPlans()
         {
             DataGridViewTextBoxColumn column = new DataGridViewTextBoxColumn();
@@ -79,6 +79,12 @@ namespace WinFormsGUI.View
             trainPlanDataGridView.DataBindings.Clear();
             trainPlanDataGridView.DataSource = _userController.CurrentUser.WorkoutPlans
                                                               .Select(x => new { PlanName = x.PlanName }).ToList();
+        }
+
+        //TODO: Сделать обновление dataGridView после изменение данных
+        private void RefreshExerciseDataGridView(object? sender, EventArgs e)
+        {
+            ExerciseDataGridView.DataBindings.Clear();
         }
 
         private void deletePlanButton_Click(object sender, EventArgs e)
@@ -132,27 +138,15 @@ namespace WinFormsGUI.View
             }
         }
 
-        //TODO:Сделать обновление данных в dgv
+
         private void LoadDataExercises(int index)
         {
 
             var item = _userController.CurrentUser.WorkoutPlans.ElementAt(index);
-            item.ExerciseList.Add(new WorkoutExercise
-            {
-                Name = "asdas",
-                Category = "asdada",
-                ExerciseParams = new List<ExerciseParams> { new ExerciseParams(4, 5) },
-                Sets = 1,
-                Intensity = 1,
-            });
 
             #region Колонки
             ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Name", HeaderText = "Название упр." });
             ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Category", HeaderText = "Категория" });
-            ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "CaloriesBurned", HeaderText = "Калории" });
-            ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Date", HeaderText = "Дата" });
-            ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Duration", HeaderText = "Длительность" });
-            ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Intensity", HeaderText = "Интенсивность" });
             ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Sets", HeaderText = "Количество подходов" });
             ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Description", HeaderText = "Описание" });
             #endregion
@@ -176,13 +170,33 @@ namespace WinFormsGUI.View
                     WorkoutExercise workoutExercise = ExerciseDataGridView.Rows[e.RowIndex].DataBoundItem as WorkoutExercise;
 
                     // Отображение ExerciseParams в MessageBox
-                    string exerciseParamsText = string.Join(", ", workoutExercise.ExerciseParams.Select(ep => $"{ep.Iterations}, {ep.Weight}"));
+                    string exerciseParamsText = string.Join("", workoutExercise.ExerciseParams.Select(ep => $"{ep.Iterations}, {ep.Weight}\n"));
                     MessageBox.Show(exerciseParamsText, "Повт./вес");
                 }
             };
             ExerciseDataGridView.AutoGenerateColumns = false;
             ExerciseDataGridView.DataSource = item.ExerciseList;
-                                                                                                                                                                                                                                
+
+        }
+
+        private void addExerciseInPlanButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int? index = trainPlanDataGridView.SelectedRows[0].Index;
+
+                if (index != null)
+                {
+                    var item = _userController.CurrentUser.WorkoutPlans.ElementAt((int)index);
+                    item.Id = (int)index;
+                    AddExerciseInPlan addExerciseInPlan = new AddExerciseInPlan(_userController, item);
+                    addExerciseInPlan.Show();
+                }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                MessageBox.Show("Вы не выбрали значение!");
+            }
         }
     }
 }

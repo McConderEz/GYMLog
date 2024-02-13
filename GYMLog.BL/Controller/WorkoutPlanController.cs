@@ -34,18 +34,22 @@ namespace GYMLog.BL.Controller
             this.WorkoutPlan = GetWorkoutPlans();
         }
 
+        //TODO:Сделать сохранение изменений
         public void Add(Exercise exercise, int set, List<ExerciseParams> exerciseParams)
         {
             var exerciseTemp = Exercises.SingleOrDefault(x => x.Name.Equals(exercise.Name));
             if (exerciseTemp == null)
             {
                 Exercises.Add(exercise);
-                WorkoutPlan.AddExercise(new WorkoutExercise(exercise.Name,exercise.Category,set, exerciseParams));
-                Save();
+                _userController.CurrentUser.WorkoutPlans.ElementAt(WorkoutPlan.Id).AddExercise(new WorkoutExercise(exercise.Name, exercise.Category, set, exerciseParams));
+                _userController.Save();
+                Save();               
+                WorkoutPlanChanged?.Invoke(this, new EventArgs());
             }
             else
             {
-                WorkoutPlan.AddExercise(new WorkoutExercise(exerciseTemp.Name, exerciseTemp.Category, set, exerciseParams));
+                _userController.CurrentUser.WorkoutPlans.ElementAt(WorkoutPlan.Id).AddExercise(new WorkoutExercise(exercise.Name, exercise.Category, set, exerciseParams));
+                _userController.Save();
                 Save();
             }
         }

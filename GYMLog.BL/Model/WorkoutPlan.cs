@@ -25,17 +25,17 @@ namespace GYMLog.BL.Model
         public string PlanName { get; set; }
 
         [DataMember]
-        public DateTime Moment { get; }
+        public DateTime Moment { get; } // Вынести в класс Activity
         /// <summary>
         /// Общее время проведённое за тренировокой 
         /// </summary>
         [DataMember]
-        public double TotalTime { get; }
+        public double TotalTime { get; } // Вынести в класс Activity
         /// <summary>
         /// Общее количество сжигаемых калорий за тренировку
         /// </summary>
         [DataMember]
-        public double CaloriesBurned { get; }
+        public double CaloriesBurned { get; } // Вынести в класс Activity
         [DataMember]
         public string Notes { get; set; }
         [DataMember]
