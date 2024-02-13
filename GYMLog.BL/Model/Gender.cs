@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -16,6 +18,7 @@ namespace GYMLog.BL.Model
     [JsonObject]
     public class Gender
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [DataMember]
         public int Id { get; set; }
         /// <summary>

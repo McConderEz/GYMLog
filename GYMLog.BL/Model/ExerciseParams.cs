@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -15,6 +16,7 @@ namespace GYMLog.BL.Model
     [JsonObject]
     public class ExerciseParams
     {
+        [Key]
         [DataMember]
         public int Id { get; set; }
         [DataMember]

@@ -56,8 +56,7 @@ namespace GYMLog.BL.Controller
 
         public void Save()
         {
-            var _Foods = Foods.Where(x => x.Id == 0).ToList();
-            Save(_Foods);
+            Save(Foods);
             Save(new List<Eating>() { Eating });
         }
       

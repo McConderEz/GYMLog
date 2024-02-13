@@ -12,7 +12,6 @@ using System.Resources;
 var culture = CultureInfo.CreateSpecificCulture("en-us");
 var resourceManager = new ResourceManager("GYMLog.CMD.Languages.Messages", typeof(Program).Assembly);
 
-//TODO: Переписать интерфейс в WPF(Окно регистрации, авторизации и основное)
 Console.WriteLine(resourceManager.GetString("Hello", culture)+"\n");
 
 Console.WriteLine(resourceManager.GetString("LoginRequest", culture));
