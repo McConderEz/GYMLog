@@ -34,10 +34,11 @@ namespace WinFormsGUI.View.ChildForms.FormTrainPlan
         }
 
 
-        public AddExerciseInPlan(WorkoutPlanController workoutPlanController)
+        public AddExerciseInPlan(UserController userController, WorkoutPlan workoutPlan)
         {
             InitializeComponent();
-            _workoutPlanController = workoutPlanController;
+            _workoutPlanController = new WorkoutPlanController(userController.CurrentUser);
+            _workoutPlanController.WorkoutPlan = workoutPlan;
         }
 
         private void setsCountTextBox_TextChanged(object sender, EventArgs e)

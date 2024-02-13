@@ -41,12 +41,15 @@ namespace GYMLog.BL.Controller
             if (exerciseTemp == null)
             {
                 Exercises.Add(exercise);
-                WorkoutPlan.AddExercise(new WorkoutExercise(exercise.Name,exercise.Category,set, exerciseParams));
-                Save();
+                _userController.CurrentUser.WorkoutPlans.ElementAt(WorkoutPlan.Id).AddExercise(new WorkoutExercise(exercise.Name, exercise.Category, set, exerciseParams));
+                _userController.Save();
+                Save();               
+                WorkoutPlanChanged?.Invoke(this, new EventArgs());
             }
             else
             {
-                WorkoutPlan.AddExercise(new WorkoutExercise(exerciseTemp.Name, exerciseTemp.Category, set, exerciseParams));
+                _userController.CurrentUser.WorkoutPlans.ElementAt(WorkoutPlan.Id).AddExercise(new WorkoutExercise(exercise.Name, exercise.Category, set, exerciseParams));
+                _userController.Save();
                 Save();
             }
         }

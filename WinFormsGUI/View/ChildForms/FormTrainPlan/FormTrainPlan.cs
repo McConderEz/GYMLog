@@ -84,8 +84,7 @@ namespace WinFormsGUI.View
         //TODO: Сделать обновление dataGridView после изменение данных
         private void RefreshExerciseDataGridView(object? sender, EventArgs e)
         {
-            ExerciseDataGridView.DataBindings.Clear ();
-            //LoadDataExercises();
+            ExerciseDataGridView.DataBindings.Clear();
         }
 
         private void deletePlanButton_Click(object sender, EventArgs e)
@@ -144,23 +143,10 @@ namespace WinFormsGUI.View
         {
 
             var item = _userController.CurrentUser.WorkoutPlans.ElementAt(index);
-            // Тестовые входные
-            item.ExerciseList.Add(new WorkoutExercise
-            {
-                Name = "asdas",
-                Category = "asdada",
-                ExerciseParams = new List<ExerciseParams> { new ExerciseParams(4, 5) },
-                Sets = 1,
-                Intensity = 1,
-            });
 
             #region Колонки
             ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Name", HeaderText = "Название упр." });
             ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Category", HeaderText = "Категория" });
-            ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "CaloriesBurned", HeaderText = "Калории" });
-            ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Date", HeaderText = "Дата" });
-            ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Duration", HeaderText = "Длительность" });
-            ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Intensity", HeaderText = "Интенсивность" });
             ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Sets", HeaderText = "Количество подходов" });
             ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Description", HeaderText = "Описание" });
             #endregion
@@ -184,7 +170,7 @@ namespace WinFormsGUI.View
                     WorkoutExercise workoutExercise = ExerciseDataGridView.Rows[e.RowIndex].DataBoundItem as WorkoutExercise;
 
                     // Отображение ExerciseParams в MessageBox
-                    string exerciseParamsText = string.Join(", ", workoutExercise.ExerciseParams.Select(ep => $"{ep.Iterations}, {ep.Weight}"));
+                    string exerciseParamsText = string.Join("", workoutExercise.ExerciseParams.Select(ep => $"{ep.Iterations}, {ep.Weight}\n"));
                     MessageBox.Show(exerciseParamsText, "Повт./вес");
                 }
             };
@@ -201,7 +187,9 @@ namespace WinFormsGUI.View
 
                 if (index != null)
                 {
-                    AddExerciseInPlan addExerciseInPlan = new AddExerciseInPlan(_workoutPlanController);
+                    var item = _userController.CurrentUser.WorkoutPlans.ElementAt((int)index);
+                    item.Id = (int)index;
+                    AddExerciseInPlan addExerciseInPlan = new AddExerciseInPlan(_userController, item);
                     addExerciseInPlan.Show();
                 }
             }
