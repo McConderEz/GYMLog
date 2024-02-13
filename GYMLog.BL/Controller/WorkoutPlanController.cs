@@ -34,6 +34,7 @@ namespace GYMLog.BL.Controller
             this.WorkoutPlan = GetWorkoutPlans();
         }
 
+        //TODO:Сделать сохранение изменений
         public void Add(Exercise exercise, int set, List<ExerciseParams> exerciseParams)
         {
             var exerciseTemp = Exercises.SingleOrDefault(x => x.Name.Equals(exercise.Name));

@@ -24,11 +24,11 @@ namespace GYMLog.BL.Model
         [DataMember]
         public double CaloriesBurned => 10.0 * Duration.TotalMinutes;
         [DataMember]
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } // Вынести в класс Activity
         [DataMember]
-        public TimeSpan Duration { get; set; }
+        public TimeSpan Duration { get; set; } // Вынести в класс Activity
         [DataMember]
-        public int Intensity { get; set; }
+        public int Intensity { get; set; } // Вынести в класс Activity
         [DataMember]
         public int Sets { get; set; }
         [DataMember]

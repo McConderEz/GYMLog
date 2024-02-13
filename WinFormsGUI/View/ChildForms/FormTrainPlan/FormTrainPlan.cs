@@ -17,7 +17,6 @@ namespace WinFormsGUI.View
 {
     public partial class FormTrainPlan : Form
     {
-        //TODO: Добавить составную форму связи, WorkoutPlan в одной dgv и WorkoutExercise в другой dgv
         private UserController _userController;
         private WorkoutPlanController _workoutPlanController;
         public FormTrainPlan(UserController userController)
@@ -27,10 +26,11 @@ namespace WinFormsGUI.View
             _workoutPlanController = new WorkoutPlanController(_userController.CurrentUser);
             _workoutPlanController.WorkoutPlanChanged += RefreshUserController;
             _workoutPlanController.WorkoutPlanChanged += RefreshDataGridView;
+            _workoutPlanController.WorkoutPlanChanged += RefreshExerciseDataGridView;
             LoadDataWorkoutPlans();
         }
 
-        //TODO: Сделать обновление dataGridView после изменение данных
+        
         private void LoadDataWorkoutPlans()
         {
             DataGridViewTextBoxColumn column = new DataGridViewTextBoxColumn();
@@ -79,6 +79,13 @@ namespace WinFormsGUI.View
             trainPlanDataGridView.DataBindings.Clear();
             trainPlanDataGridView.DataSource = _userController.CurrentUser.WorkoutPlans
                                                               .Select(x => new { PlanName = x.PlanName }).ToList();
+        }
+
+        //TODO: Сделать обновление dataGridView после изменение данных
+        private void RefreshExerciseDataGridView(object? sender, EventArgs e)
+        {
+            ExerciseDataGridView.DataBindings.Clear ();
+            //LoadDataExercises();
         }
 
         private void deletePlanButton_Click(object sender, EventArgs e)
@@ -132,11 +139,12 @@ namespace WinFormsGUI.View
             }
         }
 
-        //TODO:Сделать обновление данных в dgv
+
         private void LoadDataExercises(int index)
         {
 
             var item = _userController.CurrentUser.WorkoutPlans.ElementAt(index);
+            // Тестовые входные
             item.ExerciseList.Add(new WorkoutExercise
             {
                 Name = "asdas",
@@ -182,7 +190,25 @@ namespace WinFormsGUI.View
             };
             ExerciseDataGridView.AutoGenerateColumns = false;
             ExerciseDataGridView.DataSource = item.ExerciseList;
-                                                                                                                                                                                                                                
+
+        }
+
+        private void addExerciseInPlanButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int? index = trainPlanDataGridView.SelectedRows[0].Index;
+
+                if (index != null)
+                {
+                    AddExerciseInPlan addExerciseInPlan = new AddExerciseInPlan(_workoutPlanController);
+                    addExerciseInPlan.Show();
+                }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                MessageBox.Show("Вы не выбрали значение!");
+            }
         }
     }
 }
