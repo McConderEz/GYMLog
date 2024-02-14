@@ -19,6 +19,7 @@ namespace WinFormsGUI.View
     {
         private UserController _userController;
         private WorkoutPlanController _workoutPlanController;
+        private int _refreshIndex;
         public FormTrainPlan(UserController userController)
         {
             InitializeComponent();
@@ -30,7 +31,7 @@ namespace WinFormsGUI.View
             LoadDataWorkoutPlans();
         }
 
-        
+
         private void LoadDataWorkoutPlans()
         {
             DataGridViewTextBoxColumn column = new DataGridViewTextBoxColumn();
@@ -81,10 +82,10 @@ namespace WinFormsGUI.View
                                                               .Select(x => new { PlanName = x.PlanName }).ToList();
         }
 
-        //TODO: Сделать обновление dataGridView после изменение данных
         private void RefreshExerciseDataGridView(object? sender, EventArgs e)
         {
             ExerciseDataGridView.DataBindings.Clear();
+            LoadDataExercises(_refreshIndex);
         }
 
         private void deletePlanButton_Click(object sender, EventArgs e)
@@ -112,7 +113,8 @@ namespace WinFormsGUI.View
 
                 if (index != null)
                 {
-                    _workoutPlanController.Update((int)index);
+                    EditWorkoutPlan editWorkoutPlan = new EditWorkoutPlan(_workoutPlanController, (int)index);
+                    editWorkoutPlan.Show();
                 }
             }
             catch (ArgumentOutOfRangeException ex)
@@ -143,7 +145,7 @@ namespace WinFormsGUI.View
         {
 
             var item = _userController.CurrentUser.WorkoutPlans.ElementAt(index);
-
+            _refreshIndex = index;
             #region Колонки
             ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Name", HeaderText = "Название упр." });
             ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Category", HeaderText = "Категория" });
@@ -189,8 +191,26 @@ namespace WinFormsGUI.View
                 {
                     var item = _userController.CurrentUser.WorkoutPlans.ElementAt((int)index);
                     item.Id = (int)index;
-                    AddExerciseInPlan addExerciseInPlan = new AddExerciseInPlan(_userController, item);
+                    AddExerciseInPlan addExerciseInPlan = new AddExerciseInPlan(_workoutPlanController, item);
                     addExerciseInPlan.Show();
+                }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                MessageBox.Show("Вы не выбрали значение!");
+            }
+        }
+
+        private void deleteExerciseButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int? indexExercise = ExerciseDataGridView.SelectedRows[0].Index;
+                int? indexWorkoutPlan = trainPlanDataGridView.SelectedRows[0].Index;
+
+                if (indexExercise != null && indexWorkoutPlan != null)
+                {
+                    _workoutPlanController.RemoveExerciseFromWorkoutPlan((int)indexExercise, (int) indexWorkoutPlan);
                 }
             }
             catch (ArgumentOutOfRangeException ex)

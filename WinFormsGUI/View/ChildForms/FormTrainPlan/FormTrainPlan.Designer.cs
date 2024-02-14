@@ -35,6 +35,8 @@
             ExerciseDataGridView = new DataGridView();
             OutputExerciseButton = new Button();
             addExerciseInPlanButton = new Button();
+            deleteExerciseButton = new Button();
+            updateExerciseButton = new Button();
             ((System.ComponentModel.ISupportInitialize)trainPlanDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ExerciseDataGridView).BeginInit();
             SuspendLayout();
@@ -110,7 +112,7 @@
             // 
             addExerciseInPlanButton.Anchor = AnchorStyles.Right;
             addExerciseInPlanButton.FlatStyle = FlatStyle.Flat;
-            addExerciseInPlanButton.Location = new Point(347, 358);
+            addExerciseInPlanButton.Location = new Point(525, 323);
             addExerciseInPlanButton.Name = "addExerciseInPlanButton";
             addExerciseInPlanButton.Size = new Size(172, 29);
             addExerciseInPlanButton.TabIndex = 6;
@@ -118,11 +120,36 @@
             addExerciseInPlanButton.UseVisualStyleBackColor = true;
             addExerciseInPlanButton.Click += addExerciseInPlanButton_Click;
             // 
+            // deleteExerciseButton
+            // 
+            deleteExerciseButton.Anchor = AnchorStyles.Right;
+            deleteExerciseButton.FlatStyle = FlatStyle.Flat;
+            deleteExerciseButton.Location = new Point(347, 358);
+            deleteExerciseButton.Name = "deleteExerciseButton";
+            deleteExerciseButton.Size = new Size(172, 29);
+            deleteExerciseButton.TabIndex = 7;
+            deleteExerciseButton.Text = "Удалить упражнение";
+            deleteExerciseButton.UseVisualStyleBackColor = true;
+            deleteExerciseButton.Click += deleteExerciseButton_Click;
+            // 
+            // updateExerciseButton
+            // 
+            updateExerciseButton.Anchor = AnchorStyles.Right;
+            updateExerciseButton.FlatStyle = FlatStyle.Flat;
+            updateExerciseButton.Location = new Point(525, 358);
+            updateExerciseButton.Name = "updateExerciseButton";
+            updateExerciseButton.Size = new Size(172, 29);
+            updateExerciseButton.TabIndex = 8;
+            updateExerciseButton.Text = "Изменить упражнение";
+            updateExerciseButton.UseVisualStyleBackColor = true;
+            // 
             // FormTrainPlan
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 461);
+            Controls.Add(updateExerciseButton);
+            Controls.Add(deleteExerciseButton);
             Controls.Add(addExerciseInPlanButton);
             Controls.Add(OutputExerciseButton);
             Controls.Add(ExerciseDataGridView);
@@ -147,5 +174,7 @@
         private DataGridView ExerciseDataGridView;
         private Button OutputExerciseButton;
         private Button addExerciseInPlanButton;
+        private Button deleteExerciseButton;
+        private Button updateExerciseButton;
     }
 }

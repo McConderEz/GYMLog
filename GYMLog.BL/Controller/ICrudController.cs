@@ -9,7 +9,7 @@ namespace GYMLog.BL.Controller
     public interface ICrudController<T> where T : class
     {
         void Add(T item);
-        void Update(int index);
+        void Update(T item);
         void Delete(int index);
     }
 }
