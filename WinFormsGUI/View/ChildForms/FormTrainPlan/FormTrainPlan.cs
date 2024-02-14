@@ -31,7 +31,7 @@ namespace WinFormsGUI.View
             LoadDataWorkoutPlans();
         }
 
-        
+
         private void LoadDataWorkoutPlans()
         {
             DataGridViewTextBoxColumn column = new DataGridViewTextBoxColumn();
@@ -82,7 +82,6 @@ namespace WinFormsGUI.View
                                                               .Select(x => new { PlanName = x.PlanName }).ToList();
         }
 
-        //TODO: Сделать обновление dataGridView после изменение данных
         private void RefreshExerciseDataGridView(object? sender, EventArgs e)
         {
             ExerciseDataGridView.DataBindings.Clear();
@@ -194,6 +193,24 @@ namespace WinFormsGUI.View
                     item.Id = (int)index;
                     AddExerciseInPlan addExerciseInPlan = new AddExerciseInPlan(_workoutPlanController, item);
                     addExerciseInPlan.Show();
+                }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                MessageBox.Show("Вы не выбрали значение!");
+            }
+        }
+
+        private void deleteExerciseButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int? indexExercise = ExerciseDataGridView.SelectedRows[0].Index;
+                int? indexWorkoutPlan = trainPlanDataGridView.SelectedRows[0].Index;
+
+                if (indexExercise != null && indexWorkoutPlan != null)
+                {
+                    _workoutPlanController.RemoveExerciseFromWorkoutPlan((int)indexExercise, (int) indexWorkoutPlan);
                 }
             }
             catch (ArgumentOutOfRangeException ex)

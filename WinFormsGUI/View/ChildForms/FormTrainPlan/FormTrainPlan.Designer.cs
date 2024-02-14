@@ -130,6 +130,7 @@
             deleteExerciseButton.TabIndex = 7;
             deleteExerciseButton.Text = "Удалить упражнение";
             deleteExerciseButton.UseVisualStyleBackColor = true;
+            deleteExerciseButton.Click += deleteExerciseButton_Click;
             // 
             // updateExerciseButton
             // 

@@ -34,7 +34,6 @@ namespace GYMLog.BL.Controller
             this.WorkoutPlan = GetWorkoutPlans();
         }
 
-        //TODO:Сделать сохранение изменений
         public void Add(Exercise exercise, int set, List<ExerciseParams> exerciseParams)
         {
             var exerciseTemp = Exercises.SingleOrDefault(x => x.Name.Equals(exercise.Name));
@@ -53,6 +52,15 @@ namespace GYMLog.BL.Controller
             }
 
             WorkoutPlanChanged?.Invoke(this,EventArgs.Empty);
+        }
+
+        public void RemoveExerciseFromWorkoutPlan(int indexEx, int indexPlan)
+        {
+            var item = userController.CurrentUser.WorkoutPlans.ElementAt(indexPlan);
+            var ex = item.ExerciseList.ElementAt(indexEx);
+            item.ExerciseList.Remove(ex);
+            userController.Save();
+            WorkoutPlanChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void SetNewWorkoutPlanData(string planName,string notes = "")
