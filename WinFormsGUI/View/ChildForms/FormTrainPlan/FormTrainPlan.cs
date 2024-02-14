@@ -114,7 +114,8 @@ namespace WinFormsGUI.View
 
                 if (index != null)
                 {
-                    _workoutPlanController.Update((int)index);
+                    EditWorkoutPlan editWorkoutPlan = new EditWorkoutPlan(_workoutPlanController, (int)index);
+                    editWorkoutPlan.Show();
                 }
             }
             catch (ArgumentOutOfRangeException ex)
