@@ -34,10 +34,10 @@ namespace WinFormsGUI.View.ChildForms.FormTrainPlan
         }
 
 
-        public AddExerciseInPlan(UserController userController, WorkoutPlan workoutPlan)
+        public AddExerciseInPlan(WorkoutPlanController workoutPlanController, WorkoutPlan workoutPlan)
         {
             InitializeComponent();
-            _workoutPlanController = new WorkoutPlanController(userController.CurrentUser);
+            _workoutPlanController = workoutPlanController;
             _workoutPlanController.WorkoutPlan = workoutPlan;
         }
 

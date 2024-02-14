@@ -44,14 +44,15 @@ namespace GYMLog.BL.Controller
                 _userController.CurrentUser.WorkoutPlans.ElementAt(WorkoutPlan.Id).AddExercise(new WorkoutExercise(exercise.Name, exercise.Category, set, exerciseParams));
                 _userController.Save();
                 Save();               
-                WorkoutPlanChanged?.Invoke(this, new EventArgs());
             }
             else
             {
                 _userController.CurrentUser.WorkoutPlans.ElementAt(WorkoutPlan.Id).AddExercise(new WorkoutExercise(exercise.Name, exercise.Category, set, exerciseParams));
                 _userController.Save();
-                Save();
+                Save();               
             }
+
+            WorkoutPlanChanged?.Invoke(this,EventArgs.Empty);
         }
 
         public void SetNewWorkoutPlanData(string planName,string notes = "")

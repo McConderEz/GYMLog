@@ -19,6 +19,7 @@ namespace WinFormsGUI.View
     {
         private UserController _userController;
         private WorkoutPlanController _workoutPlanController;
+        private int _refreshIndex;
         public FormTrainPlan(UserController userController)
         {
             InitializeComponent();
@@ -85,6 +86,7 @@ namespace WinFormsGUI.View
         private void RefreshExerciseDataGridView(object? sender, EventArgs e)
         {
             ExerciseDataGridView.DataBindings.Clear();
+            LoadDataExercises(_refreshIndex);
         }
 
         private void deletePlanButton_Click(object sender, EventArgs e)
@@ -143,7 +145,7 @@ namespace WinFormsGUI.View
         {
 
             var item = _userController.CurrentUser.WorkoutPlans.ElementAt(index);
-
+            _refreshIndex = index;
             #region Колонки
             ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Name", HeaderText = "Название упр." });
             ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Category", HeaderText = "Категория" });
@@ -189,7 +191,7 @@ namespace WinFormsGUI.View
                 {
                     var item = _userController.CurrentUser.WorkoutPlans.ElementAt((int)index);
                     item.Id = (int)index;
-                    AddExerciseInPlan addExerciseInPlan = new AddExerciseInPlan(_userController, item);
+                    AddExerciseInPlan addExerciseInPlan = new AddExerciseInPlan(_workoutPlanController, item);
                     addExerciseInPlan.Show();
                 }
             }
