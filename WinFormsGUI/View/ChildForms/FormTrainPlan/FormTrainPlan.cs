@@ -77,13 +77,13 @@ namespace WinFormsGUI.View
 
         private void RefreshDataGridView(object? sender, EventArgs e)
         {
-            trainPlanDataGridView.DataBindings.Clear();            
+            trainPlanDataGridView.DataBindings.Clear();
             trainPlanDataGridView.DataSource = _userController.CurrentUser.WorkoutPlans
                                                              .Select(x => new { PlanName = x.PlanName }).ToList();
         }
 
         private void RefreshExerciseDataGridView(object? sender, EventArgs e)
-        {            
+        {
             LoadDataExercises(_refreshIndex);
         }
 
@@ -211,7 +211,30 @@ namespace WinFormsGUI.View
 
                 if (indexExercise != null && indexWorkoutPlan != null)
                 {
-                    _workoutPlanController.RemoveExerciseFromWorkoutPlan((int)indexExercise, (int) indexWorkoutPlan);
+                    _workoutPlanController.RemoveExerciseFromWorkoutPlan((int)indexExercise, (int)indexWorkoutPlan);
+                }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                MessageBox.Show("Вы не выбрали значение!");
+            }
+        }
+
+        private void updateExerciseButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int? index = trainPlanDataGridView.SelectedRows[0].Index;
+                int? indexExercise = ExerciseDataGridView.SelectedRows[0].Index;
+                if (index != null && indexExercise != null)
+                {
+                    var item = _userController.CurrentUser.WorkoutPlans.ElementAt((int)index);
+                    item.Id = (int)index;
+                    var exercise = item.ExerciseList.ElementAt((int)indexExercise);
+                    exercise.WorkoutPlanId = (int)index;
+                    exercise.Id = (int)indexExercise;
+                    EditExerciseInPlan editExerciseInPlan = new EditExerciseInPlan(_workoutPlanController, item, exercise);
+                    editExerciseInPlan.Show();
                 }
             }
             catch (ArgumentOutOfRangeException ex)

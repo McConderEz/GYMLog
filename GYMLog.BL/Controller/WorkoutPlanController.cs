@@ -54,6 +54,17 @@ namespace GYMLog.BL.Controller
             WorkoutPlanChanged?.Invoke(this,EventArgs.Empty);
         }
 
+        public void EditExercise(WorkoutExercise exercise, int set, List<ExerciseParams> exerciseParams)
+        {
+            var item = userController.CurrentUser.WorkoutPlans.ElementAt(exercise.WorkoutPlanId).ExerciseList.ElementAt(exercise.Id);
+
+            item.Sets = set;
+            item.ExerciseParams = exerciseParams;
+            userController.Save();
+            Save();
+            WorkoutPlanChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         public void RemoveExerciseFromWorkoutPlan(int indexEx, int indexPlan)
         {
             var item = userController.CurrentUser.WorkoutPlans.ElementAt(indexPlan);
