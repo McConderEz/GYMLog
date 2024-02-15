@@ -77,14 +77,13 @@ namespace WinFormsGUI.View
 
         private void RefreshDataGridView(object? sender, EventArgs e)
         {
-            trainPlanDataGridView.DataBindings.Clear();
+            trainPlanDataGridView.DataBindings.Clear();            
             trainPlanDataGridView.DataSource = _userController.CurrentUser.WorkoutPlans
-                                                              .Select(x => new { PlanName = x.PlanName }).ToList();
+                                                             .Select(x => new { PlanName = x.PlanName }).ToList();
         }
 
         private void RefreshExerciseDataGridView(object? sender, EventArgs e)
-        {
-            ExerciseDataGridView.DataBindings.Clear();
+        {            
             LoadDataExercises(_refreshIndex);
         }
 
@@ -143,6 +142,8 @@ namespace WinFormsGUI.View
 
         private void LoadDataExercises(int index)
         {
+            ExerciseDataGridView.DataBindings.Clear();
+            ExerciseDataGridView.Columns.Clear();
 
             var item = _userController.CurrentUser.WorkoutPlans.ElementAt(index);
             _refreshIndex = index;

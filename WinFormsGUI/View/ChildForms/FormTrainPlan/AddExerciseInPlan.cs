@@ -128,8 +128,8 @@ namespace WinFormsGUI.View.ChildForms.FormTrainPlan
                     }
 
                     _workoutPlanController.Add(_exerciseController.CurrentExercise, sets, exerciseParams);
-                    MessageBox.Show("Упражнение добавлено!");
                     this.Dispose();
+                    MessageBox.Show("Упражнение добавлено!");
                 }
                 else
                 {
