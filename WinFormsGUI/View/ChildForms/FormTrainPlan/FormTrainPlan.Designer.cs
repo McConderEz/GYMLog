@@ -142,6 +142,7 @@
             updateExerciseButton.TabIndex = 8;
             updateExerciseButton.Text = "Изменить упражнение";
             updateExerciseButton.UseVisualStyleBackColor = true;
+            updateExerciseButton.Click += updateExerciseButton_Click;
             // 
             // FormTrainPlan
             // 

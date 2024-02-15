@@ -12,13 +12,13 @@ using System.Windows.Forms;
 
 namespace WinFormsGUI.View.ChildForms.FormTrainPlan
 {
-    public partial class AddExerciseInPlan : Form
+    public partial class EditExerciseInPlan : Form
     {
-
         private List<TextBox> _textBoxes;
         private List<NumericUpDown> _numericUpDowns;
         private WorkoutPlanController _workoutPlanController;
         private ExerciseController _exerciseController;
+        private WorkoutExercise _workoutExercise;
 
         protected override void WndProc(ref Message m)
         {
@@ -33,12 +33,62 @@ namespace WinFormsGUI.View.ChildForms.FormTrainPlan
             base.WndProc(ref m);
         }
 
-
-        public AddExerciseInPlan(WorkoutPlanController workoutPlanController, WorkoutPlan workoutPlan)
+        public EditExerciseInPlan(WorkoutPlanController workoutPlanController, WorkoutPlan workoutPlan, WorkoutExercise workoutExercise)
         {
             InitializeComponent();
             _workoutPlanController = workoutPlanController;
             _workoutPlanController.WorkoutPlan = workoutPlan;
+            _workoutExercise = workoutExercise;
+        }
+
+        private void editButton_Click(object sender, EventArgs e)
+        {
+            try
+            {                
+                int sets = int.Parse(setsCountTextBox.Text);
+                string description = descriptionTextBox.Text;
+
+                if ((_numericUpDowns.Count > 0 && _textBoxes.Count > 0) && sets > 0)
+                {
+
+                    List<ExerciseParams> exerciseParams = new List<ExerciseParams>();
+
+                    for (var i = 0; i < sets; i++)
+                    {
+                        exerciseParams.Add(new ExerciseParams
+                        {
+                            Iterations = (int)_numericUpDowns[i].Value,
+                            Weight = double.Parse(_textBoxes[i].Text)
+                        });
+                    }
+
+                    _workoutPlanController.EditExercise(_workoutExercise, sets, exerciseParams);
+                    this.Dispose();
+                }
+                else
+                {
+                    MessageBox.Show("Не все поля заполнены!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Неверный ввод данных!");
+            }
+        }
+
+        private void exitButton_Click(object sender, EventArgs e)
+        {
+            this.Dispose();
+        }
+
+        private void exitButton_MouseLeave(object sender, EventArgs e)
+        {
+            exitButton.ForeColor = Color.Black;
+        }
+
+        private void exitButton_MouseMove(object sender, MouseEventArgs e)
+        {
+            exitButton.ForeColor = Color.Red;
         }
 
         private void setsCountTextBox_TextChanged(object sender, EventArgs e)
@@ -87,59 +137,5 @@ namespace WinFormsGUI.View.ChildForms.FormTrainPlan
                 }
             }
         }
-
-        private void exitButton_Click(object sender, EventArgs e)
-        {
-            this.Dispose();
-        }
-
-        private void exitButton_MouseLeave(object sender, EventArgs e)
-        {
-            exitButton.ForeColor = Color.Black;
-        }
-
-        private void exitButton_MouseMove(object sender, MouseEventArgs e)
-        {
-            exitButton.ForeColor = Color.Red;
-        }
-
-        private void addButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string name = exNameTextBox.Text;
-                string category = categoryComboBox.SelectedItem.ToString();
-                int sets = int.Parse(setsCountTextBox.Text);
-                string description = descriptionTextBox.Text;
-
-                if ((!string.IsNullOrWhiteSpace(name) || !string.IsNullOrWhiteSpace(category)) && (_numericUpDowns.Count > 0 && _textBoxes.Count > 0) && sets > 0)
-                {
-                    _exerciseController = new ExerciseController(name, category);
-
-                    List<ExerciseParams> exerciseParams = new List<ExerciseParams>();
-
-                    for(var i = 0; i < sets; i++)
-                    {
-                        exerciseParams.Add(new ExerciseParams
-                        {
-                            Iterations = (int)_numericUpDowns[i].Value,
-                            Weight = double.Parse(_textBoxes[i].Text)
-                        });
-                    }
-
-                    _workoutPlanController.Add(_exerciseController.CurrentExercise, sets, exerciseParams);
-                    this.Dispose();
-                }
-                else
-                {
-                    MessageBox.Show("Не все поля заполнены!");
-                }
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show("Неверный ввод данных!");
-            }
-        }
-
     }
 }
