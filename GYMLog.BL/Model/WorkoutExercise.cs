@@ -24,6 +24,8 @@ namespace GYMLog.BL.Model
         [DataMember]
         public int Sets { get; set; }
         [DataMember]
+        public TimeSpan Duration { get; set; }
+        [DataMember]
         public ICollection<ExerciseParams> ExerciseParams { get; set; }
 
 
