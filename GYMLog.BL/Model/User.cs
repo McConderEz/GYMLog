@@ -38,6 +38,8 @@ namespace GYMLog.BL.Model
         [DataMember]
         public virtual ICollection<WorkoutPlan> WorkoutPlans { get; set; }
         [DataMember]
+        public virtual ICollection<Activity> Activities { get; set; }
+        [DataMember]
         public virtual ICollection<Eating> Eatings { get; set; }
 
         public int Age => DateTime.Now.Year - BirthDate.Year;

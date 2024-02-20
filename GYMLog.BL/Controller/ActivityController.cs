@@ -1,0 +1,62 @@
+﻿using GYMLog.BL.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GYMLog.BL.Controller
+{
+    public class ActivityController: ControllerBase
+    {
+        //TODO: Сделать подсчёт калорий
+        //TODO: Сделать интерфейс для проведения тренировки
+        //TODO: Сделать парсер датасета
+        public Activity CurrentActivity { get; set; }
+        public UserController userController;
+        public List<Activity> Activities { get; set; }
+
+        public event EventHandler ActivityStarted;
+        public event EventHandler ActivityStopped;
+
+        public ActivityController(User user)
+        {
+            userController = new UserController(user.Login, user.Password);
+            Activities = GetAllActivities();
+        }
+
+        public void Start(WorkoutPlan workoutPlan)
+        {
+            if(workoutPlan == null) throw new ArgumentNullException(nameof(workoutPlan));
+
+            CurrentActivity = new Activity(workoutPlan.PlanName, userController.CurrentUser, workoutPlan);
+            userController.CurrentUser.Activities.Add(CurrentActivity);
+            CurrentActivity.Date = DateTime.Now;
+
+            ActivityStarted?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void Stop()
+        {
+            CurrentActivity.Duration = (DateTime.Now - CurrentActivity.Date);
+            ActivityStopped?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void SetIntensity(int intensityLevel)
+        {
+            if(intensityLevel < 0) throw new ArgumentOutOfRangeException(nameof(intensityLevel));
+
+            CurrentActivity.Intensity = intensityLevel;
+        }
+
+        private List<Activity>? GetAllActivities()
+        {
+            return Load<Activity>() ?? new List<Activity>();
+        }
+
+        public void Save()
+        {
+            Save(new List<Activity>() { CurrentActivity });
+        }
+    }
+}
