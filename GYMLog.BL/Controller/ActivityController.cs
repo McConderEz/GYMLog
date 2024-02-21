@@ -11,13 +11,17 @@ namespace GYMLog.BL.Controller
     {
         //TODO: Сделать подсчёт калорий
         //TODO: Сделать интерфейс для проведения тренировки
-        //TODO: Сделать парсер датасета
+
         public Activity CurrentActivity { get; set; }
         public UserController userController;
         public List<Activity> Activities { get; set; }
 
         public event EventHandler ActivityStarted;
         public event EventHandler ActivityStopped;
+        public event EventHandler ExerciseStarted;
+        public event EventHandler ExerciseStoppped;
+
+        private WorkoutExercise _currentExercise;
 
         public ActivityController(User user)
         {
@@ -38,8 +42,39 @@ namespace GYMLog.BL.Controller
 
         public void Stop()
         {
-            CurrentActivity.Duration = (DateTime.Now - CurrentActivity.Date);
+            CurrentActivity.Duration = (DateTime.Now.TimeOfDay - CurrentActivity.Date.TimeOfDay);
             ActivityStopped?.Invoke(this, EventArgs.Empty);
+            GetStatistic();
+        }
+
+        public void StartExercise(WorkoutExercise exercise)
+        {
+            if(exercise == null) throw new ArgumentNullException(nameof(exercise)); 
+
+            _currentExercise = exercise;
+            _currentExercise.Duration = DateTime.Now.TimeOfDay;
+
+            ExerciseStarted?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void StopExercise()
+        {
+            _currentExercise.Duration = DateTime.Now.TimeOfDay - _currentExercise.Duration;
+
+            ExerciseStoppped?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void GetStatistic()
+        {
+            CalcBurnedCalories();
+        }
+
+        private void CalcBurnedCalories()
+        {
+            foreach(var exercise in CurrentActivity.CompletedExercises)
+            {
+                CurrentActivity.CaloriesBurned += (exercise.MET * userController.CurrentUser.Weight * exercise.Duration.TotalMinutes) / 60.0;
+            }
         }
 
         public void SetIntensity(int intensityLevel)

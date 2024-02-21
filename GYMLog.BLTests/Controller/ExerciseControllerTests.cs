@@ -14,11 +14,13 @@ namespace GYMLog.BL.Controller.Tests
         [TestMethod()]
         public void SetNewExerciseDataTest()
         {
+            Random rnd = new Random();
             var name = Guid.NewGuid().ToString();
             var category = Guid.NewGuid().ToString();
+            var MET = rnd.Next(1, 10);
             var description = Guid.NewGuid().ToString();
 
-            ExerciseController exerciseController = new ExerciseController(name, category);
+            ExerciseController exerciseController = new ExerciseController(name,category);
 
             exerciseController.SetNewExerciseData(description);
 

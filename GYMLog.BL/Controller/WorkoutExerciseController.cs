@@ -32,7 +32,7 @@ namespace GYMLog.BL.Controller
 
             if (CurrentExercise == null)
             {
-                CurrentExercise = new WorkoutExercise(name, category);
+                CurrentExercise = new WorkoutExercise(name, category, 1);
                 Exercises.Add(CurrentExercise);
                 IsNewExercise = true;
             }

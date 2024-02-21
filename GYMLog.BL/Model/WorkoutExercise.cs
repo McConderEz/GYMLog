@@ -30,8 +30,8 @@ namespace GYMLog.BL.Model
 
 
 
-        public WorkoutExercise(string name,string category,int sets, List<ExerciseParams> exerciseParams)
-            :base(name, category)
+        public WorkoutExercise(string name,string category,double met, int sets, List<ExerciseParams> exerciseParams)
+            :base(name, category, met)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -60,14 +60,14 @@ namespace GYMLog.BL.Model
                     throw new ArgumentException("Ошибка параметров веса или количества повторений", nameof(exerciseParams));
                 }
             }
-
+            MET = met;
             Sets = sets;
             ExerciseParams = exerciseParams;
         }
 
         [Newtonsoft.Json.JsonConstructor]
-        public WorkoutExercise(string name,string category)
-            :base(name, category)
+        public WorkoutExercise(string name,string category,double met)
+            :base(name, category, met)
         {
 
         }

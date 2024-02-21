@@ -1,4 +1,5 @@
-﻿using GYMLog.BL.Model;
+﻿using GYMLog.BL.Helper;
+using GYMLog.BL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,13 +41,13 @@ namespace GYMLog.BL.Controller
             if (exerciseTemp == null)
             {
                 Exercises.Add(exercise);
-                userController.CurrentUser.WorkoutPlans.ElementAt(WorkoutPlan.Id).AddExercise(new WorkoutExercise(exercise.Name, exercise.Category, set, exerciseParams));
+                userController.CurrentUser.WorkoutPlans.ElementAt(WorkoutPlan.Id).AddExercise(new WorkoutExercise(exercise.Name, exercise.Category, 1 ,set, exerciseParams));
                 userController.Save();
                 Save();               
             }
             else
             {
-                userController.CurrentUser.WorkoutPlans.ElementAt(WorkoutPlan.Id).AddExercise(new WorkoutExercise(exercise.Name, exercise.Category, set, exerciseParams));
+                userController.CurrentUser.WorkoutPlans.ElementAt(WorkoutPlan.Id).AddExercise(new WorkoutExercise(exercise.Name, exercise.Category, exercise.MET ,set, exerciseParams));
                 userController.Save();
                 Save();               
             }

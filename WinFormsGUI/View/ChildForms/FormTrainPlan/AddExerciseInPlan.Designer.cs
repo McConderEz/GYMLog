@@ -28,20 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddExerciseInPlan));
             titleLabel = new Label();
             pictureBox1 = new PictureBox();
             addButton = new Button();
             exitButton = new Label();
-            panel1 = new Panel();
-            exNameTextBox = new TextBox();
             panel2 = new Panel();
             categoryComboBox = new ComboBox();
             panel3 = new Panel();
             setsCountTextBox = new TextBox();
             descriptionTextBox = new TextBox();
             buttonsPanel = new Panel();
+            exerciseComboBox = new ComboBox();
+            exerciseControllerBindingSource = new BindingSource(components);
+            panel4 = new Panel();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)exerciseControllerBindingSource).BeginInit();
             SuspendLayout();
             // 
             // titleLabel
@@ -88,29 +91,10 @@
             exitButton.MouseLeave += exitButton_MouseLeave;
             exitButton.MouseMove += exitButton_MouseMove;
             // 
-            // panel1
-            // 
-            panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Location = new Point(73, 147);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(250, 1);
-            panel1.TabIndex = 14;
-            // 
-            // exNameTextBox
-            // 
-            exNameTextBox.BackColor = SystemColors.Window;
-            exNameTextBox.BorderStyle = BorderStyle.None;
-            exNameTextBox.Location = new Point(73, 116);
-            exNameTextBox.Multiline = true;
-            exNameTextBox.Name = "exNameTextBox";
-            exNameTextBox.PlaceholderText = "Название упражнения";
-            exNameTextBox.Size = new Size(250, 25);
-            exNameTextBox.TabIndex = 13;
-            // 
             // panel2
             // 
             panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Location = new Point(73, 185);
+            panel2.Location = new Point(73, 172);
             panel2.Name = "panel2";
             panel2.Size = new Size(250, 1);
             panel2.TabIndex = 21;
@@ -119,16 +103,16 @@
             // 
             categoryComboBox.FlatStyle = FlatStyle.Flat;
             categoryComboBox.FormattingEnabled = true;
-            categoryComboBox.Items.AddRange(new object[] { "Спина", "Бицепс", "Трицепс", "Предплечья", "Трапеции", "Плечи", "Грудь", "Пресс", "Ноги" });
-            categoryComboBox.Location = new Point(73, 156);
+            categoryComboBox.Location = new Point(73, 143);
             categoryComboBox.Name = "categoryComboBox";
             categoryComboBox.Size = new Size(250, 23);
             categoryComboBox.TabIndex = 22;
+            categoryComboBox.SelectedIndexChanged += categoryComboBox_SelectedIndexChanged;
             // 
             // panel3
             // 
             panel3.BorderStyle = BorderStyle.FixedSingle;
-            panel3.Location = new Point(73, 223);
+            panel3.Location = new Point(73, 246);
             panel3.Name = "panel3";
             panel3.Size = new Size(250, 1);
             panel3.TabIndex = 24;
@@ -137,7 +121,7 @@
             // 
             setsCountTextBox.BackColor = SystemColors.Window;
             setsCountTextBox.BorderStyle = BorderStyle.None;
-            setsCountTextBox.Location = new Point(73, 192);
+            setsCountTextBox.Location = new Point(73, 215);
             setsCountTextBox.Multiline = true;
             setsCountTextBox.Name = "setsCountTextBox";
             setsCountTextBox.PlaceholderText = "Количество подходов";
@@ -148,7 +132,7 @@
             // descriptionTextBox
             // 
             descriptionTextBox.BackColor = SystemColors.Window;
-            descriptionTextBox.Location = new Point(73, 356);
+            descriptionTextBox.Location = new Point(73, 379);
             descriptionTextBox.Multiline = true;
             descriptionTextBox.Name = "descriptionTextBox";
             descriptionTextBox.PlaceholderText = "Описание...";
@@ -158,10 +142,31 @@
             // buttonsPanel
             // 
             buttonsPanel.AutoScroll = true;
-            buttonsPanel.Location = new Point(73, 230);
+            buttonsPanel.Location = new Point(73, 253);
             buttonsPanel.Name = "buttonsPanel";
             buttonsPanel.Size = new Size(250, 120);
             buttonsPanel.TabIndex = 26;
+            // 
+            // exerciseComboBox
+            // 
+            exerciseComboBox.FlatStyle = FlatStyle.Flat;
+            exerciseComboBox.FormattingEnabled = true;
+            exerciseComboBox.Location = new Point(73, 179);
+            exerciseComboBox.Name = "exerciseComboBox";
+            exerciseComboBox.Size = new Size(250, 23);
+            exerciseComboBox.TabIndex = 28;
+            // 
+            // exerciseControllerBindingSource
+            // 
+            exerciseControllerBindingSource.DataSource = typeof(GYMLog.BL.Controller.ExerciseController);
+            // 
+            // panel4
+            // 
+            panel4.BorderStyle = BorderStyle.FixedSingle;
+            panel4.Location = new Point(73, 208);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(250, 1);
+            panel4.TabIndex = 27;
             // 
             // AddExerciseInPlan
             // 
@@ -169,6 +174,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Window;
             ClientSize = new Size(384, 577);
+            Controls.Add(exerciseComboBox);
+            Controls.Add(panel4);
             Controls.Add(buttonsPanel);
             Controls.Add(descriptionTextBox);
             Controls.Add(panel3);
@@ -179,13 +186,12 @@
             Controls.Add(pictureBox1);
             Controls.Add(addButton);
             Controls.Add(exitButton);
-            Controls.Add(panel1);
-            Controls.Add(exNameTextBox);
             FormBorderStyle = FormBorderStyle.None;
             Name = "AddExerciseInPlan";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "AddExerciseInPlan";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)exerciseControllerBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -204,5 +210,8 @@
         private TextBox setsCountTextBox;
         private TextBox descriptionTextBox;
         private Panel buttonsPanel;
+        private ComboBox exerciseComboBox;
+        private Panel panel4;
+        private BindingSource exerciseControllerBindingSource;
     }
 }

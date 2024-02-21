@@ -101,7 +101,7 @@ namespace WinFormsGUI.View
 
         private void trainButton_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new FormTrain(), sender);
+            OpenChildForm(new FormTrain(_userController), sender);
         }
 
         private void trainPlanButton_Click(object sender, EventArgs e)
