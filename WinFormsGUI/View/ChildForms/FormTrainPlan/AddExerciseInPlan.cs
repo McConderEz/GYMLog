@@ -39,6 +39,9 @@ namespace WinFormsGUI.View.ChildForms.FormTrainPlan
             InitializeComponent();
             _workoutPlanController = workoutPlanController;
             _workoutPlanController.WorkoutPlan = workoutPlan;
+
+            var categories = _workoutPlanController.Exercises.Select(c => c.Category).Distinct().ToArray();
+            categoryComboBox.Items.AddRange(categories);
         }
 
         private void setsCountTextBox_TextChanged(object sender, EventArgs e)
@@ -107,7 +110,7 @@ namespace WinFormsGUI.View.ChildForms.FormTrainPlan
         {
             try
             {
-                string name = exNameTextBox.Text;
+                string name = exerciseComboBox.SelectedItem.ToString();
                 string category = categoryComboBox.SelectedItem.ToString();
                 int sets = int.Parse(setsCountTextBox.Text);
                 string description = descriptionTextBox.Text;
@@ -118,7 +121,7 @@ namespace WinFormsGUI.View.ChildForms.FormTrainPlan
 
                     List<ExerciseParams> exerciseParams = new List<ExerciseParams>();
 
-                    for(var i = 0; i < sets; i++)
+                    for (var i = 0; i < sets; i++)
                     {
                         exerciseParams.Add(new ExerciseParams
                         {
@@ -135,11 +138,18 @@ namespace WinFormsGUI.View.ChildForms.FormTrainPlan
                     MessageBox.Show("Не все поля заполнены!");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Неверный ввод данных!");
             }
         }
 
+        private void categoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            exerciseComboBox.Items.Clear();
+            var exercises = _workoutPlanController.Exercises.Where(c => c.Category.Equals(categoryComboBox.SelectedItem.ToString()))
+                .Select(e => e.Name).ToArray();
+            exerciseComboBox.Items.AddRange(exercises);
+        }
     }
 }

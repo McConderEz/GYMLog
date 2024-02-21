@@ -11,7 +11,7 @@ namespace GYMLog.BL.Controller
     {
         //TODO: Сделать подсчёт калорий
         //TODO: Сделать интерфейс для проведения тренировки
-        //TODO: Сделать парсер датасета
+
         public Activity CurrentActivity { get; set; }
         public UserController userController;
         public List<Activity> Activities { get; set; }
