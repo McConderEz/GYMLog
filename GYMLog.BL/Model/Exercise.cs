@@ -21,6 +21,8 @@ namespace GYMLog.BL.Model
         public string Category { get; set; }
         [DataMember]
         public string Description { get; set; }
+        [DataMember]
+        public double MET { get; set; } // Метаболический эквивалент 
         
         
         public Exercise(string name,string category,string description)
@@ -36,7 +38,7 @@ namespace GYMLog.BL.Model
         }
 
         [Newtonsoft.Json.JsonConstructor]
-        public Exercise(string name,string category)
+        public Exercise(string name,string category, double met = 1)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -48,8 +50,14 @@ namespace GYMLog.BL.Model
                 throw new ArgumentNullException("Категория упражнения не может быть пуста", nameof(category));
             }
 
+            if(met <= 0)
+            {
+                throw new ArgumentException("Метаболический эквивалент не должен быть меньше или равен 0!", nameof(met));
+            }
+
             Name = name;
             Category = category;
+            MET = met;
         }
 
         public Exercise() { }

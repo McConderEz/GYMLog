@@ -34,7 +34,7 @@ namespace GYMLog.BL.Controller
 
             if(CurrentExercise == null)
             {
-                CurrentExercise = new Exercise(name, category); 
+                CurrentExercise = new Exercise(name, category, 1); 
                 Exercises.Add(CurrentExercise);
                 IsNewExercise = true;
                 Save();
