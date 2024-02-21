@@ -14,7 +14,7 @@ namespace WinFormsGUI.View.ChildForms.FormTrainPlan
 {
     public partial class AddExerciseInPlan : Form
     {
-
+        //TODO: Сделать возможность добавлять своё упражнение
         private List<TextBox> _textBoxes;
         private List<NumericUpDown> _numericUpDowns;
         private WorkoutPlanController _workoutPlanController;
