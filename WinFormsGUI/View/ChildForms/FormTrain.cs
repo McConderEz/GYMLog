@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinFormsGUI.Helper;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace WinFormsGUI.View
 {
@@ -18,23 +19,26 @@ namespace WinFormsGUI.View
     {
         private UserController _userController;
         private ActivityController _activityController;
-        private List<TextBox> _textBoxes;
+        private List<System.Windows.Forms.TextBox> _textBoxes;
         private List<NumericUpDown> _numericUpDowns;
         private int Index = 0;
+        private DateTime startTime;
+
         public FormTrain(UserController userController)
         {
             InitializeComponent();
             _userController = userController;
             _activityController = new ActivityController(_userController.CurrentUser);
+            LoadDataWorkoutPlans();
         }
 
         private void LoadTheme()
         {
             foreach (Control btns in this.Controls)
             {
-                if (btns.GetType() == typeof(Button))
+                if (btns.GetType() == typeof(System.Windows.Forms.Button))
                 {
-                    Button btn = (Button)btns;
+                    System.Windows.Forms.Button btn = (System.Windows.Forms.Button)btns;
                     btns.BackColor = ThemeColor.PrimaryColor;
                     btns.ForeColor = Color.White;
                     btn.FlatAppearance.BorderColor = ThemeColor.SecondaryColor;
@@ -42,19 +46,36 @@ namespace WinFormsGUI.View
             }
         }
 
+        private void LoadDataExercises(int index)
+        {
+            ExerciseDataGridView.DataBindings.Clear();
+            ExerciseDataGridView.Columns.Clear();
+
+            var item = _userController.CurrentUser.WorkoutPlans.ElementAt(index);
+            #region Колонки
+            ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Name", HeaderText = "Название упр." });
+            ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Category", HeaderText = "Категория" });
+            #endregion
+            ExerciseDataGridView.AutoGenerateColumns = false;
+            ExerciseDataGridView.DataSource = item.ExerciseList;
+
+            DataGridViewRow row = ExerciseDataGridView.Rows[Index];
+            row.DefaultCellStyle.BackColor = Color.Yellow;
+        }
+
         private void LoadExerciseSettings()
         {
-            _textBoxes = new List<TextBox>();
+
+            Clear();
+
+            _textBoxes = new List<System.Windows.Forms.TextBox>();
             _numericUpDowns = new List<NumericUpDown>();
             var exercise = _activityController.CurrentActivity.WorkoutPlan.ExerciseList.ElementAt(Index);
-
-            ExerciseTitle.Text = exercise.Name;
-            exerciseCategoryTitle.Text = exercise.Category;
 
             for (var i = 0; i < exercise.Sets; i++)
             {
                 #region Добавление TextBox
-                TextBox textBox = new TextBox();
+                System.Windows.Forms.TextBox textBox = new System.Windows.Forms.TextBox();
                 textBox.Location = new System.Drawing.Point(10, 0 + i * 20);
                 textBox.Size = new Size(80, 20);
                 textBox.PlaceholderText = exercise.ExerciseParams.ElementAt(i).Weight.ToString();
@@ -73,6 +94,25 @@ namespace WinFormsGUI.View
             }
         }
 
+        private void Clear()
+        {
+            if (_textBoxes != null || _numericUpDowns != null)
+            {
+                foreach (System.Windows.Forms.TextBox textBox in _textBoxes)
+                {
+                    Controls.Remove(textBox);
+                    textBox.Dispose();
+                }
+
+                foreach (NumericUpDown numeric in _numericUpDowns)
+                {
+                    Controls.Remove(numeric);
+                    numeric.Dispose();
+                }
+
+            }
+        }
+
         private void LoadDataWorkoutPlans()
         {
             DataGridViewTextBoxColumn column = new DataGridViewTextBoxColumn();
@@ -88,12 +128,17 @@ namespace WinFormsGUI.View
         private void FormTrain_Load(object sender, EventArgs e)
         {
             LoadTheme();
-            LoadDataWorkoutPlans();
         }
 
         private void leftButton_Click(object sender, EventArgs e)
         {
+            DataGridViewRow row = ExerciseDataGridView.Rows[Index];
+            row.DefaultCellStyle.BackColor = Color.White;
+            Index = Index == 0 ? ExerciseDataGridView.Rows.Count - 1 : Index - 1;
 
+            row = ExerciseDataGridView.Rows[Index];
+            row.DefaultCellStyle.BackColor = Color.Yellow;
+            LoadExerciseSettings();
         }
 
         private void exCompletedButton_Click(object sender, EventArgs e)
@@ -103,7 +148,13 @@ namespace WinFormsGUI.View
 
         private void rightButton_Click(object sender, EventArgs e)
         {
+            DataGridViewRow row = ExerciseDataGridView.Rows[Index];
+            row.DefaultCellStyle.BackColor = Color.White;
+            Index = Index == ExerciseDataGridView.Rows.Count - 1 ? 0 : Index + 1;
 
+            row = ExerciseDataGridView.Rows[Index];
+            row.DefaultCellStyle.BackColor = Color.Yellow;
+            LoadExerciseSettings();
         }
 
 
@@ -142,17 +193,30 @@ namespace WinFormsGUI.View
             try
             {
                 int? index = trainPlanDataGridView.SelectedRows[0].Index;
-
+                startTime = DateTime.Now;
                 if (index != null)
                 {
                     _activityController.Start(_userController.CurrentUser.WorkoutPlans.ElementAt((int)index));
+                    trainTime.Start();
                     LoadExerciseSettings();
+                    LoadDataExercises((int)index);
                 }
             }
             catch (ArgumentOutOfRangeException ex)
             {
                 MessageBox.Show("Вы не выбрали значение!");
             }
+        }
+
+        private void UpdateElapsedTime()
+        {
+            TimeSpan elapsedTime = DateTime.Now - startTime;
+            time.Text = elapsedTime.ToString(@"hh\:mm\:ss");
+        }
+
+        private void trainTime_Tick(object sender, EventArgs e)
+        {
+            UpdateElapsedTime();
         }
     }
 }

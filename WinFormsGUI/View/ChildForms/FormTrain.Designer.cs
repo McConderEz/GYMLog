@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTrain));
             rightButton = new PictureBox();
             leftButton = new PictureBox();
@@ -35,12 +36,14 @@
             buttonsPanel = new Panel();
             trainPlanDataGridView = new DataGridView();
             startTrain = new Button();
-            ExerciseTitle = new Label();
-            exerciseCategoryTitle = new Label();
+            ExerciseDataGridView = new DataGridView();
+            trainTime = new System.Windows.Forms.Timer(components);
+            time = new Label();
             ((System.ComponentModel.ISupportInitialize)rightButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)leftButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exCompletedButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trainPlanDataGridView).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ExerciseDataGridView).BeginInit();
             SuspendLayout();
             // 
             // rightButton
@@ -86,9 +89,10 @@
             // 
             buttonsPanel.AutoScroll = true;
             buttonsPanel.BackColor = SystemColors.Window;
-            buttonsPanel.Location = new Point(318, 192);
+            buttonsPanel.BorderStyle = BorderStyle.FixedSingle;
+            buttonsPanel.Location = new Point(318, 236);
             buttonsPanel.Name = "buttonsPanel";
-            buttonsPanel.Size = new Size(250, 192);
+            buttonsPanel.Size = new Size(254, 148);
             buttonsPanel.TabIndex = 27;
             // 
             // trainPlanDataGridView
@@ -112,31 +116,34 @@
             startTrain.UseVisualStyleBackColor = false;
             startTrain.Click += startTrain_Click;
             // 
-            // ExerciseTitle
+            // ExerciseDataGridView
             // 
-            ExerciseTitle.AutoSize = true;
-            ExerciseTitle.Font = new Font("Microsoft New Tai Lue", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            ExerciseTitle.Location = new Point(318, 127);
-            ExerciseTitle.Name = "ExerciseTitle";
-            ExerciseTitle.Size = new Size(0, 21);
-            ExerciseTitle.TabIndex = 30;
+            ExerciseDataGridView.BackgroundColor = SystemColors.Window;
+            ExerciseDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            ExerciseDataGridView.Location = new Point(318, 12);
+            ExerciseDataGridView.Name = "ExerciseDataGridView";
+            ExerciseDataGridView.Size = new Size(254, 218);
+            ExerciseDataGridView.TabIndex = 32;
             // 
-            // exerciseCategoryTitle
+            // trainTime
             // 
-            exerciseCategoryTitle.AutoSize = true;
-            exerciseCategoryTitle.Font = new Font("Microsoft New Tai Lue", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            exerciseCategoryTitle.Location = new Point(318, 158);
-            exerciseCategoryTitle.Name = "exerciseCategoryTitle";
-            exerciseCategoryTitle.Size = new Size(0, 21);
-            exerciseCategoryTitle.TabIndex = 31;
+            trainTime.Tick += trainTime_Tick;
+            // 
+            // time
+            // 
+            time.AutoSize = true;
+            time.Location = new Point(578, 12);
+            time.Name = "time";
+            time.Size = new Size(0, 15);
+            time.TabIndex = 33;
             // 
             // FormTrain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 461);
-            Controls.Add(exerciseCategoryTitle);
-            Controls.Add(ExerciseTitle);
+            Controls.Add(time);
+            Controls.Add(ExerciseDataGridView);
             Controls.Add(startTrain);
             Controls.Add(trainPlanDataGridView);
             Controls.Add(buttonsPanel);
@@ -150,6 +157,7 @@
             ((System.ComponentModel.ISupportInitialize)leftButton).EndInit();
             ((System.ComponentModel.ISupportInitialize)exCompletedButton).EndInit();
             ((System.ComponentModel.ISupportInitialize)trainPlanDataGridView).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ExerciseDataGridView).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -162,7 +170,8 @@
         private Panel buttonsPanel;
         private DataGridView trainPlanDataGridView;
         private Button startTrain;
-        private Label ExerciseTitle;
-        private Label exerciseCategoryTitle;
+        private DataGridView ExerciseDataGridView;
+        private System.Windows.Forms.Timer trainTime;
+        private Label time;
     }
 }
