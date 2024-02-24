@@ -9,7 +9,6 @@ namespace GYMLog.BL.Controller
 {
     public class ActivityController: ControllerBase
     {
-        //TODO: Сделать подсчёт калорий
         //TODO: Сделать интерфейс для проведения тренировки
 
         public Activity CurrentActivity { get; set; }
@@ -34,6 +33,12 @@ namespace GYMLog.BL.Controller
             if(workoutPlan == null) throw new ArgumentNullException(nameof(workoutPlan));
 
             CurrentActivity = new Activity(workoutPlan.PlanName, userController.CurrentUser, workoutPlan);
+
+            if(userController.CurrentUser.Activities == null)
+            {
+                userController.CurrentUser.Activities = new List<Activity>();   
+            }
+
             userController.CurrentUser.Activities.Add(CurrentActivity);
             CurrentActivity.Date = DateTime.Now;
 
@@ -84,7 +89,7 @@ namespace GYMLog.BL.Controller
             CurrentActivity.Intensity = intensityLevel;
         }
 
-        private List<Activity>? GetAllActivities()
+        private List<Activity> GetAllActivities()
         {
             return Load<Activity>() ?? new List<Activity>();
         }

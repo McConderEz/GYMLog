@@ -53,7 +53,7 @@ namespace GYMLog.BL.Model
             DateTime birthDate, 
             double weight, 
             double height,
-            List<WorkoutPlan>? workoutPlans = null)
+            List<WorkoutPlan>? workoutPlans = null, List<Activity> activities = null)
         {
             #region Проверка условий
             if (string.IsNullOrWhiteSpace(login))
@@ -101,6 +101,15 @@ namespace GYMLog.BL.Model
             {
                 WorkoutPlans = new List<WorkoutPlan>();
             }
+
+            if (activities != null)
+            {
+                Activities = activities;
+            }
+            else
+            {
+                Activities = new List<Activity>();
+            }
         }
 
         [Newtonsoft.Json.JsonConstructor]
@@ -119,6 +128,7 @@ namespace GYMLog.BL.Model
             Login = login;
             Password = password;
             WorkoutPlans = new List<WorkoutPlan>();
+            Activities = new List<Activity>();
         }
 
         
