@@ -39,17 +39,22 @@
             ExerciseDataGridView = new DataGridView();
             trainTime = new System.Windows.Forms.Timer(components);
             time = new Label();
+            startExButton = new PictureBox();
+            endTrainButton = new Button();
+            exerciseTime = new Label();
+            exerciseMakeTime = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)rightButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)leftButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)exCompletedButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trainPlanDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ExerciseDataGridView).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)startExButton).BeginInit();
             SuspendLayout();
             // 
             // rightButton
             // 
             rightButton.Image = Properties.Resources.icons8_стрелка_вправо_в_круге_50;
-            rightButton.Location = new Point(481, 390);
+            rightButton.Location = new Point(527, 390);
             rightButton.Name = "rightButton";
             rightButton.Size = new Size(45, 38);
             rightButton.SizeMode = PictureBoxSizeMode.Zoom;
@@ -62,7 +67,7 @@
             // leftButton
             // 
             leftButton.Image = (Image)resources.GetObject("leftButton.Image");
-            leftButton.Location = new Point(354, 390);
+            leftButton.Location = new Point(318, 390);
             leftButton.Name = "leftButton";
             leftButton.Size = new Size(45, 38);
             leftButton.SizeMode = PictureBoxSizeMode.Zoom;
@@ -75,7 +80,7 @@
             // exCompletedButton
             // 
             exCompletedButton.Image = (Image)resources.GetObject("exCompletedButton.Image");
-            exCompletedButton.Location = new Point(419, 390);
+            exCompletedButton.Location = new Point(456, 390);
             exCompletedButton.Name = "exCompletedButton";
             exCompletedButton.Size = new Size(45, 38);
             exCompletedButton.SizeMode = PictureBoxSizeMode.Zoom;
@@ -108,9 +113,9 @@
             // 
             startTrain.BackColor = SystemColors.Window;
             startTrain.FlatStyle = FlatStyle.Flat;
-            startTrain.Location = new Point(92, 390);
+            startTrain.Location = new Point(12, 390);
             startTrain.Name = "startTrain";
-            startTrain.Size = new Size(129, 27);
+            startTrain.Size = new Size(152, 27);
             startTrain.TabIndex = 29;
             startTrain.Text = "Начать тренировку";
             startTrain.UseVisualStyleBackColor = false;
@@ -137,11 +142,51 @@
             time.Size = new Size(0, 15);
             time.TabIndex = 33;
             // 
+            // startExButton
+            // 
+            startExButton.Image = (Image)resources.GetObject("startExButton.Image");
+            startExButton.Location = new Point(389, 390);
+            startExButton.Name = "startExButton";
+            startExButton.Size = new Size(45, 38);
+            startExButton.SizeMode = PictureBoxSizeMode.Zoom;
+            startExButton.TabIndex = 34;
+            startExButton.TabStop = false;
+            startExButton.Click += startExButton_Click;
+            startExButton.MouseLeave += startExButton_MouseLeave;
+            startExButton.MouseMove += startExButton_MouseMove;
+            // 
+            // endTrainButton
+            // 
+            endTrainButton.BackColor = SystemColors.Window;
+            endTrainButton.FlatStyle = FlatStyle.Flat;
+            endTrainButton.Location = new Point(170, 390);
+            endTrainButton.Name = "endTrainButton";
+            endTrainButton.Size = new Size(142, 27);
+            endTrainButton.TabIndex = 35;
+            endTrainButton.Text = "Закончить тренировку";
+            endTrainButton.UseVisualStyleBackColor = false;
+            endTrainButton.Click += endTrainButton_Click;
+            // 
+            // exerciseTime
+            // 
+            exerciseTime.AutoSize = true;
+            exerciseTime.Location = new Point(578, 236);
+            exerciseTime.Name = "exerciseTime";
+            exerciseTime.Size = new Size(0, 15);
+            exerciseTime.TabIndex = 36;
+            // 
+            // exerciseMakeTime
+            // 
+            exerciseMakeTime.Tick += exerciseMakeTime_Tick;
+            // 
             // FormTrain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 461);
+            Controls.Add(exerciseTime);
+            Controls.Add(endTrainButton);
+            Controls.Add(startExButton);
             Controls.Add(time);
             Controls.Add(ExerciseDataGridView);
             Controls.Add(startTrain);
@@ -158,6 +203,7 @@
             ((System.ComponentModel.ISupportInitialize)exCompletedButton).EndInit();
             ((System.ComponentModel.ISupportInitialize)trainPlanDataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)ExerciseDataGridView).EndInit();
+            ((System.ComponentModel.ISupportInitialize)startExButton).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -173,5 +219,9 @@
         private DataGridView ExerciseDataGridView;
         private System.Windows.Forms.Timer trainTime;
         private Label time;
+        private PictureBox startExButton;
+        private Button endTrainButton;
+        private Label exerciseTime;
+        private System.Windows.Forms.Timer exerciseMakeTime;
     }
 }

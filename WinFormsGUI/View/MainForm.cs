@@ -18,7 +18,7 @@ namespace WinFormsGUI.View
         private Random _random;
         private int _tempIndex;
         private Form _activeForm;
-        private UserController _userController;
+        public static UserController _userController;
 
         public MainForm(/*UserController userController*/)
         {

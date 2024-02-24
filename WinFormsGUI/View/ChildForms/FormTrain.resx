@@ -170,4 +170,35 @@
   <metadata name="trainTime.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="startExButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+</value>
+  </data>
+  <metadata name="exerciseMakeTime.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>121, 17</value>
+  </metadata>
 </root>
