@@ -129,6 +129,7 @@
             ExerciseDataGridView.Name = "ExerciseDataGridView";
             ExerciseDataGridView.Size = new Size(254, 218);
             ExerciseDataGridView.TabIndex = 32;
+            ExerciseDataGridView.CellPainting += ExerciseDataGridView_CellPainting;
             // 
             // trainTime
             // 

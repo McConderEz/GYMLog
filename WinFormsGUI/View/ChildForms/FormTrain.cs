@@ -35,6 +35,8 @@ namespace WinFormsGUI.View
             InitializeComponent();
             _userController = userController;
             _activityController = new ActivityController(_userController.CurrentUser);
+            ExerciseDataGridView.ReadOnly = true;
+
             LoadDataWorkoutPlans();
         }
 
@@ -79,7 +81,7 @@ namespace WinFormsGUI.View
             _textBoxes = new List<System.Windows.Forms.TextBox>();
             _numericUpDowns = new List<NumericUpDown>();
             //var exercise = _activityController.CurrentActivity.WorkoutPlan.ExerciseList.ElementAt(Index);
-            
+
             var exercise = _workoutPlanView.ExerciseList.ElementAt(Index);
 
             for (var i = 0; i < exercise.Sets; i++)
@@ -160,7 +162,7 @@ namespace WinFormsGUI.View
                 var item = _workoutPlanView.ExerciseList.ElementAt(Index);
                 _workoutPlanView.ExerciseList.Remove(item);
                 LoadDataExercises(Index);
-                if(_workoutPlanView.ExerciseList.Count != 0)
+                if (_workoutPlanView.ExerciseList.Count != 0)
                     LoadExerciseSettings();
             }
         }
@@ -272,6 +274,11 @@ namespace WinFormsGUI.View
         private void exerciseMakeTime_Tick(object sender, EventArgs e)
         {
             UpdateElapsedTimeExercise();
+        }
+
+        private void ExerciseDataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            ExerciseDataGridView.ClearSelection();
         }
     }
 }
