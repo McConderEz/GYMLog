@@ -25,8 +25,6 @@ namespace GYMLog.BL.Controller
 
         public event EventHandler WorkoutPlanChanged;
 
-        //TODO: Переписать модель WorkoutPlanController(когда-нибудь при необходимости)
-
         public WorkoutPlanController(User user) 
         {
             this._user = user ?? throw new ArgumentNullException("Пользователь не может быть пустым!", nameof(user));

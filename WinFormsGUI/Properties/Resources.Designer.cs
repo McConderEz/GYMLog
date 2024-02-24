@@ -93,6 +93,16 @@ namespace WinFormsGUI.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_стрелка_вправо_в_круге_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-стрелка-вправо-в-круге-50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_штанга_100 {
             get {
                 object obj = ResourceManager.GetObject("icons8-штанга-100", resourceCulture);
