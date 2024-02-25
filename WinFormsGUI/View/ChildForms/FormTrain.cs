@@ -18,9 +18,7 @@ namespace WinFormsGUI.View
 {
     public partial class FormTrain : Form
     {
-        //TODO: Запускать таймер при начале упражнения
-        //TODO: не сбрасывать сделанные подходы в упражнении при смене упражнения
-        //TODO: сделать завершение тренировки
+        //TODO: Править баг с обновление завершенных активностей в этой форме и в форме личной статистики
         private UserController _userController;
         private ActivityController _activityController;
         private List<System.Windows.Forms.TextBox> _textBoxes;

@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="LiveCharts.WinForms.NetCore3" Version="0.9.8" />
+    <PackageReference Include="Syncfusion.Chart.Windows" Version="24.2.7" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\GYMLog.BL\GYMLog.BL.csproj" />
   </ItemGroup>
 

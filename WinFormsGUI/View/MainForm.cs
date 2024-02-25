@@ -111,7 +111,7 @@ namespace WinFormsGUI.View
 
         private void rateButton_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new FormRate(), sender);
+            OpenChildForm(new FormRate(_userController), sender);
         }
 
         private void dietButton_Click(object sender, EventArgs e)

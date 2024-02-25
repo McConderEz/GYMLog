@@ -33,6 +33,8 @@
             genderLabel = new Label();
             heightLabel = new Label();
             weightLabel = new Label();
+            activityDataGridView = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)activityDataGridView).BeginInit();
             SuspendLayout();
             // 
             // nameLabel
@@ -85,11 +87,22 @@
             weightLabel.TabIndex = 4;
             weightLabel.Text = "Вес:";
             // 
+            // activityDataGridView
+            // 
+            activityDataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            activityDataGridView.BackgroundColor = SystemColors.Window;
+            activityDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            activityDataGridView.Location = new Point(342, 9);
+            activityDataGridView.Name = "activityDataGridView";
+            activityDataGridView.Size = new Size(446, 429);
+            activityDataGridView.TabIndex = 5;
+            // 
             // FormOwnStat
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(activityDataGridView);
             Controls.Add(weightLabel);
             Controls.Add(heightLabel);
             Controls.Add(genderLabel);
@@ -98,6 +111,7 @@
             Name = "FormOwnStat";
             Text = "Личная статистика";
             Load += FormOwnStat_Load;
+            ((System.ComponentModel.ISupportInitialize)activityDataGridView).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -109,5 +123,6 @@
         private Label genderLabel;
         private Label heightLabel;
         private Label weightLabel;
+        private DataGridView activityDataGridView;
     }
 }

@@ -15,11 +15,13 @@ namespace WinFormsGUI.View
     public partial class FormOwnStat : Form
     {
         private UserController _userController;
+        private ActivityController _activityController;
 
         public FormOwnStat(UserController userController)
         {
             InitializeComponent();            
             _userController = userController;
+            _activityController = new ActivityController(_userController.CurrentUser);
             LoadProfileData();
         }
 
@@ -46,9 +48,22 @@ namespace WinFormsGUI.View
             }
         }
 
+        private void LoadActivities()
+        {
+            DataGridViewTextBoxColumn column = new DataGridViewTextBoxColumn();
+            activityDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Name", HeaderText = "Название" });
+            activityDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "CaloriesBurned", HeaderText = "Сожжено калорий" });
+            activityDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Date", HeaderText = "Дата" });
+            activityDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Count", HeaderText = "Кол-во сделанных упр." });
+
+            activityDataGridView.DataSource = _activityController.Activities.Where(u => u.User.Login.Equals(_userController.CurrentUser.Login))
+                .Select(x => new { x.Name, x.CaloriesBurned, x.Date, x.CompletedExercises.Count}).ToList();
+        }
+
         private void FormOwnStat_Load(object sender, EventArgs e)
         {
             LoadTheme();
+            LoadActivities();
         }
     }
 }
