@@ -71,8 +71,9 @@ namespace WinFormsGUI.View
 
         private void RefreshUserController(object? sender, EventArgs e)
         {
-            var user = _userController.CurrentUser;
+            var user = _userController.CurrentUser;            
             _userController = new UserController(user.Login, user.Password);
+            MainForm._userController = _userController;
         }
 
         private void RefreshDataGridView(object? sender, EventArgs e)

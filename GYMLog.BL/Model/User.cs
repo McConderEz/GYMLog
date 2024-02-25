@@ -37,8 +37,8 @@ namespace GYMLog.BL.Model
         public double Height { get; set; }
         [DataMember]
         public virtual ICollection<WorkoutPlan> WorkoutPlans { get; set; }
-        [DataMember]
-        public virtual ICollection<Activity> Activities { get; set; }
+        //[DataMember]
+        //public virtual ICollection<Activity> Activities { get; set; }
         [DataMember]
         public virtual ICollection<Eating> Eatings { get; set; }
 
@@ -102,14 +102,14 @@ namespace GYMLog.BL.Model
                 WorkoutPlans = new List<WorkoutPlan>();
             }
 
-            if (activities != null)
-            {
-                Activities = activities;
-            }
-            else
-            {
-                Activities = new List<Activity>();
-            }
+            //if (activities != null)
+            //{
+            //    Activities = activities;
+            //}
+            //else
+            //{
+            //    Activities = new List<Activity>();
+            //}
         }
 
         [Newtonsoft.Json.JsonConstructor]
@@ -128,7 +128,7 @@ namespace GYMLog.BL.Model
             Login = login;
             Password = password;
             WorkoutPlans = new List<WorkoutPlan>();
-            Activities = new List<Activity>();
+            //Activities = new List<Activity>();
         }
 
         

@@ -9,7 +9,6 @@ namespace GYMLog.BL.Controller
 {
     public class ActivityController: ControllerBase
     {
-        //TODO: Сделать интерфейс для проведения тренировки
 
         public Activity CurrentActivity { get; set; }
         public UserController userController;
@@ -34,12 +33,13 @@ namespace GYMLog.BL.Controller
 
             CurrentActivity = new Activity(workoutPlan.PlanName, userController.CurrentUser, workoutPlan);
 
-            if(userController.CurrentUser.Activities == null)
-            {
-                userController.CurrentUser.Activities = new List<Activity>();   
-            }
+            //if(userController.CurrentUser.Activities == null)
+            //{
+            //    userController.CurrentUser.Activities = new List<Activity>();   
+            //}
 
-            userController.CurrentUser.Activities.Add(CurrentActivity);
+            //userController.CurrentUser.Activities.Add(CurrentActivity);
+            Activities.Add(CurrentActivity);
             CurrentActivity.Date = DateTime.Now;
 
             ActivityStarted?.Invoke(this, EventArgs.Empty);
@@ -50,6 +50,7 @@ namespace GYMLog.BL.Controller
             CurrentActivity.Duration = (DateTime.Now.TimeOfDay - CurrentActivity.Date.TimeOfDay);
             ActivityStopped?.Invoke(this, EventArgs.Empty);
             GetStatistic();
+            Save();
         }
 
         public void StartExercise(WorkoutExercise exercise)
@@ -65,7 +66,7 @@ namespace GYMLog.BL.Controller
         public void StopExercise()
         {
             _currentExercise.Duration = DateTime.Now.TimeOfDay - _currentExercise.Duration;
-
+            CurrentActivity.CompletedExercises.Add(_currentExercise);
             ExerciseStoppped?.Invoke(this, EventArgs.Empty);
         }
 

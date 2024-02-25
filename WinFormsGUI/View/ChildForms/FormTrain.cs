@@ -1,5 +1,6 @@
 ﻿using GYMLog.BL.Controller;
 using GYMLog.BL.Model;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,18 +18,23 @@ namespace WinFormsGUI.View
 {
     public partial class FormTrain : Form
     {
+        //TODO: Править баг с обновление завершенных активностей в этой форме и в форме личной статистики
         private UserController _userController;
         private ActivityController _activityController;
         private List<System.Windows.Forms.TextBox> _textBoxes;
         private List<NumericUpDown> _numericUpDowns;
         private int Index = 0;
         private DateTime startTime;
+        private DateTime startTimeEx;
+        private WorkoutPlan _workoutPlanView;
 
         public FormTrain(UserController userController)
         {
             InitializeComponent();
             _userController = userController;
             _activityController = new ActivityController(_userController.CurrentUser);
+            ExerciseDataGridView.ReadOnly = true;
+
             LoadDataWorkoutPlans();
         }
 
@@ -51,16 +57,18 @@ namespace WinFormsGUI.View
             ExerciseDataGridView.DataBindings.Clear();
             ExerciseDataGridView.Columns.Clear();
 
-            var item = _userController.CurrentUser.WorkoutPlans.ElementAt(index);
+            var item = _workoutPlanView;
             #region Колонки
             ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Name", HeaderText = "Название упр." });
             ExerciseDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Category", HeaderText = "Категория" });
             #endregion
             ExerciseDataGridView.AutoGenerateColumns = false;
             ExerciseDataGridView.DataSource = item.ExerciseList;
-
-            DataGridViewRow row = ExerciseDataGridView.Rows[Index];
-            row.DefaultCellStyle.BackColor = Color.Yellow;
+            if (item.ExerciseList.Count != 0)
+            {
+                DataGridViewRow row = ExerciseDataGridView.Rows[Index];
+                row.DefaultCellStyle.BackColor = Color.Yellow;
+            }
         }
 
         private void LoadExerciseSettings()
@@ -70,7 +78,9 @@ namespace WinFormsGUI.View
 
             _textBoxes = new List<System.Windows.Forms.TextBox>();
             _numericUpDowns = new List<NumericUpDown>();
-            var exercise = _activityController.CurrentActivity.WorkoutPlan.ExerciseList.ElementAt(Index);
+            //var exercise = _activityController.CurrentActivity.WorkoutPlan.ExerciseList.ElementAt(Index);
+
+            var exercise = _workoutPlanView.ExerciseList.ElementAt(Index);
 
             for (var i = 0; i < exercise.Sets; i++)
             {
@@ -143,7 +153,16 @@ namespace WinFormsGUI.View
 
         private void exCompletedButton_Click(object sender, EventArgs e)
         {
-
+            if (_workoutPlanView != null && _workoutPlanView.ExerciseList.Count != 0)
+            {
+                _activityController.StopExercise();
+                exerciseMakeTime.Stop();
+                var item = _workoutPlanView.ExerciseList.ElementAt(Index);
+                _workoutPlanView.ExerciseList.Remove(item);
+                LoadDataExercises(Index);
+                if (_workoutPlanView.ExerciseList.Count != 0)
+                    LoadExerciseSettings();
+            }
         }
 
         private void rightButton_Click(object sender, EventArgs e)
@@ -197,6 +216,7 @@ namespace WinFormsGUI.View
                 if (index != null)
                 {
                     _activityController.Start(_userController.CurrentUser.WorkoutPlans.ElementAt((int)index));
+                    _workoutPlanView = _userController.CurrentUser.WorkoutPlans.ElementAt((int)index);
                     trainTime.Start();
                     LoadExerciseSettings();
                     LoadDataExercises((int)index);
@@ -214,9 +234,49 @@ namespace WinFormsGUI.View
             time.Text = elapsedTime.ToString(@"hh\:mm\:ss");
         }
 
+        private void UpdateElapsedTimeExercise()
+        {
+            TimeSpan elapsedTime = DateTime.Now - startTimeEx;
+            exerciseTime.Text = elapsedTime.ToString(@"hh\:mm\:ss");
+        }
+
         private void trainTime_Tick(object sender, EventArgs e)
         {
             UpdateElapsedTime();
+        }
+
+        private void startExButton_Click(object sender, EventArgs e)
+        {
+            _activityController.StartExercise(_workoutPlanView.ExerciseList.ElementAt(Index));
+            startTimeEx = DateTime.Now;
+            exerciseMakeTime.Start();
+        }
+
+        private void startExButton_MouseLeave(object sender, EventArgs e)
+        {
+            startExButton.Image = new Bitmap(@"C:\Users\rusta\source\repos\GYMLog\WinFormsGUI\Resources\icons8-старт-50.png");
+        }
+
+        private void startExButton_MouseMove(object sender, MouseEventArgs e)
+        {
+            startExButton.Image = new Bitmap(@"C:\Users\rusta\source\repos\GYMLog\WinFormsGUI\Resources\icons8-старт-50 (1).png");
+        }
+
+        private void endTrainButton_Click(object sender, EventArgs e)
+        {
+            _activityController.Stop();
+            trainTime.Stop();
+            MessageBox.Show($"{Math.Round(_activityController.CurrentActivity.CaloriesBurned, 2)} сожжено калорий за тренировку!");
+        }
+
+        private void exerciseMakeTime_Tick(object sender, EventArgs e)
+        {
+            UpdateElapsedTimeExercise();
+        }
+
+        private void ExerciseDataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            ExerciseDataGridView.ClearSelection();
         }
     }
 }

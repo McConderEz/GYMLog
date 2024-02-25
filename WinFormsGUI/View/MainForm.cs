@@ -18,7 +18,7 @@ namespace WinFormsGUI.View
         private Random _random;
         private int _tempIndex;
         private Form _activeForm;
-        private UserController _userController;
+        public static UserController _userController;
 
         public MainForm(/*UserController userController*/)
         {
@@ -111,7 +111,7 @@ namespace WinFormsGUI.View
 
         private void rateButton_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new FormRate(), sender);
+            OpenChildForm(new FormRate(_userController), sender);
         }
 
         private void dietButton_Click(object sender, EventArgs e)
