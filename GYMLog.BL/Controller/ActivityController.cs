@@ -41,7 +41,6 @@ namespace GYMLog.BL.Controller
             //userController.CurrentUser.Activities.Add(CurrentActivity);
             Activities.Add(CurrentActivity);
             CurrentActivity.Date = DateTime.Now;
-
             ActivityStarted?.Invoke(this, EventArgs.Empty);
         }
 
@@ -97,7 +96,7 @@ namespace GYMLog.BL.Controller
 
         public void Save()
         {
-            Save(new List<Activity>() { CurrentActivity });
+            Save(Activities);
         }
     }
 }

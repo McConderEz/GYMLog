@@ -11,13 +11,15 @@ namespace GYMLog.BL.Controller
     public class EatingController:ControllerBase
     {
 
-        private readonly User user;
+        public UserController userController;
         public List<Food> Foods { get; }
         public Eating Eating { get; }
 
-        public EatingController(User user)
+        public event EventHandler EatingAdded;
+
+        public EatingController(UserController userController)
         {
-            this.user = user ?? throw new ArgumentNullException("Пользователь не может быть пустым!",nameof(user));
+            this.userController = userController ?? throw new ArgumentNullException("Пользователь не может быть пустым!",nameof(userController));
 
             Foods = GetAllFoods();
             Eating = GetEating();
@@ -32,18 +34,22 @@ namespace GYMLog.BL.Controller
             {
                 Foods.Add(food);
                 Eating.Add(food, weight);
+                userController.CurrentUser.Eatings.Add(Eating);
                 Save();
             }
             else
             {
                 Eating.Add(product,weight);
+                userController.CurrentUser.Eatings.Add(Eating);
                 Save();
             }
+            userController.Save();
+            EatingAdded?.Invoke(this, EventArgs.Empty);
         }
 
         private Eating GetEating()
         {
-            return Load<Eating>().FirstOrDefault() ?? new Eating(user);
+            return Load<Eating>().FirstOrDefault() ?? new Eating(userController.CurrentUser);
         }
 
 
