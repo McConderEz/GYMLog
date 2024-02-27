@@ -48,13 +48,13 @@ namespace GYMLog.BL.Model
         /// Калории за 1 грамм продукта
         /// </summary>
         [DataMember]
-        private double CaloriesOneGramm { get => Calories / 100.0; }
+        public double CaloriesOneGramm { get => Calories / 100.0; }
         [DataMember]
-        private double ProteinsOneGramm { get => Proteins / 100.0; }
+        public double ProteinsOneGramm { get => Proteins / 100.0; }
         [DataMember]
-        private double FatsOneGramm { get => Fats / 100.0; }
+        public double FatsOneGramm { get => Fats / 100.0; }
         [DataMember]
-        private double CarbohydratesOneGramm { get => Carbohydrates / 100.0; }
+        public double CarbohydratesOneGramm { get => Carbohydrates / 100.0; }
 
         public virtual ICollection<Eating> Eatings { get; set; }
         

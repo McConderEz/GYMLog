@@ -116,7 +116,7 @@ namespace WinFormsGUI.View
 
         private void dietButton_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new FormDiet(), sender);
+            OpenChildForm(new FormDiet(_userController), sender);
         }
     }
 }
