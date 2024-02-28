@@ -83,7 +83,7 @@ namespace WinFormsGUI
                 _userController = new UserController(login, password);
                 if(_userController.CurrentUser != null)
                 {
-                    MainForm mainForm = new MainForm(/*_userController*/);
+                    MainForm mainForm = new MainForm(_userController);
                     mainForm.Show();
                     this.Hide();
                 }

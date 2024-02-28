@@ -20,15 +20,11 @@ namespace WinFormsGUI.View
         private Form _activeForm;
         public static UserController _userController;
 
-        public MainForm(/*UserController userController*/)
+        public MainForm(UserController userController)
         {
             InitializeComponent();
             _random = new Random();
-            //_userController = userController;
-
-
-            //Для тестов
-            _userController = new UserController("Minoddein", "0958700191");
+            _userController = userController;            
         }
 
         private Color SelectThemeColor()

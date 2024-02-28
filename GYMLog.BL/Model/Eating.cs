@@ -42,13 +42,15 @@ namespace GYMLog.BL.Model
             User = user ?? throw new ArgumentNullException("Пользователь не может быть пустым.",nameof(user));
             Moment = DateTime.UtcNow;
             Foods = new List<WeightedFood>();
-
         }
+
 
         public Eating() { }
 
         public void Add(Food food, double weight)
         {
+            if(Foods == null) Foods = new List<WeightedFood>();
+
             var product = Foods.FirstOrDefault(x => x.Food.Name.Equals(food.Name));
 
             if (product == null)
