@@ -14,6 +14,7 @@ namespace GYMLog.BL.Controller
         public UserController userController;
         public List<Food> Foods { get; }
         public Eating Eating { get; }
+        public List<Eating> EatingList { get; set; }
 
         public event EventHandler EatingAdded;
 
@@ -22,7 +23,7 @@ namespace GYMLog.BL.Controller
             this.userController = userController ?? throw new ArgumentNullException("Пользователь не может быть пустым!",nameof(userController));
 
             Foods = GetAllFoods();
-            Eating = GetEating();
+            EatingList = GetEatings();
 
         }
 
@@ -33,23 +34,25 @@ namespace GYMLog.BL.Controller
             if(product == null)
             {
                 Foods.Add(food);
-                Eating.Add(food, weight);
-                userController.CurrentUser.Eatings.Add(Eating);
+                EatingList.Add(new Eating(userController.CurrentUser));
+                EatingList.LastOrDefault().Add(food, weight);
+                //userController.CurrentUser.Eatings.Add(Eating);
                 Save();
             }
             else
             {
-                Eating.Add(product,weight);
-                userController.CurrentUser.Eatings.Add(Eating);
+                EatingList.Add(new Eating());
+                EatingList.LastOrDefault().Add(food, weight);
+                //userController.CurrentUser.Eatings.Add(Eating);
                 Save();
             }
-            userController.Save();
+            //userController.Save();
             EatingAdded?.Invoke(this, EventArgs.Empty);
         }
 
-        private Eating GetEating()
+        private List<Eating> GetEatings()
         {
-            return Load<Eating>().FirstOrDefault() ?? new Eating(userController.CurrentUser);
+            return Load<Eating>() ?? new List<Eating>();
         }
 
 
@@ -63,7 +66,7 @@ namespace GYMLog.BL.Controller
         public void Save()
         {
             Save(Foods);
-            Save(new List<Eating>() { Eating });
+            Save(EatingList);
         }
       
     }

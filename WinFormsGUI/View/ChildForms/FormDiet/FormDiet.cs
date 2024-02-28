@@ -68,18 +68,20 @@ namespace WinFormsGUI.View
             eatingsDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Proteins", HeaderText = "Белки" });
             eatingsDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Fats", HeaderText = "Жиры" });
             eatingsDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Carbohydrates", HeaderText = "Углеводы" });
+            eatingsDataGridView.Columns.Add(new DataGridViewTextBoxColumn() { DataPropertyName = "Weight", HeaderText = "Вес" });
             #endregion
 
             eatingsDataGridView.AutoGenerateColumns = false;
 
-            var dataSource = _eatingController.userController.CurrentUser.Eatings.Select(x => new
+            var dataSource = _eatingController.EatingList.Where(x => x.User.Login.Equals(_userController.CurrentUser.Login)).Select(x => new
             {
                 Moment = x.Moment,
                 Calories = x.Foods.Sum(g => Math.Round(g.Food.CaloriesOneGramm / g.Weight, 2)),
                 Name = string.Join(", ", x.Foods.Select(f => f.Food.Name)),
-                Proteins = x.Foods.Sum(g => Math.Round(g.Food.ProteinsOneGramm / g.Weight, 2)),
-                Fats = x.Foods.Sum(g => Math.Round(g.Food.FatsOneGramm / g.Weight, 2)),
-                Carbohydrates = x.Foods.Sum(g => Math.Round(g.Food.CarbohydratesOneGramm / g.Weight, 2))
+                Proteins = x.Foods.Sum(g => g.Food.Proteins),
+                Fats = x.Foods.Sum(g => g.Food.Fats),
+                Carbohydrates = x.Foods.Sum(g => g.Food.Carbohydrates),
+                Weight = x.Foods.Sum(g => g.Weight)
             }).ToList();
             eatingsDataGridView.DataSource = dataSource;           
         }
