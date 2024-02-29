@@ -1,7 +1,25 @@
-GymLog - это приложение, которое позволяет вам отслеживать вашу тренировочную активность и диету. Имеет простой и интуитивно понятный интерфейс.
-Для реализации графического интерфейса был выбран Windows Forms. Проект реализован с применением паттерна MVC и DI(для переключения способа хранения данных).
-В данный момент приложение сохраняет данные в формате JSON, но в дальнейшем планируется возможность сохранения в БД.
+GymLog
+GymLog is an application that allows you to track your workout activity and diet. It features a simple and intuitive interface.
 
-GYMLog.BL - модуль, содержащий всю бизнес логику приложения: модели и контроллеры
-GYMLog.Tests - модуль, содержащий юнит-тесты контроллеров
-GYMLog.WinFormsGUI - модуль, содержащий графический интерфейс данного приложения
+Features
+Track workout activity
+Track diet
+User-friendly interface
+Technologies Used
+Windows Forms for the graphical user interface
+Model-View-Controller (MVC) pattern for implementation
+Dependency Injection (DI) for switching data storage methods
+Modules
+GYMLog.BL: This module contains all the business logic of the application, including models and controllers.
+GYMLog.Tests: This module contains unit tests for the controllers.
+GYMLog.WinFormsGUI: This module contains the graphical user interface for the application.
+Data Storage
+Currently, the application saves data in JSON format. However, there are plans to add the ability to save data in a database in the future.
+
+How to Run
+To run the GymLog application, follow these steps:
+
+Clone the repository.
+Open the solution file in Visual Studio.
+Build the solution.
+Run the application.
