@@ -1,25 +1,25 @@
-GymLog
-GymLog is an application that allows you to track your workout activity and diet. It features a simple and intuitive interface.
+#**GymLog**
+GymLog - это приложение, которое позволяет вам отслеживать вашу тренировочную активность и диету. Имеет простой и интуитивно понятный интерфейс.
 
-Features
-Track workout activity
-Track diet
-User-friendly interface
-Technologies Used
-Windows Forms for the graphical user interface
-Model-View-Controller (MVC) pattern for implementation
-Dependency Injection (DI) for switching data storage methods
-Modules
-GYMLog.BL: This module contains all the business logic of the application, including models and controllers.
-GYMLog.Tests: This module contains unit tests for the controllers.
-GYMLog.WinFormsGUI: This module contains the graphical user interface for the application.
-Data Storage
-Currently, the application saves data in JSON format. However, there are plans to add the ability to save data in a database in the future.
+##Особенности
+*Отслеживание тренировочной активности
+*Отслеживание диеты
+*Пользовательский интерфейс, удобный в использовании
+##Используемые технологии
+*Windows Forms для графического интерфейса
+*Паттерн MVC (Model-View-Controller) для реализации
+*Внедрение зависимостей (DI) для переключения способа хранения данных
+##Модули
+1.GYMLog.BL: Этот модуль содержит всю бизнес-логику приложения, включая модели и контроллеры.
+2.GYMLog.Tests: Этот модуль содержит юнит-тесты для контроллеров.
+3.GYMLog.WinFormsGUI: Этот модуль содержит графический интерфейс приложения.
+##Хранение данных
+В настоящее время приложение сохраняет данные в формате JSON. Однако в будущем планируется добавить возможность сохранения данных в базе данных.
 
-How to Run
-To run the GymLog application, follow these steps:
+##Как запустить
+###Для запуска приложения GymLog выполните следующие шаги:
 
-Clone the repository.
-Open the solution file in Visual Studio.
-Build the solution.
-Run the application.
+1.Скачайте установщик в папке Setup.
+2.Откройте установщик.
+3.Установите приложение в выбранную вами директорию.
+4.Запустите приложение.
