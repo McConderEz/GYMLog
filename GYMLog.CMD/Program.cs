@@ -1,10 +1,10 @@
 ﻿using GYMLog.BL.Controller;
+using GYMLog.BL.Helper;
 using GYMLog.BL.Model;
 using GYMLog.CMD.Languages;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Resources;
-
 
 
 
@@ -21,7 +21,7 @@ Console.WriteLine(resourceManager.GetString("PasswordRequest", culture));
 var password = Console.ReadLine();
 
 var userController = new UserController(login, password);
-var eatingController = new EatingController(userController.CurrentUser);
+var eatingController = new EatingController(null /*userController.CurrentUser*/);
 ExerciseController exerciseController;
 WorkoutPlanController workoutPlanController;
 WorkoutExerciseController workoutExerciseController;

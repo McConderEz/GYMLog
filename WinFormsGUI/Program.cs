@@ -1,3 +1,4 @@
+using GYMLog.BL.Controller;
 using WinFormsGUI.View;
 
 namespace WinFormsGUI
@@ -12,6 +13,7 @@ namespace WinFormsGUI
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
+            ExerciseController exerciseController = new ExerciseController();
             ApplicationConfiguration.Initialize();
             Application.Run(new Login());
         }

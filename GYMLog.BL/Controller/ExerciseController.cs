@@ -1,4 +1,5 @@
-﻿using GYMLog.BL.Model;
+﻿using GYMLog.BL.Helper;
+using GYMLog.BL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,16 @@ namespace GYMLog.BL.Controller
                 Save();
             }
 
+        }
+
+        public ExerciseController()
+        {
+            Exercises = GetExercisesDate();
+
+            if (Exercises.Count == 0)
+                Exercises.AddRange(ParserCSV.LoadExercises("C:\\Users\\rusta\\Source\\Repos\\GYMLog\\GYMLog.BL\\Dataset\\Exercises.csv"));
+
+            Save();
         }
 
         public void Save()
