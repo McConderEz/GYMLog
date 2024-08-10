@@ -3,6 +3,7 @@ using GYMLog.BL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -46,7 +47,11 @@ namespace GYMLog.BL.Controller
         public ExerciseController()
         {
             Exercises = GetExercisesDate();
-            string datasetPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dataset", "Exercises.csv");
+
+            var fullPath = Environment.CurrentDirectory;
+            var tempPath = fullPath.Split('\\').SkipLast(4);
+            var datasetPath = Path.Combine(string.Join('\\', tempPath),"GYMLog.BL","Dataset","Exercises.csv");
+            
 
             if (Exercises.Count == 0)               
                 Exercises.AddRange(ParserCSV.LoadExercises(datasetPath));
