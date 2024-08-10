@@ -46,9 +46,10 @@ namespace GYMLog.BL.Controller
         public ExerciseController()
         {
             Exercises = GetExercisesDate();
+            string datasetPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dataset", "Exercises.csv");
 
-            if (Exercises.Count == 0)
-                Exercises.AddRange(ParserCSV.LoadExercises("C:\\Users\\rusta\\Source\\Repos\\GYMLog\\GYMLog.BL\\Dataset\\Exercises.csv"));
+            if (Exercises.Count == 0)               
+                Exercises.AddRange(ParserCSV.LoadExercises(datasetPath));
 
             Save();
         }
